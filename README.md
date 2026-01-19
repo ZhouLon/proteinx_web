@@ -2,7 +2,7 @@
 
 本项目用于管理proteinx的官网以及文档，工具。
 
-# 项目结构
+## 项目结构
 ```
 ├── build    #项目构建好的运行目录
 ├── develop  #项目构建开发目录
@@ -17,8 +17,8 @@
 
 # 运行网址
 
-* 培训文档:`https://proteinx.com.cn/`<br>
-* 公司主页:`http://proteinx.com.cn:5000/`
+* 培训文档:[`https://proteinx.com.cn/`](https://proteinx.com.cn/)
+* 官网主页:[`http://proteinx.com.cn:5000/`](http://proteinx.com.cn:5000/)
 
 # nginx
 
