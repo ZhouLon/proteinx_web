@@ -1,22 +1,37 @@
-# KnowledgeBase
+# 项目简介
 
-## 深度学习基础
-<strong><p>浅谈几种Normalization方法</p></strong>
-https://blog.csdn.net/TracelessLe/article/details/106593425
+本项目用于管理proteinx的官网以及文档，工具。
+
+# 项目结构
+├── build    #项目构建好的运行目录
+├── develop  #项目构建开发目录
+├── data     #项目数据
+├── logs     #运行日志
+├── make_html.sh   #构建运行目录
+├── env.yaml       #依赖
+├── gitusage.md    
+├── README.md
+└── usage.md
 
 
-## Torch方法论
-<strong><p>flashattention介绍</p></strong>
-https://pytorch.org/blog/flashattention-3/
-<strong><p>flashattention使用</p></strong>
-https://blog.csdn.net/a772304419/article/details/150580287
-<strong><p>AMP混合精度</p></strong>
-https://docs.pytorch.org/tutorials/recipes/recipes/amp_recipe.html
-<strong><p>DDP分布式训练</p></strong>
-xxx
-<strong><p>Torch_Profiler检测方法以及tensorboard可视化方法</p></strong>
-https://docs.pytorch.org/docs/stable/profiler.html#module-torch.profiler
+# 运行网址
 
-https://github.com/pytorch/kineto/tree/main/tb_plugin
-<strong><p>梯度检查点技术</p></strong>
-可以以时间换空间，解决OOM问题。
+* 培训文档:`https://proteinx.com.cn/`<br>
+* 公司主页:`http://proteinx.com.cn:5000/`
+
+# nginx
+
+## 测试默认配置文件<br>
+sudo nginx -t
+
+## 查看状态<br>
+sudo systemctl status nginx
+
+## 启动<br>
+sudo systemctl start nginx
+
+## 重启<br>
+sudo systemctl restart nginx
+
+## 停止<br>
+sudo systemctl stop nginx
