@@ -31,9 +31,18 @@ git log --oneline --graph --all
 ## 配置邮箱
 git config --global user.email "你的邮箱"
 
+## 配置公钥
+ssh-keygen -t ed25519 -C "1922450589@qq.com"
+
 ## 配置名字
 git config --global user.name "你的名字"
 
 ## 查看配置是否生效
 git config --global --list | grep user
+
+## 查看公钥
+cat ~/.ssh/id_ed25519.pub
+
+## 配置链接
+git remote set-url origin git@github.com:
 

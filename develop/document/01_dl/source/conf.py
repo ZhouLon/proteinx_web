@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = '01_dl'
+project = '深度学习入门的知识与规范'
 copyright = '2026, ZhouLong'
 author = 'ZhouLong'
 release = '1.0'
