@@ -1,0 +1,361 @@
+# 1_8_数据类型转换
+
+**作者**: ZhouLong<br>
+**创建日期**: 2026 年 01 月 16 日<br>
+**版本**: 1.0<br>
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./1_7_字典和字典操作.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./1_9_函数.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+
+
+
+## 1.数据类型转换概述
+
+### 1.1 什么是数据类型转换
+数据类型转换是指将数据从一种类型转换为另一种类型的过程。Python中数据类型转换主要分为两种：
+- **隐式类型转换**：Python自动完成的转换
+- **显式类型转换**：编程者使用函数强制进行的转换
+
+### 1.2 为什么需要类型转换
+```python
+# 示例：不同类型数据无法直接运算
+num_str = "10"
+num_int = 5
+
+# 直接相加会报错
+# result = num_str + num_int  # TypeError
+
+# 需要先进行类型转换
+result = int(num_str) + num_int
+print(result)  # 输出: 15
+```
+
+## 2.隐式类型转换
+
+### 2.1 自动类型提升
+
+自动类型提升是Python在混合类型运算时的自动转换机制，主要规则包括：
+
+- **整数与浮点数运算**：整数会自动提升为浮点数，结果类型为浮点数
+- **布尔值参与数值运算**：布尔值True转换为1，False转换为0，然后参与计算
+- **转换方向**：总是向更精确、表示范围更大的类型转换，遵循 整数 → 浮点数 的层级
+
+注意事项：
+- 这种转换是隐式的、自动发生的
+- 转换不会改变原变量的类型，只影响运算时的中间结果
+- 提升方向不可逆，浮点数不会自动降级为整数
+
+```python
+# 整数和浮点数运算时，整数会自动转换为浮点数
+int_num = 5
+float_num = 2.5
+result = int_num + float_num  # 5自动转换为5.0
+print(result)  # 输出: 7.5
+print(type(result))  # 输出: <class 'float'>
+
+# 布尔值参与运算时
+bool_val = True
+int_val = 10
+result = bool_val + int_val  # True转换为1
+print(result)  # 输出: 11
+```
+
+### 2.2 布尔值的隐式转换
+
+布尔值的隐式转换发生在条件判断等逻辑上下文中，转换规则如下：
+
+- **转为True的值**：非零数字、非空字符串、非空列表/元组/字典等所有非空容器
+- **转为False的值**：0、0.0、空字符串、空列表/元组/字典、None等
+
+关键点：
+- 这种转换仅在需要布尔值的上下文中发生（如if、while条件）
+- 转换不会改变原值本身的数据类型
+- 空容器的判断：`[]`、`()`、`{}`、`set()`都会转为False
+- None在条件判断中始终被视为False
+```python
+# 在条件判断中，非零数字和非空对象会被转换为True
+if 5:  # 5被隐式转换为True
+    print("数字5被转换为True")
+
+if "hello":  # 非空字符串被转换为True
+    print("非空字符串被转换为True")
+
+if 0:  # 0被隐式转换为False
+    print("这行不会执行")
+```
+
+## 3.显式类型转换函数
+
+
+### 3.1 int() - 转换为整数
+
+`int()`函数用于将其他类型显式转换为整数，具体转换规则：
+
+- **浮点数转整数**：直接截断小数部分（向下取整），不进行四舍五入
+- **字符串转整数**：字符串必须为有效的整数格式，可包含正负号
+- **布尔值转整数**：True转为1，False转为0
+
+注意事项：
+- 转换非数字字符串会导致ValueError异常
+- 支持指定进制转换：`int("1010", 2)`可将二进制字符串转为十进制
+- 转换时会创建新对象，原变量类型和值不变
+```python
+# 从浮点数转换
+float_num = 3.14
+int_from_float = int(float_num)  # 向下取整
+print(int_from_float)  # 输出: 3
+
+# 从字符串转换
+str_num = "123"
+int_from_str = int(str_num)
+print(int_from_str)  # 输出: 123
+
+# 从布尔值转换
+bool_val = True
+int_from_bool = int(bool_val)
+print(int_from_bool)  # 输出: 1
+
+# 注意：不能转换非数字字符串
+# int("hello")  # 会报错 ValueError
+```
+
+### 3.2 float() - 转换为浮点数
+
+`float()`函数将其他类型显式转换为浮点数：
+
+- **整数转浮点数**：直接添加小数部分`.0`
+- **字符串转浮点数**：字符串必须为有效的浮点数格式
+- **科学计数法支持**：可转换如`"1.5e-2"`（0.015）格式的字符串
+
+注意事项：
+- 与`int()`不同，`float()`可以转换包含小数点的整数格式字符串（如`"10"`）
+- 转换非数字字符串会引发ValueError异常
+- 特殊字符串：`"inf"`、`"-inf"`、`"nan"`可转换为对应的浮点数特殊值
+```python
+# 从整数转换
+int_num = 10
+float_from_int = float(int_num)
+print(float_from_int)  # 输出: 10.0
+
+# 从字符串转换
+str_num = "3.14"
+float_from_str = float(str_num)
+print(float_from_str)  # 输出: 3.14
+
+# 从科学计数法字符串转换
+sci_str = "2.5e3"  # 2.5 × 10³
+float_from_sci = float(sci_str)
+print(float_from_sci)  # 输出: 2500.0
+```
+
+### 3.3 str() - 转换为字符串
+
+`str()`函数将任意类型转换为对应的字符串表示：
+
+- **数值类型转换**：将数字直接转为对应的字符串形式
+- **布尔值转换**：True转为`"True"`，False转为`"False"`
+- **通用性**：几乎所有Python对象都可以通过`str()`转换
+
+关键特性：
+- 转换结果是对象的可读文本表示，而非代码表示（后者使用`repr()`）
+- 对于自定义对象，可通过定义`__str__()`方法控制转换行为
+- 转换不会改变原始数据，而是创建新的字符串对象
+- 列表、字典等容器类型会转换为包含其内容的字符串表示
+```python
+# 从整数转换
+int_num = 100
+str_from_int = str(int_num)
+print(str_from_int)  # 输出: "100"
+print(type(str_from_int))  # 输出: <class 'str'>
+
+# 从浮点数转换
+float_num = 3.14159
+str_from_float = str(float_num)
+print(str_from_float)  # 输出: "3.14159"
+
+# 从布尔值转换
+bool_val = False
+str_from_bool = str(bool_val)
+print(str_from_bool)  # 输出: "False"
+```
+
+### 3.4 bool() - 转换为布尔值
+
+`bool()`函数显式地将值转换为布尔值，遵循"真值测试"规则：
+
+**转换规则：**
+- **数值类型**：0、0.0为False，其他非零数值为True
+- **字符串**：空字符串`""`为False，任何非空字符串为True
+- **容器类型**：空列表/元组/字典/集合为False，非空容器为True
+- **特殊值**：None始终转换为False
+
+关键点：
+- 这是布尔值隐式转换的显式版本，规则完全一致
+- 转换结果只有两种可能：True或False
+
+```python
+# 各种数据类型转换为布尔值的规则
+print(bool(0))        # 输出: False (数字0)
+print(bool(1))        # 输出: True  (非零数字)
+print(bool(-1))       # 输出: True  (非零数字)
+print(bool(0.0))      # 输出: False (浮点数0.0)
+
+print(bool(""))       # 输出: False (空字符串)
+print(bool("hello"))  # 输出: True  (非空字符串)
+
+print(bool([]))       # 输出: False (空列表)
+print(bool([1, 2]))   # 输出: True  (非空列表)
+
+print(bool({}))       # 输出: False (空字典)
+print(bool({"a": 1})) # 输出: True  (非空字典)
+
+print(bool(None))     # 输出: False (None值)
+```
+
+### 3.5 list() - 转换为列表
+
+`list()`函数将可迭代对象转换为列表：
+
+**转换规则：**
+- **字符串**：转换为包含各字符的列表
+- **元组/集合**：转换为包含相同元素的列表
+- **range对象**：将数值序列展开为列表
+- **字典**：默认仅获取键（key）的列表
+
+注意事项：
+- 转换会创建新的列表对象，与原数据独立
+- 字典转换默认只包含键，使用`dict.items()`可获取键值对列表
+- 嵌套结构会保持原样转换，不会递归展开内部元素
+```python
+# 从字符串转换
+str_val = "hello"
+list_from_str = list(str_val)
+print(list_from_str)  # 输出: ['h', 'e', 'l', 'l', 'o']
+
+# 从元组转换
+tuple_val = (1, 2, 3)
+list_from_tuple = list(tuple_val)
+print(list_from_tuple)  # 输出: [1, 2, 3]
+
+# 从范围对象转换
+range_obj = range(5)
+list_from_range = list(range_obj)
+print(list_from_range)  # 输出: [0, 1, 2, 3, 4]
+
+# 从字典转换（只获取键）
+dict_val = {"a": 1, "b": 2, "c": 3}
+list_from_dict = list(dict_val)
+print(list_from_dict)  # 输出: ['a', 'b', 'c']
+```
+
+### 3.6 tuple() - 转换为元组
+
+`tuple()`函数将可迭代对象转换为不可变的元组：
+
+- **转换方式**：与`list()`类似，但结果是元组而非列表
+- **不可变性**：转换后的元组内容无法修改、添加或删除元素
+- **适用场景**：需要数据不被意外修改时，或作为字典键使用
+
+关键特性：
+- 元组比列表更节省内存，访问速度更快
+- 转换规则与`list()`基本一致，支持字符串、列表、字典等可迭代对象
+- 字典转换同样默认只包含键
+- 空元组可通过`tuple()`或`()`创建
+```python
+# 从列表转换
+list_val = [1, 2, 3]
+tuple_from_list = tuple(list_val)
+print(tuple_from_list)  # 输出: (1, 2, 3)
+
+# 从字符串转换
+str_val = "abc"
+tuple_from_str = tuple(str_val)
+print(tuple_from_str)  # 输出: ('a', 'b', 'c')
+```
+
+### 3.7 dict() - 转换为字典
+
+`dict()`函数用于创建字典，支持多种转换方式：
+
+**主要转换方法：**
+- **键值对序列**：由`(key, value)`元组组成的列表、元组等可迭代对象
+- **关键字参数**：直接使用`key=value`形式的关键字参数创建
+
+注意事项：
+- 键值对序列中的每个元素必须是包含两个元素的元组或列表
+- 关键字参数方式要求键必须是有效的Python标识符（字符串）
+- 重复的键会导致后面的值覆盖前面的值
+
+```python
+# 从包含键值对元组的列表转换
+list_of_tuples = [("name", "Alice"), ("age", 25), ("city", "Beijing")]
+dict_from_list = dict(list_of_tuples)
+print(dict_from_list)  # 输出: {'name': 'Alice', 'age': 25, 'city': 'Beijing'}
+
+# 从关键字参数创建
+dict_from_kwargs = dict(name="Bob", age=30, city="Shanghai")
+print(dict_from_kwargs)  # 输出: {'name': 'Bob', 'age': 30, 'city': 'Shanghai'}
+```
+
+## 4.特殊转换情况
+
+### 4.1 进制转换
+
+通过`int()`函数的第二个参数可进行不同进制字符串的转换：
+
+**进制支持：**
+- **二进制**：base=2，字符串仅包含0和1
+- **八进制**：base=8，字符串包含0-7
+- **十进制**：base=10（默认），字符串包含0-9
+- **十六进制**：base=16，字符串包含0-9和A-F（不区分大小写）
+
+注意事项：
+- 转换结果始终为十进制整数
+- 字符串前缀（如`0b`、`0x`）不是必需的，但如果有必须与进制匹配
+- 可以使用`bin()`、`oct()`、`hex()`函数将整数转换为对应进制的字符串表示
+- 超出进制范围的字符会导致ValueError异常
+```python
+# 二进制字符串转整数
+binary_str = "1010"
+int_from_binary = int(binary_str, 2)
+print(f"二进制{binary_str} = 十进制{int_from_binary}")  # 输出: 二进制1010 = 十进制10
+
+# 十六进制字符串转整数
+hex_str = "FF"
+int_from_hex = int(hex_str, 16)
+print(f"十六进制{hex_str} = 十进制{int_from_hex}")  # 输出: 十六进制FF = 十进制255
+```
+
+### 4.2 ASCII码与字符转换
+
+Python使用`ord()`和`chr()`函数进行字符与ASCII码转换：
+
+**函数功能：**
+- `ord(character)`：获取单个字符的Unicode码点（ASCII是子集）
+- `chr(code_point)`：将Unicode码点转换为对应的字符
+
+关键点：
+- `ord()`只接受单个字符作为参数，字符串长度必须为1
+- ASCII码范围：0-127，对应基本英文字符、数字和控制字符
+- Python 3全面支持Unicode，`chr()`可转换任意有效码点（0-1114111）
+- 对于非ASCII字符（如中文），同样适用这两个函数
+```python
+# 字符转ASCII码
+char = 'A'
+ascii_val = ord(char)
+print(f"'{char}'的ASCII码是: {ascii_val}")  # 输出: 'A'的ASCII码是: 65
+
+# ASCII码转字符
+ascii_num = 97
+char_from_ascii = chr(ascii_num)
+print(f"ASCII码{ascii_num}对应的字符是: '{char_from_ascii}'")  # 输出: ASCII码97对应的字符是: 'a'
+```
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./1_7_字典和字典操作.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./1_9_函数.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
