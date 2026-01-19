@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN"
+      data-content_root="./"
+      x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }"
+      x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))"
+      class="scroll-smooth"
+      :class="{'dark': darkMode === 'dark' || (darkMode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)}"
+>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="white" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>深度学习入门的知识与规范 | 深度学习入门的知识与规范 1.0 文档</title>
+    <meta property="og:title" content="深度学习入门的知识与规范 | 深度学习入门的知识与规范 1.0 文档" />
+    <meta name="twitter:title" content="深度学习入门的知识与规范 | 深度学习入门的知识与规范 1.0 文档" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=e72c8e07" />
+      <link rel="stylesheet" type="text/css" href="_static/theme.css?v=42baaae4" />
+        <link rel="search" title="搜索" href="search.html" />
+        <link rel="index" title="索引" href="genindex.html" />
+          <link rel="next" title="01_Python介绍" href="01_Python%E4%BB%8B%E7%BB%8D/index.html" />
+
+    <script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+  <body x-data="{ showSidebar: false, showScrollTop: false }" class="min-h-screen font-sans antialiased bg-background text-foreground" :class="{ 'overflow-hidden': showSidebar }">
+    <div x-cloak x-show="showSidebar" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" @click.self="showSidebar = false"></div><div id="page" class="relative flex flex-col min-h-screen"><a href="#content" class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100">
+      Skip to content
+    </a><header
+  class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+    <div class="hidden mr-4 md:flex">
+      <a href="#" class="flex items-center mr-6"><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">深度学习入门的知识与规范 1.0 文档</span>
+      </a></div><button
+      class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden"
+      type="button" @click="showSidebar = true">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" aria-hidden="true"
+        fill="currentColor">
+        <path
+          d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z" />
+      </svg>
+      <span class="sr-only">Toggle navigation menu</span>
+    </button>
+    <div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+      <div class="flex-1 w-full md:w-auto md:flex-none"><form id="searchbox"
+      action="search.html"
+      method="get"
+      class="relative flex items-center group"
+      @keydown.k.window.meta="$refs.search.focus()">
+  <input x-ref="search"
+          name="q"
+          id="search-input"
+          type="search"
+          aria-label="Search the docs"
+          placeholder="Search ..."
+          class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" />
+  <kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+    <span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+      </div>
+      <nav class="flex items-center space-x-1">
+        <button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'"
+          class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9"
+          type="button"
+          aria-label="Color theme switcher">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+            class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0">
+            <path
+              d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z" />
+          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+            class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100">
+            <path
+              d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z" />
+          </svg>
+        </button>
+      </nav>
+    </div>
+  </div>
+</header>
+
+    <div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside id="left-sidebar"
+  class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky"
+  :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }">
+
+    <a href="#" class="!justify-start text-sm md:!hidden bg-background"><span class="font-bold text-clip whitespace-nowrap">深度学习入门的知识与规范 1.0 文档</span>
+    </a>
+
+    <div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+      <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="01_Python%E4%BB%8B%E7%BB%8D/index.html">01_Python介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%BB%8B%E7%BB%8D/index.html">02_深度学习介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03_PyTorch%E4%BB%8B%E7%BB%8D/index.html">03_PyTorch介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04_%E5%AE%9E%E9%AA%8C%E5%B7%A5%E7%A8%8B%E6%96%B9%E6%B3%95%E4%B8%8E%E8%A7%84%E8%8C%83/index.html">04_实验工程方法与规范</a></li>
+</ul>
+
+</nav>
+      </div>
+    </div>
+    <button type="button" @click="showSidebar = false"
+      class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100">
+      <svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 96 960 960" fill="currentColor"
+        stroke="none" class="h-4 w-4">
+        <path
+          d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z" />
+      </svg>
+    </button>
+  </aside>
+        <main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+
+    <div id="content" role="main">
+      <section id="id1">
+<h1>深度学习入门的知识与规范<a class="headerlink" href="#id1" title="Link to this heading"><span>#</span></a></h1>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<aside class="sidebar">
+<p><strong>作者</strong>: ZhouLong</p>
+<p><strong>创建日期</strong>: 2026 年 01 月 9 日</p>
+<p><strong>版本</strong>: 1.0</p>
+<p><strong>浏览量</strong>: <span id="viewCount">加载中...</span></p>
+</aside>
+<section id="id2">
+<h2>简介<a class="headerlink" href="#id2" title="Link to this heading"><span>#</span></a></h2>
+<p>本文档作为 <strong>深度学习入门指南</strong>，系统性地涵盖了初学者所需掌握的基础理论知识与核心实践技能，并明确了实验规范与工程方法。文档旨在帮助读者快速构建对深度学习的整体认知，奠定扎实的入门基础，并培养良好的研发习惯。</p>
+<p>文档的主要服务于 <strong>非计算机背景的学习者</strong>，在尽可能收集了当前的主流技术与方法的同时，简化了部分复杂内容，以降低学习门槛。希望通过本指南，读者能够顺利迈出深度学习的第一步，并为后续深入学习打下坚实基础。</p>
+<a class="reference internal image-reference" href="_images/深度学习入门.png"><img alt="深度学习入门示意图" class="align-center" src="_images/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8.png" style="width: 1000px;" />
+</a>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="id3">
+<h3>00-目录链接<a class="headerlink" href="#id3" title="Link to this heading"><span>#</span></a></h3>
+<p><strong>点击左侧边栏的目录导航，快速访问各章节详细内容</strong></p>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="python">
+<h3>01-Python介绍<a class="headerlink" href="#python" title="Link to this heading"><span>#</span></a></h3>
+<p>Python是一种简单易学但功能强大的高级编程语言，以其清晰的语法和丰富的生态库著称，广泛应用于科学计算、人工智能、Web开发等领域。本部分将从零开始系统介绍Python的核心概念和实践技能：首先了解Python语言的特点与优势，
+然后指导开发环境搭建和IDE选择；接着深入讲解变量、数据类型、流程控制结构等基础知识；随后重点掌握Python的三大核心数据结构——列表、元组和字典的操作方法；进一步学习函数的定义与使用、面向对象编程中的类与对象概念；
+最后介绍文件管理和常用库的应用。</p>
+<p>通过本章的学习，你将建立起扎实的Python编程基础，为后续深度学习的学习做好充分准备。</p>
+<div class="admonition tip">
+<p class="admonition-title">小技巧</p>
+<p>如果已经掌握Python基本语法，可以跳过第一章，进行第二章 <strong>深度学习</strong> 的学习</p>
+</div>
+</section>
+<section id="id4">
+<h3>02-深度学习介绍<a class="headerlink" href="#id4" title="Link to this heading"><span>#</span></a></h3>
+<p>当前，各类人工智能应用蓬勃发展，其底层根基在于深度学习技术。作为传统机器学习的重要分支，深度学习以其强大的神经网络为核心，能够从海量数据中自动捕捉那些人类难以通过显式规则精确描述的复杂模式与内在规律。</p>
+<p>深度学习的卓越能力，建立在严谨的数学框架与高效的计算原理之上。本章将系统阐述支撑其运转的核心理论支柱：线性代数构成了数据表示与空间变换的语言；微积分赋予了模型从数据中自主学习和适应的能力；目标函数为
+学习过程定义了明确的优化方向；而优化算法则负责探索抵达目标的最优路径。在此基础上，我们将深入剖析模型学习的核心机制——前向传播与反向传播，揭示神经网络如何通过这两个精密协作的过程，将抽象的数学理论转化
+为从数据中自动提取规律的实践能力。</p>
+<p>通过本章的学习，你将逐步构建起理解、设计乃至改进深度学习模型所必需的数学直觉与理论基础。这不仅是从认知“是什么”到理解“为什么”的关键跨越，更是迈向自主构建与创新模型的重要一步，是所谓 <strong>调包侠，魔改侠</strong>
+和 真正的 <strong>算法工程师</strong> 的核心区别所在。</p>
+</section>
+<section id="pytorch">
+<h3>03-PyTorch介绍<a class="headerlink" href="#pytorch" title="Link to this heading"><span>#</span></a></h3>
+<p>PyTorch 是一个由 Meta（原 Facebook）人工智能研究院团队主导开发的开源深度学习框架，以其动态计算图和直观的 Pythonic 设计而著称。它巧妙地将强大的 GPU 加速张量计算功能与基于自动微分（Autograd）的
+动态神经网络构建能力相结合，使得研究人员能够像编写普通 Python 程序一样，灵活、直观地定义、修改和调试复杂的神经网络模型，极大加速了从研究原型到生产部署的迭代过程。凭借其简洁的 API、活跃的社区，PyTorch
+不仅在学术研究领域成为事实上的主流标准，深受科研人员的喜爱，也正通过其完善的生态和良好兼容性，在工业界部署中扮演着越来越重要的角色。</p>
+<p>通过本章的学习，你将掌握 PyTorch 的核心概念与基础技能，能够使用其张量操作、自动微分机制以及神经网络模块，为后续构建、训练和评估深度学习模型打下基础。</p>
+</section>
+<section id="id5">
+<h3>04-实验工程方法与规范<a class="headerlink" href="#id5" title="Link to this heading"><span>#</span></a></h3>
+<p>本章系统性地介绍了当前研究开发中的工程实践体系。本章从基础方法入手，涵盖Linux操作系统的基本使用、开发环境的构建与管理，为实验工作奠定稳定高效的基础。进而深入到进阶方法，讲解深度学习的核心训练技巧，如
+训练过程监控、混合精度训练以提升效率，以及分布式训练处理大规模任务；同时引入环境隔离的容器化技术和基础的前端交互方法，确保实验的可复现性与成果的可展示性。最后，本章着重强调研发规范，包括代码格式与注释
+规范、单元测试与文档撰写、实验过程的详细记录以及Git版本工具的标准使用流程，旨在培养研究者严谨、协作、可持续的工程化科研习惯，全面提升实验项目的质量与可维护性。</p>
+<p>通过本章的学习，你将掌握深度学习实验的完整工程方法与规范，能够高效地进行模型开发、训练与部署，并确保实验的可复现性和代码的可维护性。</p>
+<div class="admonition attention">
+<p class="admonition-title">注意</p>
+<p>本章节中的十分重要，一定要详细阅读并掌握！没有规范的实验流程与工程方法，项目难以获得成功！</p>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>引用<a class="headerlink" href="#id6" title="Link to this heading"><span>#</span></a></h2>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://github.com/d2l-ai/d2l-zh">动手学深度学习</a></p></li>
+<li><p><a class="reference external" href="http://home.ustc.edu.cn/~zy18803425504/Python/Python(Eric%20Matthes).pdf">Python编程从入门到实践（第2版）</a></p></li>
+<li><p><a class="reference external" href="https://blog.csdn.net/zhiguigu/article/details/120217658?ops_request_misc=%257B%2522request%255Fid%2522%253A%25228ed9d2803ef634b5bbcfbcbacab00e74%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=8ed9d2803ef634b5bbcfbcbacab00e74&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-120217658-null-null.142^v102^pc_search_result_base7&amp;utm_term=python%E5%85%A5%E9%97%A8&amp;spm=1018.2226.3001.4187">万字【Python基础】保姆式教学，零基础快速入门Python</a></p></li>
+</ol>
+</section>
+<section id="id8">
+<h2>反馈<a class="headerlink" href="#id8" title="Link to this heading"><span>#</span></a></h2>
+<ul class="simple">
+<li><p><strong>如果您觉得本文对您有帮助，或有任何想法想要分享，欢迎随时提出。您的每一条建议都会让内容变得更好。</strong></p></li>
+<li><p><strong>我们始终致力于改进与完善内容。如果您希望补充内容、修正错误或提出改进建议，请点击</strong> <a class="reference external" href="https://github.com/ZhouLon/KnowledgeBase/issues">Issues</a></p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">重要</p>
+<p>本文部分内容及观点经AI辅助润色与整理，请读者在学习中结合个人判断思考事实与观点。</p>
+</div>
+</section>
+</section>
+
+    </div></div><aside id="right-sidebar" class="hidden text-sm xl:block">
+  <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+    <ul>
+<li><a class="reference internal" href="#id2">简介</a><ul>
+<li><a class="reference internal" href="#id3">00-目录链接</a></li>
+<li><a class="reference internal" href="#python">01-Python介绍</a></li>
+<li><a class="reference internal" href="#id4">02-深度学习介绍</a></li>
+<li><a class="reference internal" href="#pytorch">03-PyTorch介绍</a></li>
+<li><a class="reference internal" href="#id5">04-实验工程方法与规范</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">引用</a></li>
+<li><a class="reference internal" href="#id8">反馈</a></li>
+</ul>
+</div>
+</aside>
+        </main>
+      </div>
+    </div><footer class="py-6 border-t border-border md:py-0">
+    <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+      <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+        <p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong&nbsp;Built with <a class="font-medium underline underline-offset-4"
+    href="https://www.sphinx-doc.org"
+    rel="noreferrer">Sphinx 8.1.3</a></p>
+</div>
+</div>
+</footer>
+  </div>
+  
+    <script src="_static/documentation_options.js?v=f115507d"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script defer="defer" src="_static/theme.js?v=073f68d9"></script>
+    <script src="_static/translations.js?v=beaddf03"></script>
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 获取当前页面的路径
+    const pagePath = window.location.pathname;
+    // 对于根页面，使用'/'或空字符串
+    const pageInfo = pagePath.endsWith('/') ? pagePath.slice(0, -1) : pagePath;
+    const currentPage = pageInfo || '/';
+    
+    // 发送请求到后端API
+    fetch('/api/view_count', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        page: currentPage,
+        timestamp: new Date().toISOString()
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('网络响应不正常');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // 更新页面上的浏览量显示
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement && data.count !== undefined) {
+        viewCountElement.textContent = data.count;
+      }
+    })
+    .catch(error => {
+      console.error('获取浏览量时出错:', error);
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement) {
+        viewCountElement.textContent = '加载失败';
+      }
+    });
+  });
+  </script>
+</body>
+</html>

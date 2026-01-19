@@ -1,0 +1,463 @@
+# 1_9_函数
+
+**作者**: ZhouLong<br>
+**创建日期**: 2026 年 01 月 16 日<br>
+**版本**: 1.0<br>
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./1_8_数据类型转换.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./1_10_类.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+
+
+## 1 函数的基本概念
+
+函数是一段可重复使用的代码块，用于执行特定任务。函数可以接收输入参数，并返回处理结果。使用函数的主要目的是提高代码的可读性、可维护性和复用性。
+
+### 1.1 为什么需要函数
+- **代码复用**：避免重复编写相同代码
+- **模块化**：将复杂问题分解为小任务
+- **可维护性**：修改只需在函数内部进行
+- **提高可读性**：通过函数名明确代码功能
+
+### 1.2 函数的定义
+
+函数定义的基本结构包含以下要素：
+
+**定义要点：**
+- **def关键字**：标识函数定义的开始
+- **函数名**：遵循变量命名规则，应具有描述性
+- **参数列表**：括号内可为空或包含多个参数
+- **冒号**：必不可少，表示代码块开始
+- **函数体**：缩进的代码块，实现具体功能
+- **return语句**：可选，用于返回结果（默认返回None）
+
+注意事项：
+- 函数定义不执行代码，只有调用时才运行
+- 良好的函数应具有单一明确的功能
+- 文档字符串（docstring）用于说明函数用途，是良好编程习惯
+```python
+def 函数名(参数列表):
+    """函数文档字符串"""
+    函数体
+    return 返回值
+```
+
+## 2 定义和调用函数
+
+### 2.1 无参函数
+
+无参函数是最基础的函数形式，特点如下：
+
+- **定义简单**：函数名后只需空括号`()`
+- **功能固定**：每次调用执行相同操作，不依赖外部输入
+- **文档字符串**：使用三引号说明函数功能，可通过`help()`查看
+
+注意事项：
+- 即使没有参数，调用时括号也不能省略
+- 适合封装不需要外部输入的固定操作流程
+- 通常用于输出信息、执行固定计算等场景
+
+```python
+def greet():
+    """打印欢迎信息"""
+    print("欢迎学习Python函数！")
+
+# 调用函数
+greet()
+```
+
+### 2.2 带参数的函数
+
+带参数的函数能够接收外部数据，实现更灵活的功能：
+
+**参数类型：**
+- **必需参数**：调用时必须提供的参数
+- **多个参数**：用逗号分隔，按顺序对应传递的值
+
+**函数特点：**
+- 参数作为函数内部的局部变量使用
+- 通过参数使函数能够处理不同的输入数据
+- `return`语句将计算结果返回给调用者
+
+注意事项：
+- 参数数量必须与调用时传递的参数数量一致
+- 参数只在函数内部有效，不影响外部同名变量
+- 函数可以没有返回值（默认返回None）
+```python
+def greet_person(name):
+    """向指定人问好"""
+    print(f"你好，{name}！")
+
+def add_numbers(a, b):
+    """计算两个数的和"""
+    result = a + b
+    return result
+
+# 调用带参数的函数
+greet_person("小明")   # 你好，小明！
+sum_result = add_numbers(5, 3)  
+print(f"5 + 3 = {sum_result}")   # 5 + 3 = 8
+```
+
+## 3 参数类型
+
+### 3.1 位置参数
+
+位置参数是最基本的传参方式：
+
+**特点：**
+- 按顺序传递：实参与形参根据位置一一对应
+- 数量必须匹配：实参与形参数量必须严格一致
+
+**使用要点：**
+- 第一个实参传递给第一个形参，第二个实参传递给第二个形参，依此类推
+- 顺序错误会导致逻辑错误（语法可能正确但结果不符合预期）
+
+```python
+def describe_pet(animal_type, pet_name):
+    """描述宠物"""
+    print(f"我有一只{animal_type}，它的名字叫{pet_name}。")
+
+describe_pet("狗", "旺财") # 我有一只狗，它的名字叫旺财。
+describe_pet("猫", "咪咪") # 我有一只猫，它的名字叫咪咪。
+```
+
+### 3.2 关键字参数
+
+关键字参数通过参数名指定传递的值：
+
+**优势：**
+- 明确性：清楚显示每个参数的含义
+- 顺序自由：参数顺序可以与定义时不同
+- 可读性：函数调用代码更易于理解
+
+**使用方式：**
+- 格式：`参数名=值`
+- 可与位置参数混合使用，但位置参数必须在关键字参数之前
+
+```python
+def describe_pet(animal_type, pet_name):
+    """描述宠物"""
+    print(f"我有一只{animal_type}，它的名字叫{pet_name}。")
+
+describe_pet(pet_name="旺财", animal_type="狗")  # 我有一只狗，它的名字叫旺财。
+describe_pet(animal_type="猫", pet_name="咪咪")  # 我有一只猫，它的名字叫咪咪。
+```
+
+### 3.3 默认参数
+
+函数定义时为参数设置默认值：
+
+**特点：**
+- **调用灵活性**：调用时可省略有默认值的参数
+- **位置要求**：默认参数必须放在非默认参数之后
+- **默认值计算**：默认值在函数定义时计算一次
+
+注意事项：
+- 默认参数通常使用不可变类型（如字符串、数字、元组）
+- 避免使用可变对象（如列表、字典）作为默认值，可能导致意外的行为
+- 显式传递参数会覆盖默认值
+```python
+def describe_pet(pet_name, animal_type="狗"):
+    """描述宠物，动物类型默认为狗"""
+    print(f"我有一只{animal_type}，它的名字叫{pet_name}。")
+
+describe_pet("旺财")  # 我有一只狗，它的名字叫旺财。
+describe_pet("咪咪", "猫")  # 我有一只猫，它的名字叫咪咪。
+```
+
+### 3.4 可变参数
+
+函数定义时使用特殊语法接收数量可变的参数。<br>
+**使用规则：**
+1. `*args`必须放在所有位置参数之后
+2. `**kwargs`必须放在所有参数之后
+3. 两者可同时使用：`def func(a, b, *args, **kwargs)`
+
+**`*args`（可变位置参数）：**
+- 收集所有未被匹配的位置参数到一个元组中
+- 参数名`args`是约定俗成，可使用其他名称
+- 允许函数接受任意数量的位置参数
+
+```python
+def make_pizza(*toppings):
+    """制作披萨，可以添加任意数量的配料"""
+    print("制作披萨，配料如下：")
+    for topping in toppings:
+        print(f"- {topping}")
+
+make_pizza("蘑菇")
+make_pizza("蘑菇", "青椒", "奶酪", "香肠")
+```
+运行结果
+```
+制作披萨，配料如下：
+- 蘑菇
+制作披萨，配料如下：
+- 蘑菇
+- 青椒
+- 奶酪
+- 香肠
+```
+**`**kwargs`（可变关键字参数）：**
+- 收集所有未被匹配的关键字参数到一个字典中
+- 参数名`kwargs`是约定俗成，可使用其他名称
+- 允许函数接受任意数量的关键字参数
+
+```python
+def build_profile(first, last, **user_info):
+    """构建用户信息字典"""
+    profile = {}
+    profile['姓'] = first
+    profile['名'] = last
+    for key, value in user_info.items():
+        profile[key] = value
+    return profile
+
+user_profile = build_profile('张', '三', 年龄=25, 城市='北京', 职业='工程师')
+print(user_profile) 
+```
+运行结果
+```
+{'姓': '张', '名': '三', '年龄': 25, '城市': '北京', '职业': '工程师'}
+```
+## 4 变量作用域
+
+### 4.1 局部变量
+
+局部变量是在函数内部定义的变量：
+
+**特点：**
+- **作用域限制**：只能在定义它的函数内部访问
+- **生命周期**：随函数调用而创建，函数结束而销毁
+- **名称隔离**：不同函数中同名局部变量互不影响
+
+注意事项：
+- 局部变量优先于同名全局变量在函数内被访问
+- 函数参数也属于局部变量
+- 在函数内修改全局变量需要使用`global`关键字声明
+```python
+def calculate_sum(a, b):
+    """计算两个数的和"""
+    result = a + b  # result是局部变量
+    return result
+
+sum_value = calculate_sum(3, 4)
+print(f"和: {sum_value}") # 和: 7
+print(result)  # 这里会报错，result在函数外部不可访问
+```
+运行结果
+```
+和: 7
+Traceback (most recent call last):
+  File "test.py", line 8, in <module>
+    print(result)  # 这里会报错，result在函数外部不可访问
+NameError: name 'result' is not defined
+```
+
+### 4.2 全局变量
+
+全局变量是在函数外部、模块层面定义的变量：
+
+**特性：**
+- **全局作用域**：从定义点开始，在整个模块内都可访问
+- **持久生命周期**：从创建到程序结束或模块卸载
+- **共享数据**：可在多个函数间共享数据
+
+注意事项：
+- 函数内可直接读取全局变量
+- 要在函数内修改全局变量，必须使用`global`关键字声明
+- 应避免过多使用全局变量，以免降低代码可维护性
+- 常量通常使用大写字母命名的全局变量表示
+```python
+PI = 3.14159  # 全局变量
+
+def calculate_circle_area(radius):
+    """计算圆的面积"""
+    area = PI * radius * radius  # 可以访问全局变量PI
+    return area
+
+area1 = calculate_circle_area(5)
+print(f"半径为5的圆面积: {area1}")  # 半径为5的圆面积: 78.53975
+print(f"圆周率: {PI}")  # 圆周率: 3.14159    
+```
+
+
+### 4.3 global关键字
+
+`global`关键字用于在函数内部声明使用全局变量：
+
+**主要用途：**
+- **修改变量**：在函数内修改全局变量的值
+- **明确意图**：明确表示操作的是全局变量而非创建新的局部变量
+- **提高可读性**：让代码阅读者清楚知道变量作用域
+
+使用要点：
+1. 在函数内先使用`global`声明变量名
+2. 声明后即可对该全局变量进行读写操作
+3. 未声明时，对变量赋值会创建同名局部变量
+4. 避免过度使用，优先考虑通过参数传递和返回值
+```python
+count = 0  # 全局变量
+
+def increment():
+    """增加计数器"""
+    global count  # 声明使用全局变量
+    count += 1
+    print(f"当前计数: {count}")
+
+increment()
+increment()
+print(f"最终计数: {count}")
+```
+运行结果
+```
+当前计数: 1
+当前计数: 2
+最终计数: 2
+```
+
+## 5 高级函数特性
+
+### 5.1 返回多个值
+
+Python函数可返回多个值，实际是返回一个元组：
+
+**实现方式：**
+- 使用逗号分隔多个返回值：`return a, b, c`
+- 实际上是返回一个元组`(a, b, c)`
+- 支持直接解包赋值给多个变量
+
+**使用技巧：**
+1. 通过元组解包接收：`x, y, z = func()`
+2. 也可作为单个元组接收：`result = func()`
+3. 返回值数量不限，但建议不超过3-5个以保持代码清晰
+
+注意事项：
+- 返回的元组是不可变的
+- 解包时变量数量必须与返回值数量一致
+- 可通过返回字典或命名元组提高代码可读性
+```python
+def get_student_info():
+    """获取学生信息"""
+    name = "李四"
+    age = 20
+    score = 95.5
+    return name, age, score  # 返回元组
+
+# 接收多个返回值
+student_name, student_age, student_score = get_student_info()
+print(f"姓名: {student_name}, 年龄: {student_age}, 分数: {student_score}")
+
+# 也可以直接接收为元组
+info = get_student_info()
+print(f"完整信息: {info}")
+print(f"类型: {type(info)}")
+```
+
+运行结果
+```
+姓名: 李四, 年龄: 20, 分数: 95.5
+完整信息: ('李四', 20, 95.5)
+类型: <class 'tuple'>
+```
+
+### 5.2 函数作为参数
+
+在Python中，函数可作为参数传递给其他函数：
+
+**核心概念：**
+- **函数变量**：函数可以像变量一样传递和使用
+- **高阶函数**：接收函数作为参数的函数称为高阶函数
+- **回调机制**：通过参数传递的函数称为回调函数
+
+**使用场景：**
+1. 定制化操作：如排序规则、过滤条件
+2. 算法策略：根据不同策略执行不同计算
+3. 事件处理：指定特定事件发生时的处理函数
+
+注意事项：
+- 传递函数名时不带括号：`operation`而非`operation()`
+- 可使用lambda表达式简化简单函数的定义
+- 增强了代码的模块化和复用性
+```python
+def apply_operation(numbers, operation):
+    """对列表中的每个数应用指定操作"""
+    results = []
+    for num in numbers:
+        results.append(operation(num))
+    return results
+
+def square(x):
+    return x * x
+
+def double(x):
+    return x * 2
+
+numbers = [1, 2, 3, 4, 5]
+
+squared_numbers = apply_operation(numbers, square)
+print(f"平方结果: {squared_numbers}")   #平方结果: [1, 4, 9, 16, 25]
+
+doubled_numbers = apply_operation(numbers, double)
+print(f"加倍结果: {doubled_numbers}")  # 加倍结果: [2, 4, 6, 8, 10]
+```
+
+### 5.3 lambda表达式
+
+lambda表达式用于创建简单的匿名函数：
+
+**语法结构：** `lambda 参数: 表达式`
+
+**主要特点：**
+- **匿名性**：没有函数名，适合一次性使用
+- **简洁性**：单行表达式，自动返回结果
+- **局限性**：只能包含一个表达式，不能包含复杂逻辑
+
+**适用场景：**
+1. 作为高阶函数的参数（如`sorted()`的`key`参数）
+2. 简单的数据处理和转换
+3. 需要临时函数但不值得定义完整函数的场合
+
+```python
+# 普通函数定义
+def square(x):
+    return x * x
+
+# lambda表达式
+square_lambda = lambda x: x * x
+
+print(f"普通函数: {square(5)}")
+print(f"lambda函数: {square_lambda(5)}")
+
+# lambda常用于简单操作，如排序
+students = [
+    {"name": "张三", "score": 85},
+    {"name": "李四", "score": 92},
+    {"name": "王五", "score": 78}
+]
+
+# 按分数排序
+sorted_students = sorted(students, key=lambda student: student["score"])
+print("按分数排序:")
+for student in sorted_students:
+    print(f"{student['name']}: {student['score']}")
+```
+运行结果
+```
+普通函数: 25
+lambda函数: 25
+按分数排序:
+王五: 78
+张三: 85
+李四: 92
+```
+
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./1_8_数据类型转换.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./1_10_类.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>

@@ -20,10 +20,11 @@ git commit -m "描述本次修改的说明信息"
 ## 推送到远程仓库
 git push origin main
 
-# 从远程拉取最新代码并合并
-
 ## 拉取远程更新并自动合并
 git pull origin main
+
+## 查看本地和远程的差异
+git log --oneline --graph --all
 
 
 # 配置个人信息
@@ -35,3 +36,4 @@ git config --global user.name "你的名字"
 
 ## 查看配置是否生效
 git config --global --list | grep user
+
