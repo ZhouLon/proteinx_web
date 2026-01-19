@@ -3,6 +3,7 @@
 本项目用于管理proteinx的官网以及文档，工具。
 
 # 项目结构
+```
 ├── build    #项目构建好的运行目录
 ├── develop  #项目构建开发目录
 ├── data     #项目数据
@@ -12,7 +13,7 @@
 ├── gitusage.md    
 ├── README.md
 └── usage.md
-
+```
 
 # 运行网址
 
