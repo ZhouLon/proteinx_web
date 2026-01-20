@@ -24,5 +24,5 @@ cp -r ./develop/main_pages ./build/main_pages
 cp -r ./develop/configs ./build/configs
 
 # 创建nginx站点链接
-sudo ln -s ./build/configs/nginx /etc/nginx/sites-enabled/
+sudo ln -s /mnt/e/repos/proteinx_web/build/configs/nginx /etc/nginx/sites-enabled/
 

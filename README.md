@@ -39,5 +39,11 @@ sudo systemctl stop nginx
 
 # 符号操作
 
+## 启用站点链接
+sudo ln -s ./build/configs/nginx /etc/nginx/sites-enabled/
+
+## 验证链接是否创建成功
+ls -l /etc/nginx/sites-enabled/
+
 ## 取消符号链接 
 sudo unlink /etc/nginx/sites-enabled/nginx

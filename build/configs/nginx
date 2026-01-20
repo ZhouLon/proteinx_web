@@ -21,7 +21,7 @@ server {
     listen [::]:8080;            # 监听IPv6的80端口
     server_name 127.0.0.1;  # 服务器域名
     location / {
-        root /mnt/e/PyProject/KnowledgeBase/build/nginx-static/document/01_dl/;
+        root /mnt/e/repos/proteinx_web/build/nginx_static/document/01_dl;
         index index.html;
     }
 
