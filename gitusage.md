@@ -46,3 +46,8 @@ cat ~/.ssh/id_ed25519.pub
 ## 配置链接
 git remote set-url origin git@github.com:your_username/your_repo.git
 
+## 推送流程
+1. 先fork别人的仓库到自己的仓库
+2. 执行更改后推到自己的仓库
+3. 拉取最新的更新
+4. 在自己的fork仓库上向原仓库提出pull request
