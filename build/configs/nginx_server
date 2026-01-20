@@ -1,0 +1,80 @@
+server {
+    server_name proteinx.com.cn www.proteinx.com.cn 106.55.9.55;
+
+    root /home/proteinx_web/build/nginx-static/document/01_dl;
+    index index.html;
+    
+    # 正确配置MIME类型
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    
+    
+    location /api/ {
+        # 代理到5000端口的API
+        proxy_pass http://localhost:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # 静态资源缓存
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        expires -1;
+        try_files $uri =404;
+    }
+    
+    # 禁用HTML文件缓存，确保更新及时
+    location ~* \.html$ {
+        expires -1;
+        add_header Cache-Control "no-store, no-cache, must-revalidate";
+    }
+
+    listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/www.proteinx.com.cn/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/www.proteinx.com.cn/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+
+server {
+    if ($host = www.proteinx.com.cn) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    if ($host = proteinx.com.cn) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    listen 80;
+    listen [::]:80;
+    server_name proteinx.com.cn www.proteinx.com.cn 106.55.9.55;
+    return 404; # managed by Certbot
+
+}
+
+
+server {
+    # 监听端口和服务器名
+    listen 5000;                  # 监听80端口
+    listen [::]:5000;            # 监听IPv6的80端口
+    server_name www.proteinx.com.cn;  # 服务器域名
+    location / {
+        root /mnt/e/PyProject/KnowledgeBase/build/nginx-static/document/01_dl/;
+        index index.html;
+    }
+
+    location /api/ {
+        # 代理到5000端口的API
+        proxy_pass http://localhost:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

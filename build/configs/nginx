@@ -1,0 +1,47 @@
+#主页
+server {
+    # 监听端口和服务器名
+    listen 80;                  # 监听80端口
+    listen [::]:80;            # 监听IPv6的80端口
+    server_name 127.0.0.1;  # 服务器域名
+
+    # 反向代理配置
+    location / {
+        proxy_pass http://127.0.0.1:5000;  # 转发到Flask应用
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+#文档1
+server {
+    # 监听端口和服务器名
+    listen 8080;                  # 监听80端口
+    listen [::]:8080;            # 监听IPv6的80端口
+    server_name 127.0.0.1;  # 服务器域名
+    location / {
+        root /mnt/e/PyProject/KnowledgeBase/build/nginx-static/document/01_dl/;
+        index index.html;
+    }
+
+    location /api/ {
+        # 代理到5000端口的API
+        proxy_pass http://localhost:5000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+# #文档2
+# server {
+#     # 监听端口和服务器名
+#     listen 8000;                  # 监听80端口
+#     listen [::]:8000;            # 监听IPv6的80端口
+#     server_name 127.0.0.1;  # 服务器域名
+#     location / {
+#         root /mnt/e/PyProject/KnowledgeBase/build/nginx-static/document/01_dl/;
+#         index index.html;
+#     }

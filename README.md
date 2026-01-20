@@ -36,3 +36,8 @@ sudo systemctl restart nginx
 
 ## 停止<br>
 sudo systemctl stop nginx
+
+# 符号操作
+
+## 取消符号链接 
+sudo unlink /etc/nginx/sites-enabled/nginx

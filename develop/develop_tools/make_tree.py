@@ -1,3 +1,4 @@
+"""改脚本用于生成项目目录结构树，方便查看项目文件组织情况。"""
 import os
 
 def tree(dir_path, level=-1, prefix=""):
