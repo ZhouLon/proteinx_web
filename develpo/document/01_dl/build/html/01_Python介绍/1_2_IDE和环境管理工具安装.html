@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../" lang="zh-CN" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>1_2_IDE和环境管理工具安装 | 深度学习入门的知识与规范 1.0 文档</title>
+<meta content="1_2_IDE和环境管理工具安装 | 深度学习入门的知识与规范 1.0 文档" property="og:title"/>
+<meta content="1_2_IDE和环境管理工具安装 | 深度学习入门的知识与规范 1.0 文档" name="twitter:title"/>
+<link href="../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../search.html" rel="search" title="搜索"/>
+<link href="../genindex.html" rel="index" title="索引"/>
+<link href="1_3_%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B.html" rel="next" title="1_3_基础语法与数据类型"/>
+<link href="1_1_%E4%BB%80%E4%B9%88%E6%98%AFPython.html" rel="prev" title="1_1_什么是Python"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../index.html"><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">深度学习入门的知识与规范 1.0 文档</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../index.html"><span class="font-bold text-clip whitespace-nowrap">深度学习入门的知识与规范 1.0 文档</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">01_Python介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%BB%8B%E7%BB%8D/index.html">02_深度学习介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_PyTorch%E4%BB%8B%E7%BB%8D/index.html">03_PyTorch介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_%E5%AE%9E%E9%AA%8C%E5%B7%A5%E7%A8%8B%E6%96%B9%E6%B3%95%E4%B8%8E%E8%A7%84%E8%8C%83/index.html">04_实验工程方法与规范</a></li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../index.html">
+<span class="hidden md:inline">深度学习入门的知识与规范 1.0 文档</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">01_Python介绍</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">1_2_IDE和环境管理工具安装</span>
+</nav>
+<div id="content" role="main">
+<section id="ide">
+<h1>1_2_IDE和环境管理工具安装<a class="headerlink" href="#ide" title="Link to this heading"><span>#</span></a></h1>
+<p><strong>作者</strong>: ZhouLong<br/>
+<strong>创建日期</strong>: 2026 年 01 月 10 日<br/>
+<strong>版本</strong>: 1.0<br/></p>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./1_1_什么是Python.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./1_3_基础语法与数据类型.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+<section id="id1">
+<h2>1. 简介<a class="headerlink" href="#id1" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id1'"><span>#</span></a></h2>
+<p>欢迎来到Python安装篇！本篇会介绍 <strong>Python解释器，IDE和环境管理工具</strong>，最后手把手带你完成Python环境的搭建，让你的计算机真正具备运行Python程序的能力。</p>
+<div class="admonition tip">
+<p class="admonition-title"><b>建议</b></p>
+<p>注意后续安装任何程序，安装路径上不要出现中文</p>
+</div>
+<section id="python">
+<h3><strong>为什么需要安装Python解释器？</strong><a class="headerlink" href="#python" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#python'"><span>#</span></a></h3>
+<p>上一篇我们提到，Python是解释型语言，代码需要解释器逐行"翻译"成计算机能理解的指令才能执行。因此，安装Python解释器是我们学习Python的第一步。当前Python解释器其实有多种实现：</p>
+<ul class="simple">
+<li><p><strong>CPython（官方版本）</strong>：使用C语言编写，是最广泛使用的版本，我们通常说的"Python"就是指它</p></li>
+<li><p><strong>PyPy</strong>：使用Python自身实现，采用JIT（即时编译）技术，某些场景下速度更快</p></li>
+<li><p><strong>Jython</strong>：运行在Java虚拟机上的Python</p></li>
+<li><p><strong>IronPython</strong>：针对.NET平台的实现</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title"><b>建议</b></p>
+<p>对于初学者，我们<b>强烈推荐使用官方的CPython</b>,也就是大家默认所谓的Python 。它最稳定、生态最完善、文档最齐全，几乎所有教程和第三方库都以它为基准。</p>
+</div>
+</section>
+<section id="id2">
+<h3><strong>什么是IDE？为什么需要它？</strong><a class="headerlink" href="#id2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h3>
+<ul class="simple">
+<li><p>有了解释器，理论上我们就能运行Python代码了，但我们不可能直接使用记事本写代码，其效率太低。这时就需要<strong>集成开发环境（IDE，Integrated Development Environment）</strong>。</p></li>
+</ul>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="IDE" src="../_static/figures/1/ides.png" style="display: block; margin: 20px auto; width: 60%; max-width: 500px;"/>
+</div>
+<p>上图是各种各样的IDE。使用IDE能让编程效率提升数倍，尤其对初学者来说，好的IDE能大大降低学习门槛。IDE就像程序员的工作台，它集成了：</p>
+<ul class="simple">
+<li><p><strong>代码编辑器</strong>：提供语法高亮、智能提示、自动补全</p></li>
+<li><p><strong>调试工具</strong>**：让找bug变得像侦探破案一样直观</p></li>
+<li><p><strong>项目管理</strong>：轻松管理多个文件和依赖</p></li>
+<li><p><strong>版本控制集成</strong>：直接连接Git等工具</p></li>
+<li><p><strong>终端集成</strong>：无需切换窗口就能运行命令</p></li>
+</ul>
+<p>目前主流的Python IDE有：</p>
+<ul class="simple">
+<li><p><strong>IDLE（入门选手）</strong>：Python自带的简易IDE，适合快速测试小段代码（不推荐使用）。</p></li>
+<li><p><strong>PyCharm（专业选手）</strong>：JetBrains出品，功能极其强大。专业版收费；社区版免费，但一些专业功能被阉割。新手推荐使用。</p></li>
+<li><p><strong>VS Code（全能选手）</strong>：微软出品，免费开源，通过插件可支持几乎所有编程语言。轻量快速，生态丰富。适合进阶选手。</p></li>
+<li><p><strong>Jupyter Notebook</strong>：交互式笔记本，可以可视化交互地运行Python脚本。</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title"><b>建议</b></p>
+<p>我们推荐从<b>VS Code</b>开始。VS Code有优秀的Python插件、完全免费、跨平台，而且学会使用它后，你未来学习其他语言（如JavaScript、Java、Go等）也无需更换工具，一举多得。</p>
+</div>
+</section>
+<section id="id3">
+<h3><strong>为什么需要环境管理工具？</strong><a class="headerlink" href="#id3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h3>
+<p>Python的生态系统极其丰富，但这也带来了一个挑战：<strong>依赖冲突</strong>。想象一下，你正在开发项目A，需要Python 3.8和Pandas 1.5；同时，项目B则需要Python 3.11和Pandas 2.0。如果系统只有一个Python环境，这两个项目的要求就会“打架”，导致其中一个无法正常运行。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="环境管理工具" src="../_static/figures/1/env_mg.png" style="display: block; margin: 20px auto; width: 60%; max-width: 500px;"/>
+</div>
+<p>上图展示了几个常见的环境管理工具。环境管理工具的核心价值是——<strong>为每个项目创建独立、隔离的工作空间</strong>。每个工作空间里，你可以安装指定版本的Python解释器和第三方库，而不会影响其他工作空间里项目。目前主流的工具包括：</p>
+<ul class="simple">
+<li><p><strong>venv / virtualenv</strong>：Python官方或社区提供的轻量级环境管理工具，主要管理Python包（Pycharm IDE中常用）。</p></li>
+<li><p><strong>Conda / Miniconda</strong>：<strong>功能强大的环境与包管理器</strong>，不仅能管理Python包，还能管理Python解释器本身以及R、C++库等非Python依赖。</p></li>
+<li><p><strong>Mamba</strong>：Conda的C++重写版本，使用libsolv进行依赖解析，在安装和更新包时比原版Conda<strong>快数倍</strong>，命令与Conda完全兼容，适合处理复杂依赖关系的大型环境。</p></li>
+<li><p><strong>Poetry</strong>：现代化的Python项目管理和打包工具，统一管理项目依赖、虚拟环境和打包发布，使用<code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>替代传统的<code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>，解决依赖版本锁定问题。</p></li>
+<li><p><strong>uv</strong>：由Astral团队（Ruff的创造者）开发的高性能Python包安装器和解析器，速度极快，兼容<code class="docutils literal notranslate"><span class="pre">pip</span></code>和<code class="docutils literal notranslate"><span class="pre">pip-tools</span></code>工作流，适合需要快速安装依赖的大型项目。</p></li>
+<li><p><strong>Pipenv</strong>：曾被誉为“Python官方推荐的包管理器”，集成了虚拟环境和包管理功能，使用<code class="docutils literal notranslate"><span class="pre">Pipfile</span></code>和<code class="docutils literal notranslate"><span class="pre">Pipfile.lock</span></code>来管理依赖。</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title"><b>建议</b></p>
+<p>我们推荐直接安装<b>Miniconda</b>它相比庞大的Anaconda更加轻量，但同样具备Conda的核心环境管理能力。其对于大多数场景已经够用。安装Miniconda后，你无需再去官网单独下载Python解释器。</p>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>2. 安装流程<a class="headerlink" href="#id4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h2>
+<p>接下来，让我们进入实际操作环节。安装分为两大步：</p>
+<ol class="arabic simple">
+<li><p><strong>安装VS Code IDE</strong></p></li>
+<li><p><strong>安装Miniconda 环境管理工具</strong></p></li>
+</ol>
+<section id="vs-code-ide">
+<h3>2.1 安装VS Code IDE<a class="headerlink" href="#vs-code-ide" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#vs-code-ide'"><span>#</span></a></h3>
+<p>该部分文档参考<a href="https://blog.csdn.net/weixin_60915103/article/details/131617196?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522217d3b942f0e576ea291137f1a92af39%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=217d3b942f0e576ea291137f1a92af39&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_positive~default-1-131617196-null-null.142^v102^pc_search_result_base7&amp;utm_term=vscode&amp;spm=1018.2226.3001.4187" target="_blank">《vscode安装+配置+使用+调试【保姆级教程】》</a></p>
+<section id="id5">
+<h4>访问官网<a class="headerlink" href="#id5" title="Link to this heading"><span>#</span></a></h4>
+<p>首先进入到<a href="https://code.visualstudio.com/" target="_blank">VScode</a>的官网，选择自己电脑适配的版本（例子中使用Windows版本），下载时可以使用梯子进行加速。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="vscode主页" src="../_static/figures/1/vs_home.png" style="display: block; margin: 20px auto; width: 80%; max-width: 1000px;"/>
+</div>
+<div align="center"><b>vscode主页</b></div>
+</section>
+<section id="exe">
+<h4>运行安装exe<a class="headerlink" href="#exe" title="Link to this heading"><span>#</span></a></h4>
+<p>根据图片操作</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="vs1" src="../_static/figures/1/vs_1.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="id6">
+<h4>选择安装路径<a class="headerlink" href="#id6" title="Link to this heading"><span>#</span></a></h4>
+<p>不要安装到C盘。<b>注意安装路径不能有中文</b></p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="vs2" src="../_static/figures/1/vs_2.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+<p>根据图片操作</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="vs3" src="../_static/figures/1/vs_3.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="id7">
+<h4>选择附加服务<a class="headerlink" href="#id7" title="Link to this heading"><span>#</span></a></h4>
+<p>根据图片操作</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="vs4" src="../_static/figures/1/vs_4.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="id8">
+<h4>重启<a class="headerlink" href="#id8" title="Link to this heading"><span>#</span></a></h4>
+<p>最后跳出安装完成的界面就说明安装的步骤全部结束！ <b>记得重启</b></p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="vs5" src="../_static/figures/1/vs_5.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="id9">
+<h4>创建工作区文件夹<a class="headerlink" href="#id9" title="Link to this heading"><span>#</span></a></h4>
+<p><strong>下面简单进行vscode的使用。</strong><br/>
+首先在Windows自带的文件资源管理器中创建一个总项目文件夹PyProjects（名字随意，<b>注意不能是中文</b>）。再在总项目文件夹下新建一个文件夹test（命名规则同），后续这个文件夹会作为一个项目，有关该项目的文件都放置在该文件夹下。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="new_folder" src="../_static/figures/1/new_folder.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="vscode">
+<h4>vscode界面展示<a class="headerlink" href="#vscode" title="Link to this heading"><span>#</span></a></h4>
+<p>打开vscode（这里显示的是英文版，按照个人习惯可以改成中文）。Vscode的界面如下图，左侧栏是一些常见的工具栏，上车是一些设置选项。我们首先选择左侧工具栏的资源管理器，然后点击Open Folder（打开文件夹）。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="vs_face" src="../_static/figures/1/vs_face.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="id10">
+<h4>选择工作区<a class="headerlink" href="#id10" title="Link to this heading"><span>#</span></a></h4>
+<p>选择刚刚创建的test目录。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="select_folder" src="../_static/figures/1/select_folder.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="id11">
+<h4>创建终端<a class="headerlink" href="#id11" title="Link to this heading"><span>#</span></a></h4>
+<p>点击上方三个点的按钮，新建一个终端(Terminal)，看到vscode下方显示TERMINAL，其中显示 <code class="docutils literal notranslate"><span class="pre">PS</span> <span class="pre">D:\PyProjects\test&gt;</span></code> 即代表终端创建成功（PS就是代表PowerShell的意思）。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="open_terminal" src="../_static/figures/1/open_terminal.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+<p><strong>大功告成！</strong></p>
+</section>
+</section>
+<section id="miniconda">
+<h3>2.2 安装Miniconda<a class="headerlink" href="#miniconda" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#miniconda'"><span>#</span></a></h3>
+<p>Miniconda的下载官网<a href="https://www.anaconda.com/docs/getting-started/miniconda/install" target="_blank">点击这里</a>。</p>
+<section id="id12">
+<h4>进入官网<a class="headerlink" href="#id12" title="Link to this heading"><span>#</span></a></h4>
+<p>跳转到Minicoda的官网，找到Basic install instruction，点开Windows installation的下载。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="minconda_download" src="../_static/figures/1/minconda_download.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="id13">
+<h4>新建下载目录<a class="headerlink" href="#id13" title="Link to this heading"><span>#</span></a></h4>
+<p>回到vscode中，在刚刚的test目录下新建一个名为Downloads的目录（目录就是文件夹的意思），方便下一步文件的下载。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="mkdir_download" src="../_static/figures/1/mkdir_download.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="id14">
+<h4>复制下载源码<a class="headerlink" href="#id14" title="Link to this heading"><span>#</span></a></h4>
+<p>在Minicoda的官网复制Windows中的powershell选项的下载代码。</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="copy_code" src="../_static/figures/1/copy_code.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+<p>把复制的下载代码输入到Terminal中。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Invoke</span><span class="o">-</span><span class="n">WebRequest</span> <span class="o">-</span><span class="n">Uri</span> <span class="s2">"https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-x86_64.exe"</span> <span class="o">-</span><span class="n">outfile</span> <span class="s2">".\Downloads\Miniconda3-latest-Windows-x86_64.exe"</span>
+</span></code></pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">nvoke-WebRequest</span></code>是Windows的PowerShell中的一个命令，主要用于发送 HTTP/HTTPS 请求，类似于 Linux 中的<code class="docutils literal notranslate"><span class="pre">curl</span></code>或<code class="docutils literal notranslate"><span class="pre">wget</span></code>。<br/>
+<code class="docutils literal notranslate"><span class="pre">-Uri</span> </code>参数代表从后面的网址获取资源。<br/>
+<code class="docutils literal notranslate"><span class="pre">-outfile</span></code>是文件下载的指定路径。<code class="docutils literal notranslate"><span class="pre">.\Downloads\Miniconda3-latest-Windows-x86_64.exe</span></code>
+代表在我们刚刚创建的<code class="docutils literal notranslate"><span class="pre">Downloads</span></code>下载文件并且命名为<code class="docutils literal notranslate"><span class="pre">Miniconda3-latest-Windows-x86_64.exe</span></code></p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="input_ps" src="../_static/figures/1/input_ps.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+</section>
+<section id="minicoda">
+<h4>下载Minicoda<a class="headerlink" href="#minicoda" title="Link to this heading"><span>#</span></a></h4>
+<p>按回车Enter运行，可以看到正在下载文件到目标文件夹</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="downloading_minicoda" src="../_static/figures/1/downloading_minicoda.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+<p>无报错，则下载成功</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="downloaded_minicoda" src="../_static/figures/1/downloaded_minicoda.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+<p>你已经使用 <code class="docutils literal notranslate"><span class="pre">Invoke-WebRequest</span></code> <strong>成功下载了</strong> Miniconda 安装程序，接下来需要<strong>运行安装程序</strong>进行安装。</p>
+</section>
+<section id="id15">
+<h4>安装<a class="headerlink" href="#id15" title="Link to this heading"><span>#</span></a></h4>
+<p>转到下载目录</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">cd </span><span class="p">.\</span><span class="n">Downloads</span><span class="p">\</span>
+</span></code></pre></div>
+</div>
+<p>运行安装程序，/S 代表静默安装 /AddToPath=1 代表添加到系统路径 /RegisterPython=1 代表注册为系统默认Python /D=%USERPROFILE%\Miniconda3 代表指定安装目录</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="p">.\</span><span class="n">Miniconda3-latest-Windows-x86_64</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">S</span> <span class="p">/</span><span class="n">InstallationType</span><span class="p">=</span><span class="n">JustMe</span> <span class="p">/</span><span class="n">AddToPath</span><span class="p">=</span><span class="n">1</span> <span class="p">/</span><span class="n">RegisterPython</span><span class="p">=</span><span class="n">1</span> <span class="p">/</span><span class="n">D</span><span class="p">=</span><span class="k">%</span><span class="n">USERPROFILE</span><span class="p">%\</span><span class="n">Miniconda3</span>
+</span></code></pre></div>
+</div>
+<p>会出现如下</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">PS </span><span class="n">D</span><span class="p">:\</span><span class="n">PyProjects</span><span class="p">\</span><span class="n">test</span><span class="p">\</span><span class="n">Downloads</span><span class="p">&gt;</span> <span class="p">.\</span><span class="n">Miniconda3-latest-Windows-x86_64</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">S</span> <span class="p">/</span><span class="n">InstallationType</span><span class="p">=</span><span class="n">JustMe</span> <span class="p">/</span><span class="n">AddToPath</span><span class="p">=</span><span class="n">1</span> <span class="p">/</span><span class="n">RegisterPython</span><span class="p">=</span><span class="n">1</span> <span class="p">/</span><span class="n">D</span><span class="p">=</span><span class="k">%</span><span class="n">USERPROFILE</span><span class="p">%\</span><span class="n">Miniconda3</span>        
+</span><span id="line-2"><span class="nb">PS </span><span class="n">D</span><span class="p">:\</span><span class="n">PyProjects</span><span class="p">\</span><span class="n">test</span><span class="p">\</span><span class="n">Downloads</span><span class="p">&gt;</span> <span class="n">Welcome</span> <span class="n">to</span> <span class="n">Miniconda3</span> <span class="n">py313_25</span><span class="p">.</span><span class="n">11</span><span class="p">.</span><span class="n">1</span><span class="p">-</span><span class="n">1</span>
+</span><span id="line-3"><span class="n">By</span> <span class="n">continuing</span> <span class="n">this</span> <span class="n">installation</span> <span class="n">you</span> <span class="n">are</span> <span class="n">accepting</span> <span class="n">this</span> <span class="n">license</span> <span class="n">agreement</span><span class="p">:</span>
+</span><span id="line-4"><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">xxx</span><span class="p">\</span><span class="n">miniconda3</span><span class="p">\</span><span class="n">EULA</span><span class="p">.</span><span class="n">txt</span>
+</span><span id="line-5"><span class="n">Please</span> <span class="n">run</span> <span class="n">the</span> <span class="n">installer</span> <span class="k">in</span> <span class="n">GUI</span> <span class="n">mode</span> <span class="n">to</span> <span class="n">read</span> <span class="n">the</span> <span class="n">details</span><span class="p">.</span>
+</span><span id="line-6"><span class="n">Miniconda3</span> <span class="n">will</span> <span class="n">now</span> <span class="n">be</span> <span class="n">installed</span> <span class="n">into</span> <span class="n">this</span> <span class="n">location</span><span class="p">:</span>
+</span><span id="line-7"><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">xxx</span><span class="p">\</span><span class="n">miniconda3</span>
+</span><span id="line-8"><span class="n">Unpacking</span> <span class="n">payload</span><span class="p">...</span>
+</span><span id="line-9"><span class="n">Setting</span> <span class="n">up</span> <span class="n">the</span> <span class="n">package</span> <span class="n">cache</span><span class="p">...</span>
+</span><span id="line-10"><span class="n">Setting</span> <span class="n">up</span> <span class="n">the</span> <span class="n">base</span> <span class="n">environment</span><span class="p">...</span>
+</span><span id="line-11"><span class="n">Installing</span> <span class="n">packages</span> <span class="k">for</span> <span class="n">base</span><span class="p">,</span> <span class="n">creating</span> <span class="n">shortcuts</span> <span class="k">if</span> <span class="n">necessary</span><span class="p">...</span>
+</span><span id="line-12"><span class="n">Preparing</span> <span class="n">transaction</span><span class="p">:</span>
+</span><span id="line-13"><span class="p">...</span><span class="n">working</span><span class="p">...</span>
+</span><span id="line-14"><span class="n">done</span>
+</span><span id="line-15"><span class="n">Executing</span> <span class="n">transaction</span><span class="p">:</span>
+</span><span id="line-16"><span class="p">...</span><span class="n">working</span><span class="p">...</span>
+</span><span id="line-17"><span class="n">done</span>
+</span><span id="line-18"><span class="n">Adding</span> <span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">xxx</span><span class="p">\</span><span class="n">miniconda3</span><span class="p">\</span><span class="n">Scripts</span> <span class="p">&amp;</span> <span class="n">Library</span><span class="p">\</span><span class="n">bin</span> <span class="n">to</span> <span class="n">PATH</span><span class="p">...</span>
+</span><span id="line-19"><span class="n">Setting</span> <span class="n">installation</span> <span class="n">directory</span> <span class="n">permissions</span><span class="p">...</span>
+</span><span id="line-20"><span class="c">#�ѳɹ����� 30489 ���ļ�; ���� 0 ���ļ�ʱʧ��</span>
+</span><span id="line-21"><span class="n">Done</span><span class="p">!</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id16">
+<h4>初始化<a class="headerlink" href="#id16" title="Link to this heading"><span>#</span></a></h4>
+<p>按下<code class="docutils literal notranslate"><span class="pre">ctrl+c</span></code>中断，随后进入初始化脚本的目录</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">cd</span> <span class="s2">"$env:USERPROFILE\Miniconda3\Scripts"</span>
+</span></code></pre></div>
+</div>
+<p>输入初始化命令</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">conda</span> <span class="n">init</span> <span class="n">powershell</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id17">
+<h4>测试运行<a class="headerlink" href="#id17" title="Link to this heading"><span>#</span></a></h4>
+<p>新建一个终端，在PS前出现(base)，即代表安装成功！</p>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="base_appear" src="../_static/figures/1/base_appear.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+<p>输入<code class="docutils literal notranslate"><span class="pre">conda</span></code>测试是否可以正常运行</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c">#不需要复制运行，展示运作流程</span>
+</span><span id="line-2"><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="nb">PS </span><span class="n">D</span><span class="p">:\</span><span class="n">PyProjects</span><span class="p">\</span><span class="n">test</span><span class="p">&gt;</span> <span class="n">conda</span>
+</span><span id="line-3"><span class="n">usage</span><span class="p">:</span> <span class="n">conda-script</span><span class="p">.</span><span class="n">py</span> <span class="p">[</span><span class="n">-h</span><span class="p">]</span> <span class="p">[</span><span class="n">-v</span><span class="p">]</span> <span class="p">[-</span><span class="n">-no-plugins</span><span class="p">]</span> <span class="p">[</span><span class="n">-V</span><span class="p">]</span> <span class="n">COMMAND</span> <span class="p">...</span>
+</span><span id="line-4"><span class="n">conda</span> <span class="n">is</span> <span class="n">a</span> <span class="n">tool</span> <span class="k">for</span> <span class="n">managing</span> <span class="n">and</span> <span class="n">deploying</span> <span class="n">applications</span><span class="p">,</span> <span class="n">environments</span> <span class="n">and</span> <span class="n">packages</span><span class="p">.</span>
+</span><span id="line-5"><span class="n">options</span><span class="p">:</span>
+</span><span id="line-6">  <span class="n">-h</span><span class="p">,</span> <span class="p">-</span><span class="n">-help</span>            <span class="n">Show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="n">and</span> <span class="n">exit</span><span class="p">.</span>
+</span><span id="line-7">  <span class="n">-v</span><span class="p">,</span> <span class="p">-</span><span class="n">-verbose</span>         <span class="n">Can</span> <span class="n">be</span> <span class="n">used</span> <span class="n">multiple</span> <span class="n">times</span><span class="p">.</span> <span class="n">Once</span> <span class="k">for</span> <span class="n">detailed</span> <span class="n">output</span><span class="p">,</span>
+</span><span id="line-8">                        <span class="n">twice</span> <span class="k">for</span> <span class="n">INFO</span> <span class="n">logging</span><span class="p">,</span> <span class="n">thrice</span> <span class="k">for</span> <span class="n">DEBUG</span> <span class="n">logging</span><span class="p">,</span> <span class="n">four</span>
+</span><span id="line-9">                        <span class="n">times</span> <span class="k">for</span> <span class="n">TRACE</span> <span class="n">logging</span><span class="p">.</span>
+</span><span id="line-10">  <span class="p">-</span><span class="n">-no-plugins</span>          <span class="n">Disable</span> <span class="n">all</span> <span class="n">plugins</span> <span class="n">that</span> <span class="n">are</span> <span class="n">not</span> <span class="n">built</span> <span class="n">into</span> <span class="n">conda</span><span class="p">.</span>
+</span><span id="line-11">  <span class="n">-V</span><span class="p">,</span> <span class="p">-</span><span class="n">-version</span>         <span class="n">Show</span> <span class="n">the</span> <span class="n">conda</span> <span class="n">version</span> <span class="n">number</span> <span class="n">and</span> <span class="n">exit</span><span class="p">.</span>
+</span><span id="line-12"><span class="p">................</span>
+</span><span id="line-13"><span class="c">#过多行不展示，出现上述内容，代表conda正常运行</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id18">
+<h4>创建虚拟环境<a class="headerlink" href="#id18" title="Link to this heading"><span>#</span></a></h4>
+<p>接下来创建一个名为test的，python版本为3.10的虚拟环境</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">conda</span> <span class="n">create</span> <span class="n">-n</span> <span class="n">test</span> <span class="n">python</span><span class="p">=</span><span class="n">3</span><span class="p">.</span><span class="n">10</span>
+</span></code></pre></div>
+</div>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c">#不需要复制运行，展示注意下面的选项都选择接受(a)</span>
+</span><span id="line-2"><span class="k">Do</span> <span class="n">you</span> <span class="n">accept</span> <span class="n">the</span> <span class="n">Terms</span> <span class="n">of</span> <span class="n">Service</span> <span class="p">(</span><span class="n">ToS</span><span class="p">)</span> <span class="k">for</span> <span class="n">https</span><span class="p">://</span><span class="n">repo</span><span class="p">.</span><span class="n">anaconda</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">pkgs</span><span class="p">/</span><span class="n">main</span><span class="p">?</span> 
+</span><span id="line-3"><span class="p">[(</span><span class="n">a</span><span class="p">)</span><span class="n">ccept</span><span class="p">/(</span><span class="n">r</span><span class="p">)</span><span class="n">eject</span><span class="p">/(</span><span class="n">v</span><span class="p">)</span><span class="n">iew</span><span class="p">]:</span><span class="n">a</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id19">
+<h4>激活虚拟环境<a class="headerlink" href="#id19" title="Link to this heading"><span>#</span></a></h4>
+<p>激活创建好的虚拟环境</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">conda</span> <span class="n">activate</span> <span class="n">test</span>
+</span></code></pre></div>
+</div>
+<p>出现test前缀成功进入了名为test虚拟环境</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c">#不需要复制运行，展示前缀发生变化</span>
+</span><span id="line-2"><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="nb">PS </span><span class="n">D</span><span class="p">:\</span><span class="n">PyProjects</span><span class="p">\</span><span class="n">test</span><span class="p">&gt;</span> <span class="n">conda</span> <span class="n">activate</span> <span class="n">test</span>
+</span><span id="line-3"><span class="p">(</span><span class="n">test</span><span class="p">)</span> <span class="nb">PS </span><span class="n">D</span><span class="p">:\</span><span class="n">PyProjects</span><span class="p">\</span><span class="n">test</span><span class="p">&gt;</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id20">
+<h4>在虚拟环境中运行python代码<a class="headerlink" href="#id20" title="Link to this heading"><span>#</span></a></h4>
+<p>接下来测试是否能在虚拟环境中执行python代码。<br/>
+删除刚刚的Downloads目录，然后在test目录下新建一个名为test.py的python脚本文件,打开后，编写代码.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">print</span><span class="p">(</span><span class="s2">"hello world"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="code_test" src="../_static/figures/1/code_test.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+<p>ctrl+s保存文件，然后在终端中复制运行下述代码，得到结果如图</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">python</span> <span class="o">.</span>\<span class="n">test</span><span class="o">.</span><span class="n">py</span>
+</span></code></pre></div>
+</div>
+<div style="margin: 20px 0; text-align: center;">
+<img alt="hello_world" src="../_static/figures/1/hello_world.png" style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;"/>
+</div>
+<p><strong>出现hello world代表大功告成！！！</strong></p>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./1_1_什么是Python.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./1_3_基础语法与数据类型.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+</section>
+</section>
+</section>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#id1'" class="reference internal" href="#id1">1. 简介</a><ul>
+<li><a :data-current="activeSection === '#python'" class="reference internal" href="#python"><strong>为什么需要安装Python解释器？</strong></a></li>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2"><strong>什么是IDE？为什么需要它？</strong></a></li>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3"><strong>为什么需要环境管理工具？</strong></a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">2. 安装流程</a><ul>
+<li><a :data-current="activeSection === '#vs-code-ide'" class="reference internal" href="#vs-code-ide">2.1 安装VS Code IDE</a><ul>
+<li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">访问官网</a></li>
+<li><a :data-current="activeSection === '#exe'" class="reference internal" href="#exe">运行安装exe</a></li>
+<li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">选择安装路径</a></li>
+<li><a :data-current="activeSection === '#id7'" class="reference internal" href="#id7">选择附加服务</a></li>
+<li><a :data-current="activeSection === '#id8'" class="reference internal" href="#id8">重启</a></li>
+<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">创建工作区文件夹</a></li>
+<li><a :data-current="activeSection === '#vscode'" class="reference internal" href="#vscode">vscode界面展示</a></li>
+<li><a :data-current="activeSection === '#id10'" class="reference internal" href="#id10">选择工作区</a></li>
+<li><a :data-current="activeSection === '#id11'" class="reference internal" href="#id11">创建终端</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#miniconda'" class="reference internal" href="#miniconda">2.2 安装Miniconda</a><ul>
+<li><a :data-current="activeSection === '#id12'" class="reference internal" href="#id12">进入官网</a></li>
+<li><a :data-current="activeSection === '#id13'" class="reference internal" href="#id13">新建下载目录</a></li>
+<li><a :data-current="activeSection === '#id14'" class="reference internal" href="#id14">复制下载源码</a></li>
+<li><a :data-current="activeSection === '#minicoda'" class="reference internal" href="#minicoda">下载Minicoda</a></li>
+<li><a :data-current="activeSection === '#id15'" class="reference internal" href="#id15">安装</a></li>
+<li><a :data-current="activeSection === '#id16'" class="reference internal" href="#id16">初始化</a></li>
+<li><a :data-current="activeSection === '#id17'" class="reference internal" href="#id17">测试运行</a></li>
+<li><a :data-current="activeSection === '#id18'" class="reference internal" href="#id18">创建虚拟环境</a></li>
+<li><a :data-current="activeSection === '#id19'" class="reference internal" href="#id19">激活虚拟环境</a></li>
+<li><a :data-current="activeSection === '#id20'" class="reference internal" href="#id20">在虚拟环境中运行python代码</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.1.3</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../_static/documentation_options.js?v=f115507d"></script>
+<script src="../_static/doctools.js?v=9bcbadda"></script>
+<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../_static/theme.js?v=073f68d9"></script>
+<script src="../_static/translations.js?v=beaddf03"></script>
+</body>
+</html>

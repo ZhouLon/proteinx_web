@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../" lang="zh-CN" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>1_8_数据类型转换 | 深度学习入门的知识与规范 1.0 文档</title>
+<meta content="1_8_数据类型转换 | 深度学习入门的知识与规范 1.0 文档" property="og:title"/>
+<meta content="1_8_数据类型转换 | 深度学习入门的知识与规范 1.0 文档" name="twitter:title"/>
+<link href="../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../search.html" rel="search" title="搜索"/>
+<link href="../genindex.html" rel="index" title="索引"/>
+<link href="1_9_%E5%87%BD%E6%95%B0.html" rel="next" title="1_9_函数"/>
+<link href="1_7_%E5%AD%97%E5%85%B8%E5%92%8C%E5%AD%97%E5%85%B8%E6%93%8D%E4%BD%9C.html" rel="prev" title="1_7_字典和字典操作"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../index.html"><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">深度学习入门的知识与规范 1.0 文档</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../index.html"><span class="font-bold text-clip whitespace-nowrap">深度学习入门的知识与规范 1.0 文档</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">01_Python介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%BB%8B%E7%BB%8D/index.html">02_深度学习介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_PyTorch%E4%BB%8B%E7%BB%8D/index.html">03_PyTorch介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_%E5%AE%9E%E9%AA%8C%E5%B7%A5%E7%A8%8B%E6%96%B9%E6%B3%95%E4%B8%8E%E8%A7%84%E8%8C%83/index.html">04_实验工程方法与规范</a></li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../index.html">
+<span class="hidden md:inline">深度学习入门的知识与规范 1.0 文档</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">01_Python介绍</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">1_8_数据类型转换</span>
+</nav>
+<div id="content" role="main">
+<section id="id1">
+<h1>1_8_数据类型转换<a class="headerlink" href="#id1" title="Link to this heading"><span>#</span></a></h1>
+<p><strong>作者</strong>: ZhouLong<br/>
+<strong>创建日期</strong>: 2026 年 01 月 16 日<br/>
+<strong>版本</strong>: 1.0<br/></p>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./1_7_字典和字典操作.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./1_9_函数.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+<section id="id2">
+<h2>1.数据类型转换概述<a class="headerlink" href="#id2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<section id="id3">
+<h3>1.1 什么是数据类型转换<a class="headerlink" href="#id3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h3>
+<p>数据类型转换是指将数据从一种类型转换为另一种类型的过程。Python中数据类型转换主要分为两种：</p>
+<ul class="simple">
+<li><p><strong>隐式类型转换</strong>：Python自动完成的转换</p></li>
+<li><p><strong>显式类型转换</strong>：编程者使用函数强制进行的转换</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>1.2 为什么需要类型转换<a class="headerlink" href="#id4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 示例：不同类型数据无法直接运算</span>
+</span><span id="line-2"><span class="n">num_str</span> <span class="o">=</span> <span class="s2">"10"</span>
+</span><span id="line-3"><span class="n">num_int</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="c1"># 直接相加会报错</span>
+</span><span id="line-6"><span class="c1"># result = num_str + num_int  # TypeError</span>
+</span><span id="line-7">
+</span><span id="line-8"><span class="c1"># 需要先进行类型转换</span>
+</span><span id="line-9"><span class="n">result</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_str</span><span class="p">)</span> <span class="o">+</span> <span class="n">num_int</span>
+</span><span id="line-10"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># 输出: 15</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>2.隐式类型转换<a class="headerlink" href="#id5" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h2>
+<section id="id6">
+<h3>2.1 自动类型提升<a class="headerlink" href="#id6" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h3>
+<p>自动类型提升是Python在混合类型运算时的自动转换机制，主要规则包括：</p>
+<ul class="simple">
+<li><p><strong>整数与浮点数运算</strong>：整数会自动提升为浮点数，结果类型为浮点数</p></li>
+<li><p><strong>布尔值参与数值运算</strong>：布尔值True转换为1，False转换为0，然后参与计算</p></li>
+<li><p><strong>转换方向</strong>：总是向更精确、表示范围更大的类型转换，遵循 整数 → 浮点数 的层级</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>这种转换是隐式的、自动发生的</p></li>
+<li><p>转换不会改变原变量的类型，只影响运算时的中间结果</p></li>
+<li><p>提升方向不可逆，浮点数不会自动降级为整数</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 整数和浮点数运算时，整数会自动转换为浮点数</span>
+</span><span id="line-2"><span class="n">int_num</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="line-3"><span class="n">float_num</span> <span class="o">=</span> <span class="mf">2.5</span>
+</span><span id="line-4"><span class="n">result</span> <span class="o">=</span> <span class="n">int_num</span> <span class="o">+</span> <span class="n">float_num</span>  <span class="c1"># 5自动转换为5.0</span>
+</span><span id="line-5"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># 输出: 7.5</span>
+</span><span id="line-6"><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>  <span class="c1"># 输出: &lt;class 'float'&gt;</span>
+</span><span id="line-7">
+</span><span id="line-8"><span class="c1"># 布尔值参与运算时</span>
+</span><span id="line-9"><span class="n">bool_val</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="line-10"><span class="n">int_val</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="line-11"><span class="n">result</span> <span class="o">=</span> <span class="n">bool_val</span> <span class="o">+</span> <span class="n">int_val</span>  <span class="c1"># True转换为1</span>
+</span><span id="line-12"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># 输出: 11</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>2.2 布尔值的隐式转换<a class="headerlink" href="#id7" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h3>
+<p>布尔值的隐式转换发生在条件判断等逻辑上下文中，转换规则如下：</p>
+<ul class="simple">
+<li><p><strong>转为True的值</strong>：非零数字、非空字符串、非空列表/元组/字典等所有非空容器</p></li>
+<li><p><strong>转为False的值</strong>：0、0.0、空字符串、空列表/元组/字典、None等</p></li>
+</ul>
+<p>关键点：</p>
+<ul class="simple">
+<li><p>这种转换仅在需要布尔值的上下文中发生（如if、while条件）</p></li>
+<li><p>转换不会改变原值本身的数据类型</p></li>
+<li><p>空容器的判断：<code class="docutils literal notranslate"><span class="pre">[]</span></code>、<code class="docutils literal notranslate"><span class="pre">()</span></code>、<code class="docutils literal notranslate"><span class="pre">{}</span></code>、<code class="docutils literal notranslate"><span class="pre">set()</span></code>都会转为False</p></li>
+<li><p>None在条件判断中始终被视为False</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 在条件判断中，非零数字和非空对象会被转换为True</span>
+</span><span id="line-2"><span class="k">if</span> <span class="mi">5</span><span class="p">:</span>  <span class="c1"># 5被隐式转换为True</span>
+</span><span id="line-3">    <span class="nb">print</span><span class="p">(</span><span class="s2">"数字5被转换为True"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="k">if</span> <span class="s2">"hello"</span><span class="p">:</span>  <span class="c1"># 非空字符串被转换为True</span>
+</span><span id="line-6">    <span class="nb">print</span><span class="p">(</span><span class="s2">"非空字符串被转换为True"</span><span class="p">)</span>
+</span><span id="line-7">
+</span><span id="line-8"><span class="k">if</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># 0被隐式转换为False</span>
+</span><span id="line-9">    <span class="nb">print</span><span class="p">(</span><span class="s2">"这行不会执行"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>3.显式类型转换函数<a class="headerlink" href="#id8" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h2>
+<section id="int">
+<h3>3.1 int() - 转换为整数<a class="headerlink" href="#int" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#int'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">int()</span></code>函数用于将其他类型显式转换为整数，具体转换规则：</p>
+<ul class="simple">
+<li><p><strong>浮点数转整数</strong>：直接截断小数部分（向下取整），不进行四舍五入</p></li>
+<li><p><strong>字符串转整数</strong>：字符串必须为有效的整数格式，可包含正负号</p></li>
+<li><p><strong>布尔值转整数</strong>：True转为1，False转为0</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>转换非数字字符串会导致ValueError异常</p></li>
+<li><p>支持指定进制转换：<code class="docutils literal notranslate"><span class="pre">int("1010",</span> <span class="pre">2)</span></code>可将二进制字符串转为十进制</p></li>
+<li><p>转换时会创建新对象，原变量类型和值不变</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 从浮点数转换</span>
+</span><span id="line-2"><span class="n">float_num</span> <span class="o">=</span> <span class="mf">3.14</span>
+</span><span id="line-3"><span class="n">int_from_float</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">float_num</span><span class="p">)</span>  <span class="c1"># 向下取整</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="n">int_from_float</span><span class="p">)</span>  <span class="c1"># 输出: 3</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 从字符串转换</span>
+</span><span id="line-7"><span class="n">str_num</span> <span class="o">=</span> <span class="s2">"123"</span>
+</span><span id="line-8"><span class="n">int_from_str</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">str_num</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="n">int_from_str</span><span class="p">)</span>  <span class="c1"># 输出: 123</span>
+</span><span id="line-10">
+</span><span id="line-11"><span class="c1"># 从布尔值转换</span>
+</span><span id="line-12"><span class="n">bool_val</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="line-13"><span class="n">int_from_bool</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">bool_val</span><span class="p">)</span>
+</span><span id="line-14"><span class="nb">print</span><span class="p">(</span><span class="n">int_from_bool</span><span class="p">)</span>  <span class="c1"># 输出: 1</span>
+</span><span id="line-15">
+</span><span id="line-16"><span class="c1"># 注意：不能转换非数字字符串</span>
+</span><span id="line-17"><span class="c1"># int("hello")  # 会报错 ValueError</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="float">
+<h3>3.2 float() - 转换为浮点数<a class="headerlink" href="#float" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#float'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">float()</span></code>函数将其他类型显式转换为浮点数：</p>
+<ul class="simple">
+<li><p><strong>整数转浮点数</strong>：直接添加小数部分<code class="docutils literal notranslate"><span class="pre">.0</span></code></p></li>
+<li><p><strong>字符串转浮点数</strong>：字符串必须为有效的浮点数格式</p></li>
+<li><p><strong>科学计数法支持</strong>：可转换如<code class="docutils literal notranslate"><span class="pre">"1.5e-2"</span></code>（0.015）格式的字符串</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>与<code class="docutils literal notranslate"><span class="pre">int()</span></code>不同，<code class="docutils literal notranslate"><span class="pre">float()</span></code>可以转换包含小数点的整数格式字符串（如<code class="docutils literal notranslate"><span class="pre">"10"</span></code>）</p></li>
+<li><p>转换非数字字符串会引发ValueError异常</p></li>
+<li><p>特殊字符串：<code class="docutils literal notranslate"><span class="pre">"inf"</span></code>、<code class="docutils literal notranslate"><span class="pre">"-inf"</span></code>、<code class="docutils literal notranslate"><span class="pre">"nan"</span></code>可转换为对应的浮点数特殊值</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 从整数转换</span>
+</span><span id="line-2"><span class="n">int_num</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="line-3"><span class="n">float_from_int</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">int_num</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="n">float_from_int</span><span class="p">)</span>  <span class="c1"># 输出: 10.0</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 从字符串转换</span>
+</span><span id="line-7"><span class="n">str_num</span> <span class="o">=</span> <span class="s2">"3.14"</span>
+</span><span id="line-8"><span class="n">float_from_str</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">str_num</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="n">float_from_str</span><span class="p">)</span>  <span class="c1"># 输出: 3.14</span>
+</span><span id="line-10">
+</span><span id="line-11"><span class="c1"># 从科学计数法字符串转换</span>
+</span><span id="line-12"><span class="n">sci_str</span> <span class="o">=</span> <span class="s2">"2.5e3"</span>  <span class="c1"># 2.5 × 10³</span>
+</span><span id="line-13"><span class="n">float_from_sci</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sci_str</span><span class="p">)</span>
+</span><span id="line-14"><span class="nb">print</span><span class="p">(</span><span class="n">float_from_sci</span><span class="p">)</span>  <span class="c1"># 输出: 2500.0</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="str">
+<h3>3.3 str() - 转换为字符串<a class="headerlink" href="#str" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#str'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">str()</span></code>函数将任意类型转换为对应的字符串表示：</p>
+<ul class="simple">
+<li><p><strong>数值类型转换</strong>：将数字直接转为对应的字符串形式</p></li>
+<li><p><strong>布尔值转换</strong>：True转为<code class="docutils literal notranslate"><span class="pre">"True"</span></code>，False转为<code class="docutils literal notranslate"><span class="pre">"False"</span></code></p></li>
+<li><p><strong>通用性</strong>：几乎所有Python对象都可以通过<code class="docutils literal notranslate"><span class="pre">str()</span></code>转换</p></li>
+</ul>
+<p>关键特性：</p>
+<ul class="simple">
+<li><p>转换结果是对象的可读文本表示，而非代码表示（后者使用<code class="docutils literal notranslate"><span class="pre">repr()</span></code>）</p></li>
+<li><p>对于自定义对象，可通过定义<code class="docutils literal notranslate"><span class="pre">__str__()</span></code>方法控制转换行为</p></li>
+<li><p>转换不会改变原始数据，而是创建新的字符串对象</p></li>
+<li><p>列表、字典等容器类型会转换为包含其内容的字符串表示</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 从整数转换</span>
+</span><span id="line-2"><span class="n">int_num</span> <span class="o">=</span> <span class="mi">100</span>
+</span><span id="line-3"><span class="n">str_from_int</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">int_num</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="n">str_from_int</span><span class="p">)</span>  <span class="c1"># 输出: "100"</span>
+</span><span id="line-5"><span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">str_from_int</span><span class="p">))</span>  <span class="c1"># 输出: &lt;class 'str'&gt;</span>
+</span><span id="line-6">
+</span><span id="line-7"><span class="c1"># 从浮点数转换</span>
+</span><span id="line-8"><span class="n">float_num</span> <span class="o">=</span> <span class="mf">3.14159</span>
+</span><span id="line-9"><span class="n">str_from_float</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">float_num</span><span class="p">)</span>
+</span><span id="line-10"><span class="nb">print</span><span class="p">(</span><span class="n">str_from_float</span><span class="p">)</span>  <span class="c1"># 输出: "3.14159"</span>
+</span><span id="line-11">
+</span><span id="line-12"><span class="c1"># 从布尔值转换</span>
+</span><span id="line-13"><span class="n">bool_val</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="line-14"><span class="n">str_from_bool</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">bool_val</span><span class="p">)</span>
+</span><span id="line-15"><span class="nb">print</span><span class="p">(</span><span class="n">str_from_bool</span><span class="p">)</span>  <span class="c1"># 输出: "False"</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="bool">
+<h3>3.4 bool() - 转换为布尔值<a class="headerlink" href="#bool" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#bool'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">bool()</span></code>函数显式地将值转换为布尔值，遵循"真值测试"规则：</p>
+<p><strong>转换规则：</strong></p>
+<ul class="simple">
+<li><p><strong>数值类型</strong>：0、0.0为False，其他非零数值为True</p></li>
+<li><p><strong>字符串</strong>：空字符串<code class="docutils literal notranslate"><span class="pre">""</span></code>为False，任何非空字符串为True</p></li>
+<li><p><strong>容器类型</strong>：空列表/元组/字典/集合为False，非空容器为True</p></li>
+<li><p><strong>特殊值</strong>：None始终转换为False</p></li>
+</ul>
+<p>关键点：</p>
+<ul class="simple">
+<li><p>这是布尔值隐式转换的显式版本，规则完全一致</p></li>
+<li><p>转换结果只有两种可能：True或False</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 各种数据类型转换为布尔值的规则</span>
+</span><span id="line-2"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>        <span class="c1"># 输出: False (数字0)</span>
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>        <span class="c1"># 输出: True  (非零数字)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>       <span class="c1"># 输出: True  (非零数字)</span>
+</span><span id="line-5"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="mf">0.0</span><span class="p">))</span>      <span class="c1"># 输出: False (浮点数0.0)</span>
+</span><span id="line-6">
+</span><span id="line-7"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="s2">""</span><span class="p">))</span>       <span class="c1"># 输出: False (空字符串)</span>
+</span><span id="line-8"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="s2">"hello"</span><span class="p">))</span>  <span class="c1"># 输出: True  (非空字符串)</span>
+</span><span id="line-9">
+</span><span id="line-10"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">([]))</span>       <span class="c1"># 输出: False (空列表)</span>
+</span><span id="line-11"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>   <span class="c1"># 输出: True  (非空列表)</span>
+</span><span id="line-12">
+</span><span id="line-13"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">({}))</span>       <span class="c1"># 输出: False (空字典)</span>
+</span><span id="line-14"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">}))</span> <span class="c1"># 输出: True  (非空字典)</span>
+</span><span id="line-15">
+</span><span id="line-16"><span class="nb">print</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span>     <span class="c1"># 输出: False (None值)</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="list">
+<h3>3.5 list() - 转换为列表<a class="headerlink" href="#list" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#list'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">list()</span></code>函数将可迭代对象转换为列表：</p>
+<p><strong>转换规则：</strong></p>
+<ul class="simple">
+<li><p><strong>字符串</strong>：转换为包含各字符的列表</p></li>
+<li><p><strong>元组/集合</strong>：转换为包含相同元素的列表</p></li>
+<li><p><strong>range对象</strong>：将数值序列展开为列表</p></li>
+<li><p><strong>字典</strong>：默认仅获取键（key）的列表</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>转换会创建新的列表对象，与原数据独立</p></li>
+<li><p>字典转换默认只包含键，使用<code class="docutils literal notranslate"><span class="pre">dict.items()</span></code>可获取键值对列表</p></li>
+<li><p>嵌套结构会保持原样转换，不会递归展开内部元素</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 从字符串转换</span>
+</span><span id="line-2"><span class="n">str_val</span> <span class="o">=</span> <span class="s2">"hello"</span>
+</span><span id="line-3"><span class="n">list_from_str</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">str_val</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="n">list_from_str</span><span class="p">)</span>  <span class="c1"># 输出: ['h', 'e', 'l', 'l', 'o']</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 从元组转换</span>
+</span><span id="line-7"><span class="n">tuple_val</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="line-8"><span class="n">list_from_tuple</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tuple_val</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="n">list_from_tuple</span><span class="p">)</span>  <span class="c1"># 输出: [1, 2, 3]</span>
+</span><span id="line-10">
+</span><span id="line-11"><span class="c1"># 从范围对象转换</span>
+</span><span id="line-12"><span class="n">range_obj</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span id="line-13"><span class="n">list_from_range</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">range_obj</span><span class="p">)</span>
+</span><span id="line-14"><span class="nb">print</span><span class="p">(</span><span class="n">list_from_range</span><span class="p">)</span>  <span class="c1"># 输出: [0, 1, 2, 3, 4]</span>
+</span><span id="line-15">
+</span><span id="line-16"><span class="c1"># 从字典转换（只获取键）</span>
+</span><span id="line-17"><span class="n">dict_val</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+</span><span id="line-18"><span class="n">list_from_dict</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dict_val</span><span class="p">)</span>
+</span><span id="line-19"><span class="nb">print</span><span class="p">(</span><span class="n">list_from_dict</span><span class="p">)</span>  <span class="c1"># 输出: ['a', 'b', 'c']</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="tuple">
+<h3>3.6 tuple() - 转换为元组<a class="headerlink" href="#tuple" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#tuple'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">tuple()</span></code>函数将可迭代对象转换为不可变的元组：</p>
+<ul class="simple">
+<li><p><strong>转换方式</strong>：与<code class="docutils literal notranslate"><span class="pre">list()</span></code>类似，但结果是元组而非列表</p></li>
+<li><p><strong>不可变性</strong>：转换后的元组内容无法修改、添加或删除元素</p></li>
+<li><p><strong>适用场景</strong>：需要数据不被意外修改时，或作为字典键使用</p></li>
+</ul>
+<p>关键特性：</p>
+<ul class="simple">
+<li><p>元组比列表更节省内存，访问速度更快</p></li>
+<li><p>转换规则与<code class="docutils literal notranslate"><span class="pre">list()</span></code>基本一致，支持字符串、列表、字典等可迭代对象</p></li>
+<li><p>字典转换同样默认只包含键</p></li>
+<li><p>空元组可通过<code class="docutils literal notranslate"><span class="pre">tuple()</span></code>或<code class="docutils literal notranslate"><span class="pre">()</span></code>创建</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 从列表转换</span>
+</span><span id="line-2"><span class="n">list_val</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</span><span id="line-3"><span class="n">tuple_from_list</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">list_val</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="n">tuple_from_list</span><span class="p">)</span>  <span class="c1"># 输出: (1, 2, 3)</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 从字符串转换</span>
+</span><span id="line-7"><span class="n">str_val</span> <span class="o">=</span> <span class="s2">"abc"</span>
+</span><span id="line-8"><span class="n">tuple_from_str</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">str_val</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="n">tuple_from_str</span><span class="p">)</span>  <span class="c1"># 输出: ('a', 'b', 'c')</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="dict">
+<h3>3.7 dict() - 转换为字典<a class="headerlink" href="#dict" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#dict'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">dict()</span></code>函数用于创建字典，支持多种转换方式：</p>
+<p><strong>主要转换方法：</strong></p>
+<ul class="simple">
+<li><p><strong>键值对序列</strong>：由<code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code>元组组成的列表、元组等可迭代对象</p></li>
+<li><p><strong>关键字参数</strong>：直接使用<code class="docutils literal notranslate"><span class="pre">key=value</span></code>形式的关键字参数创建</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>键值对序列中的每个元素必须是包含两个元素的元组或列表</p></li>
+<li><p>关键字参数方式要求键必须是有效的Python标识符（字符串）</p></li>
+<li><p>重复的键会导致后面的值覆盖前面的值</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 从包含键值对元组的列表转换</span>
+</span><span id="line-2"><span class="n">list_of_tuples</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">"name"</span><span class="p">,</span> <span class="s2">"Alice"</span><span class="p">),</span> <span class="p">(</span><span class="s2">"age"</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span> <span class="p">(</span><span class="s2">"city"</span><span class="p">,</span> <span class="s2">"Beijing"</span><span class="p">)]</span>
+</span><span id="line-3"><span class="n">dict_from_list</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">list_of_tuples</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="n">dict_from_list</span><span class="p">)</span>  <span class="c1"># 输出: {'name': 'Alice', 'age': 25, 'city': 'Beijing'}</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 从关键字参数创建</span>
+</span><span id="line-7"><span class="n">dict_from_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"Bob"</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s2">"Shanghai"</span><span class="p">)</span>
+</span><span id="line-8"><span class="nb">print</span><span class="p">(</span><span class="n">dict_from_kwargs</span><span class="p">)</span>  <span class="c1"># 输出: {'name': 'Bob', 'age': 30, 'city': 'Shanghai'}</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>4.特殊转换情况<a class="headerlink" href="#id9" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h2>
+<section id="id10">
+<h3>4.1 进制转换<a class="headerlink" href="#id10" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id10'"><span>#</span></a></h3>
+<p>通过<code class="docutils literal notranslate"><span class="pre">int()</span></code>函数的第二个参数可进行不同进制字符串的转换：</p>
+<p><strong>进制支持：</strong></p>
+<ul class="simple">
+<li><p><strong>二进制</strong>：base=2，字符串仅包含0和1</p></li>
+<li><p><strong>八进制</strong>：base=8，字符串包含0-7</p></li>
+<li><p><strong>十进制</strong>：base=10（默认），字符串包含0-9</p></li>
+<li><p><strong>十六进制</strong>：base=16，字符串包含0-9和A-F（不区分大小写）</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>转换结果始终为十进制整数</p></li>
+<li><p>字符串前缀（如<code class="docutils literal notranslate"><span class="pre">0b</span></code>、<code class="docutils literal notranslate"><span class="pre">0x</span></code>）不是必需的，但如果有必须与进制匹配</p></li>
+<li><p>可以使用<code class="docutils literal notranslate"><span class="pre">bin()</span></code>、<code class="docutils literal notranslate"><span class="pre">oct()</span></code>、<code class="docutils literal notranslate"><span class="pre">hex()</span></code>函数将整数转换为对应进制的字符串表示</p></li>
+<li><p>超出进制范围的字符会导致ValueError异常</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 二进制字符串转整数</span>
+</span><span id="line-2"><span class="n">binary_str</span> <span class="o">=</span> <span class="s2">"1010"</span>
+</span><span id="line-3"><span class="n">int_from_binary</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">binary_str</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"二进制</span><span class="si">{</span><span class="n">binary_str</span><span class="si">}</span><span class="s2"> = 十进制</span><span class="si">{</span><span class="n">int_from_binary</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># 输出: 二进制1010 = 十进制10</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 十六进制字符串转整数</span>
+</span><span id="line-7"><span class="n">hex_str</span> <span class="o">=</span> <span class="s2">"FF"</span>
+</span><span id="line-8"><span class="n">int_from_hex</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">hex_str</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"十六进制</span><span class="si">{</span><span class="n">hex_str</span><span class="si">}</span><span class="s2"> = 十进制</span><span class="si">{</span><span class="n">int_from_hex</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># 输出: 十六进制FF = 十进制255</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="ascii">
+<h3>4.2 ASCII码与字符转换<a class="headerlink" href="#ascii" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#ascii'"><span>#</span></a></h3>
+<p>Python使用<code class="docutils literal notranslate"><span class="pre">ord()</span></code>和<code class="docutils literal notranslate"><span class="pre">chr()</span></code>函数进行字符与ASCII码转换：</p>
+<p><strong>函数功能：</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ord(character)</span></code>：获取单个字符的Unicode码点（ASCII是子集）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">chr(code_point)</span></code>：将Unicode码点转换为对应的字符</p></li>
+</ul>
+<p>关键点：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ord()</span></code>只接受单个字符作为参数，字符串长度必须为1</p></li>
+<li><p>ASCII码范围：0-127，对应基本英文字符、数字和控制字符</p></li>
+<li><p>Python 3全面支持Unicode，<code class="docutils literal notranslate"><span class="pre">chr()</span></code>可转换任意有效码点（0-1114111）</p></li>
+<li><p>对于非ASCII字符（如中文），同样适用这两个函数</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 字符转ASCII码</span>
+</span><span id="line-2"><span class="n">char</span> <span class="o">=</span> <span class="s1">'A'</span>
+</span><span id="line-3"><span class="n">ascii_val</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">char</span><span class="si">}</span><span class="s2">'的ASCII码是: </span><span class="si">{</span><span class="n">ascii_val</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># 输出: 'A'的ASCII码是: 65</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># ASCII码转字符</span>
+</span><span id="line-7"><span class="n">ascii_num</span> <span class="o">=</span> <span class="mi">97</span>
+</span><span id="line-8"><span class="n">char_from_ascii</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">ascii_num</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ASCII码</span><span class="si">{</span><span class="n">ascii_num</span><span class="si">}</span><span class="s2">对应的字符是: '</span><span class="si">{</span><span class="n">char_from_ascii</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>  <span class="c1"># 输出: ASCII码97对应的字符是: 'a'</span>
+</span></code></pre></div>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./1_7_字典和字典操作.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./1_9_函数.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div></section>
+</section>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">1.数据类型转换概述</a><ul>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">1.1 什么是数据类型转换</a></li>
+<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">1.2 为什么需要类型转换</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">2.隐式类型转换</a><ul>
+<li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">2.1 自动类型提升</a></li>
+<li><a :data-current="activeSection === '#id7'" class="reference internal" href="#id7">2.2 布尔值的隐式转换</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id8'" class="reference internal" href="#id8">3.显式类型转换函数</a><ul>
+<li><a :data-current="activeSection === '#int'" class="reference internal" href="#int">3.1 int() - 转换为整数</a></li>
+<li><a :data-current="activeSection === '#float'" class="reference internal" href="#float">3.2 float() - 转换为浮点数</a></li>
+<li><a :data-current="activeSection === '#str'" class="reference internal" href="#str">3.3 str() - 转换为字符串</a></li>
+<li><a :data-current="activeSection === '#bool'" class="reference internal" href="#bool">3.4 bool() - 转换为布尔值</a></li>
+<li><a :data-current="activeSection === '#list'" class="reference internal" href="#list">3.5 list() - 转换为列表</a></li>
+<li><a :data-current="activeSection === '#tuple'" class="reference internal" href="#tuple">3.6 tuple() - 转换为元组</a></li>
+<li><a :data-current="activeSection === '#dict'" class="reference internal" href="#dict">3.7 dict() - 转换为字典</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">4.特殊转换情况</a><ul>
+<li><a :data-current="activeSection === '#id10'" class="reference internal" href="#id10">4.1 进制转换</a></li>
+<li><a :data-current="activeSection === '#ascii'" class="reference internal" href="#ascii">4.2 ASCII码与字符转换</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.1.3</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../_static/documentation_options.js?v=f115507d"></script>
+<script src="../_static/doctools.js?v=9bcbadda"></script>
+<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../_static/theme.js?v=073f68d9"></script>
+<script src="../_static/translations.js?v=beaddf03"></script>
+</body>
+</html>

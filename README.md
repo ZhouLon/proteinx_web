@@ -19,7 +19,9 @@
 
 * 培训文档:[`https://proteinx.com.cn/`](https://proteinx.com.cn/)
 * 官网主页:[`http://proteinx.com.cn:5000/`](http://proteinx.com.cn:5000/)
-
+# sphinx
+## 自动构建网页
+sphinx-autobuild develop/document/01_dl/source  develpo/document/01_dl/build/html
 # nginx
 
 ## 测试默认配置文件<br>

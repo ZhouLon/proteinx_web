@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+
+<html :class="{'dark': darkMode === 'dark' || (darkMode === 'system' &amp;&amp; window.matchMedia('(prefers-color-scheme: dark)').matches)}" class="scroll-smooth" data-content_root="../" lang="zh-CN" x-data="{ darkMode: localStorage.getItem('darkMode') || localStorage.setItem('darkMode', 'system'), activeSection: '' }" x-init="$watch('darkMode', val =&gt; localStorage.setItem('darkMode', val))">
+<head>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta charset="utf-8"/>
+<meta content="white" media="(prefers-color-scheme: light)" name="theme-color"/>
+<meta content="black" media="(prefers-color-scheme: dark)" name="theme-color"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>1_9_函数 | 深度学习入门的知识与规范 1.0 文档</title>
+<meta content="1_9_函数 | 深度学习入门的知识与规范 1.0 文档" property="og:title"/>
+<meta content="1_9_函数 | 深度学习入门的知识与规范 1.0 文档" name="twitter:title"/>
+<link href="../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
+<link href="../_static/theme.css?v=42baaae4" rel="stylesheet" type="text/css"/>
+<link href="../search.html" rel="search" title="搜索"/>
+<link href="../genindex.html" rel="index" title="索引"/>
+<link href="1_10_%E7%B1%BB.html" rel="next" title="1_10_类"/>
+<link href="1_8_%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2.html" rel="prev" title="1_8_数据类型转换"/>
+<script>
+    <!-- Prevent Flash of wrong theme -->
+      const userPreference = localStorage.getItem('darkMode');
+      let mode;
+      if (userPreference === 'dark' || window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        mode = 'dark';
+        document.documentElement.classList.add('dark');
+      } else {
+        mode = 'light';
+      }
+      if (!userPreference) {localStorage.setItem('darkMode', mode)}
+    </script>
+</head>
+<body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
+<div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
+      Skip to content
+    </a><header class="sticky top-0 z-40 w-full border-b shadow-sm border-border supports-backdrop-blur:bg-background/60 bg-background/95 backdrop-blur"><div class="container flex items-center h-14">
+<div class="hidden mr-4 md:flex">
+<a class="flex items-center mr-6" href="../index.html"><span class="hidden font-bold sm:inline-block text-clip whitespace-nowrap">深度学习入门的知识与规范 1.0 文档</span>
+</a></div><button @click="showSidebar = true" class="inline-flex items-center justify-center h-10 px-0 py-2 mr-2 text-base font-medium transition-colors rounded-md hover:text-accent-foreground hover:bg-transparent md:hidden" type="button">
+<svg aria-hidden="true" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M152.587 825.087q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440Zm0-203.587q-19.152 0-32.326-13.174T107.087 576q0-19.152 13.174-32.326t32.326-13.174h320q19.152 0 32.326 13.174T518.087 576q0 19.152-13.174 32.326T472.587 621.5h-320Zm0-203.587q-19.152 0-32.326-13.174t-13.174-32.326q0-19.152 13.174-32.326t32.326-13.174h440q19.152 0 32.326 13.174t13.174 32.326q0 19.152-13.174 32.326t-32.326 13.174h-440ZM708.913 576l112.174 112.174q12.674 12.674 12.674 31.826t-12.674 31.826Q808.413 764.5 789.261 764.5t-31.826-12.674l-144-144Q600 594.391 600 576t13.435-31.826l144-144q12.674-12.674 31.826-12.674t31.826 12.674q12.674 12.674 12.674 31.826t-12.674 31.826L708.913 576Z"></path>
+</svg>
+<span class="sr-only">Toggle navigation menu</span>
+</button>
+<div class="flex items-center justify-between flex-1 space-x-2 sm:space-x-4 md:justify-end">
+<div class="flex-1 w-full md:w-auto md:flex-none"><form @keydown.k.window.meta="$refs.search.focus()" action="../search.html" class="relative flex items-center group" id="searchbox" method="get">
+<input aria-label="Search the docs" class="inline-flex items-center font-medium transition-colors bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background border border-input hover:bg-accent focus:bg-accent hover:text-accent-foreground focus:text-accent-foreground hover:placeholder-accent-foreground py-2 px-4 relative h-9 w-full justify-start rounded-[0.5rem] text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64" id="search-input" name="q" placeholder="Search ..." type="search" x-ref="search"/>
+<kbd class="pointer-events-none absolute right-1.5 top-2 hidden h-5 select-none text-muted-foreground items-center gap-1 rounded border border-border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex group-hover:bg-accent group-hover:text-accent-foreground">
+<span class="text-xs">⌘</span>
+    K
+  </kbd>
+</form>
+</div>
+<nav class="flex items-center space-x-1">
+<button @click="darkMode = darkMode === 'light' ? 'dark' : 'light'" aria-label="Color theme switcher" class="relative inline-flex items-center justify-center px-0 text-sm font-medium transition-colors rounded-md hover:bg-accent hover:text-accent-foreground h-9 w-9" type="button">
+<svg class="absolute transition-all scale-100 rotate-0 dark:-rotate-90 dark:scale-0" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 685q45.456 0 77.228-31.772Q589 621.456 589 576q0-45.456-31.772-77.228Q525.456 467 480 467q-45.456 0-77.228 31.772Q371 530.544 371 576q0 45.456 31.772 77.228Q434.544 685 480 685Zm0 91q-83 0-141.5-58.5T280 576q0-83 58.5-141.5T480 376q83 0 141.5 58.5T680 576q0 83-58.5 141.5T480 776ZM80 621.5q-19.152 0-32.326-13.174T34.5 576q0-19.152 13.174-32.326T80 530.5h80q19.152 0 32.326 13.174T205.5 576q0 19.152-13.174 32.326T160 621.5H80Zm720 0q-19.152 0-32.326-13.174T754.5 576q0-19.152 13.174-32.326T800 530.5h80q19.152 0 32.326 13.174T925.5 576q0 19.152-13.174 32.326T880 621.5h-80Zm-320-320q-19.152 0-32.326-13.174T434.5 256v-80q0-19.152 13.174-32.326T480 130.5q19.152 0 32.326 13.174T525.5 176v80q0 19.152-13.174 32.326T480 301.5Zm0 720q-19.152 0-32.326-13.17Q434.5 995.152 434.5 976v-80q0-19.152 13.174-32.326T480 850.5q19.152 0 32.326 13.174T525.5 896v80q0 19.152-13.174 32.33-13.174 13.17-32.326 13.17ZM222.174 382.065l-43-42Q165.5 327.391 166 308.239t13.174-33.065q13.435-13.674 32.587-13.674t32.065 13.674l42.239 43q12.674 13.435 12.555 31.706-.12 18.272-12.555 31.946-12.674 13.674-31.445 13.413-18.772-.261-32.446-13.174Zm494 494.761-42.239-43q-12.674-13.435-12.674-32.087t12.674-31.565Q686.609 756.5 705.38 757q18.772.5 32.446 13.174l43 41.761Q794.5 824.609 794 843.761t-13.174 33.065Q767.391 890.5 748.239 890.5t-32.065-13.674Zm-42-494.761Q660.5 369.391 661 350.62q.5-18.772 13.174-32.446l41.761-43Q728.609 261.5 747.761 262t33.065 13.174q13.674 13.435 13.674 32.587t-13.674 32.065l-43 42.239q-13.435 12.674-31.706 12.555-18.272-.12-31.946-12.555Zm-495 494.761Q165.5 863.391 165.5 844.239t13.674-32.065l43-42.239q13.435-12.674 32.087-12.674t31.565 12.674Q299.5 782.609 299 801.38q-.5 18.772-13.174 32.446l-41.761 43Q231.391 890.5 212.239 890t-33.065-13.174ZM480 576Z"></path>
+</svg>
+<svg class="absolute transition-all scale-0 rotate-90 dark:rotate-0 dark:scale-100" fill="currentColor" height="24" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 936q-151 0-255.5-104.5T120 576q0-138 90-239.5T440 218q25-3 39 18t-1 44q-17 26-25.5 55t-8.5 61q0 90 63 153t153 63q31 0 61.5-9t54.5-25q21-14 43-1.5t19 39.5q-14 138-117.5 229T480 936Zm0-80q88 0 158-48.5T740 681q-20 5-40 8t-40 3q-123 0-209.5-86.5T364 396q0-20 3-40t8-40q-78 32-126.5 102T200 576q0 116 82 198t198 82Zm-10-270Z"></path>
+</svg>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<div class="flex-1"><div class="container flex-1 items-start md:grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-6 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10"><aside :aria-hidden="!showSidebar" :class="{ 'translate-x-0': showSidebar }" class="fixed inset-y-0 left-0 md:top-14 z-50 md:z-30 bg-background md:bg-transparent transition-all duration-100 -translate-x-full md:translate-x-0 ml-0 p-6 md:p-0 md:-ml-2 md:h-[calc(100vh-3.5rem)] w-5/6 md:w-full shrink-0 overflow-y-auto border-r border-border md:sticky" id="left-sidebar">
+<a class="!justify-start text-sm md:!hidden bg-background" href="../index.html"><span class="font-bold text-clip whitespace-nowrap">深度学习入门的知识与规范 1.0 文档</span>
+</a>
+<div class="relative overflow-hidden md:overflow-auto my-4 md:my-0 h-[calc(100vh-8rem)] md:h-auto">
+<div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">01_Python介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%BB%8B%E7%BB%8D/index.html">02_深度学习介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../03_PyTorch%E4%BB%8B%E7%BB%8D/index.html">03_PyTorch介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../04_%E5%AE%9E%E9%AA%8C%E5%B7%A5%E7%A8%8B%E6%96%B9%E6%B3%95%E4%B8%8E%E8%A7%84%E8%8C%83/index.html">04_实验工程方法与规范</a></li>
+</ul>
+</nav>
+</div>
+</div>
+<button @click="showSidebar = false" class="absolute md:hidden right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100" type="button">
+<svg class="h-4 w-4" fill="currentColor" height="24" stroke="none" viewbox="0 96 960 960" width="24" xmlns="http://www.w3.org/2000/svg">
+<path d="M480 632 284 828q-11 11-28 11t-28-11q-11-11-11-28t11-28l196-196-196-196q-11-11-11-28t11-28q11-11 28-11t28 11l196 196 196-196q11-11 28-11t28 11q11 11 11 28t-11 28L536 576l196 196q11 11 11 28t-11 28q-11 11-28 11t-28-11L480 632Z"></path>
+</svg>
+</button>
+</aside>
+<main class="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+<div class="w-full min-w-0 mx-auto">
+<nav aria-label="breadcrumbs" class="flex items-center mb-4 space-x-1 text-sm text-muted-foreground">
+<a class="overflow-hidden text-ellipsis whitespace-nowrap hover:text-foreground" href="../index.html">
+<span class="hidden md:inline">深度学习入门的知识与规范 1.0 文档</span>
+<svg aria-label="Home" class="md:hidden" fill="currentColor" height="18" stroke="none" viewbox="0 96 960 960" width="18" xmlns="http://www.w3.org/2000/svg">
+<path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
+</svg>
+</a>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">01_Python介绍</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">1_9_函数</span>
+</nav>
+<div id="content" role="main">
+<section id="id1">
+<h1>1_9_函数<a class="headerlink" href="#id1" title="Link to this heading"><span>#</span></a></h1>
+<p><strong>作者</strong>: ZhouLong<br/>
+<strong>创建日期</strong>: 2026 年 01 月 16 日<br/>
+<strong>版本</strong>: 1.0<br/></p>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./1_8_数据类型转换.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./1_10_类.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+<section id="id2">
+<h2>1 函数的基本概念<a class="headerlink" href="#id2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<p>函数是一段可重复使用的代码块，用于执行特定任务。函数可以接收输入参数，并返回处理结果。使用函数的主要目的是提高代码的可读性、可维护性和复用性。</p>
+<section id="id3">
+<h3>1.1 为什么需要函数<a class="headerlink" href="#id3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h3>
+<ul class="simple">
+<li><p><strong>代码复用</strong>：避免重复编写相同代码</p></li>
+<li><p><strong>模块化</strong>：将复杂问题分解为小任务</p></li>
+<li><p><strong>可维护性</strong>：修改只需在函数内部进行</p></li>
+<li><p><strong>提高可读性</strong>：通过函数名明确代码功能</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>1.2 函数的定义<a class="headerlink" href="#id4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h3>
+<p>函数定义的基本结构包含以下要素：</p>
+<p><strong>定义要点：</strong></p>
+<ul class="simple">
+<li><p><strong>def关键字</strong>：标识函数定义的开始</p></li>
+<li><p><strong>函数名</strong>：遵循变量命名规则，应具有描述性</p></li>
+<li><p><strong>参数列表</strong>：括号内可为空或包含多个参数</p></li>
+<li><p><strong>冒号</strong>：必不可少，表示代码块开始</p></li>
+<li><p><strong>函数体</strong>：缩进的代码块，实现具体功能</p></li>
+<li><p><strong>return语句</strong>：可选，用于返回结果（默认返回None）</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>函数定义不执行代码，只有调用时才运行</p></li>
+<li><p>良好的函数应具有单一明确的功能</p></li>
+<li><p>文档字符串（docstring）用于说明函数用途，是良好编程习惯</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">函数名</span><span class="p">(</span><span class="n">参数列表</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""函数文档字符串"""</span>
+</span><span id="line-3">    <span class="n">函数体</span>
+</span><span id="line-4">    <span class="k">return</span> <span class="n">返回值</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>2 定义和调用函数<a class="headerlink" href="#id5" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h2>
+<section id="id6">
+<h3>2.1 无参函数<a class="headerlink" href="#id6" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h3>
+<p>无参函数是最基础的函数形式，特点如下：</p>
+<ul class="simple">
+<li><p><strong>定义简单</strong>：函数名后只需空括号<code class="docutils literal notranslate"><span class="pre">()</span></code></p></li>
+<li><p><strong>功能固定</strong>：每次调用执行相同操作，不依赖外部输入</p></li>
+<li><p><strong>文档字符串</strong>：使用三引号说明函数功能，可通过<code class="docutils literal notranslate"><span class="pre">help()</span></code>查看</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>即使没有参数，调用时括号也不能省略</p></li>
+<li><p>适合封装不需要外部输入的固定操作流程</p></li>
+<li><p>通常用于输出信息、执行固定计算等场景</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">greet</span><span class="p">():</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""打印欢迎信息"""</span>
+</span><span id="line-3">    <span class="nb">print</span><span class="p">(</span><span class="s2">"欢迎学习Python函数！"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="c1"># 调用函数</span>
+</span><span id="line-6"><span class="n">greet</span><span class="p">()</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>2.2 带参数的函数<a class="headerlink" href="#id7" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h3>
+<p>带参数的函数能够接收外部数据，实现更灵活的功能：</p>
+<p><strong>参数类型：</strong></p>
+<ul class="simple">
+<li><p><strong>必需参数</strong>：调用时必须提供的参数</p></li>
+<li><p><strong>多个参数</strong>：用逗号分隔，按顺序对应传递的值</p></li>
+</ul>
+<p><strong>函数特点：</strong></p>
+<ul class="simple">
+<li><p>参数作为函数内部的局部变量使用</p></li>
+<li><p>通过参数使函数能够处理不同的输入数据</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">return</span></code>语句将计算结果返回给调用者</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>参数数量必须与调用时传递的参数数量一致</p></li>
+<li><p>参数只在函数内部有效，不影响外部同名变量</p></li>
+<li><p>函数可以没有返回值（默认返回None）</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">greet_person</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""向指定人问好"""</span>
+</span><span id="line-3">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"你好，</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">！"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="k">def</span><span class="w"> </span><span class="nf">add_numbers</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span><span id="line-6"><span class="w">    </span><span class="sd">"""计算两个数的和"""</span>
+</span><span id="line-7">    <span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</span><span id="line-8">    <span class="k">return</span> <span class="n">result</span>
+</span><span id="line-9">
+</span><span id="line-10"><span class="c1"># 调用带参数的函数</span>
+</span><span id="line-11"><span class="n">greet_person</span><span class="p">(</span><span class="s2">"小明"</span><span class="p">)</span>   <span class="c1"># 你好，小明！</span>
+</span><span id="line-12"><span class="n">sum_result</span> <span class="o">=</span> <span class="n">add_numbers</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  
+</span><span id="line-13"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"5 + 3 = </span><span class="si">{</span><span class="n">sum_result</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>   <span class="c1"># 5 + 3 = 8</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>3 参数类型<a class="headerlink" href="#id8" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h2>
+<section id="id9">
+<h3>3.1 位置参数<a class="headerlink" href="#id9" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h3>
+<p>位置参数是最基本的传参方式：</p>
+<p><strong>特点：</strong></p>
+<ul class="simple">
+<li><p>按顺序传递：实参与形参根据位置一一对应</p></li>
+<li><p>数量必须匹配：实参与形参数量必须严格一致</p></li>
+</ul>
+<p><strong>使用要点：</strong></p>
+<ul class="simple">
+<li><p>第一个实参传递给第一个形参，第二个实参传递给第二个形参，依此类推</p></li>
+<li><p>顺序错误会导致逻辑错误（语法可能正确但结果不符合预期）</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">describe_pet</span><span class="p">(</span><span class="n">animal_type</span><span class="p">,</span> <span class="n">pet_name</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""描述宠物"""</span>
+</span><span id="line-3">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"我有一只</span><span class="si">{</span><span class="n">animal_type</span><span class="si">}</span><span class="s2">，它的名字叫</span><span class="si">{</span><span class="n">pet_name</span><span class="si">}</span><span class="s2">。"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="n">describe_pet</span><span class="p">(</span><span class="s2">"狗"</span><span class="p">,</span> <span class="s2">"旺财"</span><span class="p">)</span> <span class="c1"># 我有一只狗，它的名字叫旺财。</span>
+</span><span id="line-6"><span class="n">describe_pet</span><span class="p">(</span><span class="s2">"猫"</span><span class="p">,</span> <span class="s2">"咪咪"</span><span class="p">)</span> <span class="c1"># 我有一只猫，它的名字叫咪咪。</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>3.2 关键字参数<a class="headerlink" href="#id10" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id10'"><span>#</span></a></h3>
+<p>关键字参数通过参数名指定传递的值：</p>
+<p><strong>优势：</strong></p>
+<ul class="simple">
+<li><p>明确性：清楚显示每个参数的含义</p></li>
+<li><p>顺序自由：参数顺序可以与定义时不同</p></li>
+<li><p>可读性：函数调用代码更易于理解</p></li>
+</ul>
+<p><strong>使用方式：</strong></p>
+<ul class="simple">
+<li><p>格式：<code class="docutils literal notranslate"><span class="pre">参数名=值</span></code></p></li>
+<li><p>可与位置参数混合使用，但位置参数必须在关键字参数之前</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">describe_pet</span><span class="p">(</span><span class="n">animal_type</span><span class="p">,</span> <span class="n">pet_name</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""描述宠物"""</span>
+</span><span id="line-3">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"我有一只</span><span class="si">{</span><span class="n">animal_type</span><span class="si">}</span><span class="s2">，它的名字叫</span><span class="si">{</span><span class="n">pet_name</span><span class="si">}</span><span class="s2">。"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="n">describe_pet</span><span class="p">(</span><span class="n">pet_name</span><span class="o">=</span><span class="s2">"旺财"</span><span class="p">,</span> <span class="n">animal_type</span><span class="o">=</span><span class="s2">"狗"</span><span class="p">)</span>  <span class="c1"># 我有一只狗，它的名字叫旺财。</span>
+</span><span id="line-6"><span class="n">describe_pet</span><span class="p">(</span><span class="n">animal_type</span><span class="o">=</span><span class="s2">"猫"</span><span class="p">,</span> <span class="n">pet_name</span><span class="o">=</span><span class="s2">"咪咪"</span><span class="p">)</span>  <span class="c1"># 我有一只猫，它的名字叫咪咪。</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>3.3 默认参数<a class="headerlink" href="#id11" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id11'"><span>#</span></a></h3>
+<p>函数定义时为参数设置默认值：</p>
+<p><strong>特点：</strong></p>
+<ul class="simple">
+<li><p><strong>调用灵活性</strong>：调用时可省略有默认值的参数</p></li>
+<li><p><strong>位置要求</strong>：默认参数必须放在非默认参数之后</p></li>
+<li><p><strong>默认值计算</strong>：默认值在函数定义时计算一次</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>默认参数通常使用不可变类型（如字符串、数字、元组）</p></li>
+<li><p>避免使用可变对象（如列表、字典）作为默认值，可能导致意外的行为</p></li>
+<li><p>显式传递参数会覆盖默认值</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">describe_pet</span><span class="p">(</span><span class="n">pet_name</span><span class="p">,</span> <span class="n">animal_type</span><span class="o">=</span><span class="s2">"狗"</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""描述宠物，动物类型默认为狗"""</span>
+</span><span id="line-3">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"我有一只</span><span class="si">{</span><span class="n">animal_type</span><span class="si">}</span><span class="s2">，它的名字叫</span><span class="si">{</span><span class="n">pet_name</span><span class="si">}</span><span class="s2">。"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="n">describe_pet</span><span class="p">(</span><span class="s2">"旺财"</span><span class="p">)</span>  <span class="c1"># 我有一只狗，它的名字叫旺财。</span>
+</span><span id="line-6"><span class="n">describe_pet</span><span class="p">(</span><span class="s2">"咪咪"</span><span class="p">,</span> <span class="s2">"猫"</span><span class="p">)</span>  <span class="c1"># 我有一只猫，它的名字叫咪咪。</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>3.4 可变参数<a class="headerlink" href="#id12" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id12'"><span>#</span></a></h3>
+<p>函数定义时使用特殊语法接收数量可变的参数。<br/>
+<strong>使用规则：</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">*args</span></code>必须放在所有位置参数之后</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>必须放在所有参数之后</p></li>
+<li><p>两者可同时使用：<code class="docutils literal notranslate"><span class="pre">def</span> <span class="pre">func(a,</span> <span class="pre">b,</span> <span class="pre">*args,</span> <span class="pre">**kwargs)</span></code></p></li>
+</ol>
+<p><strong><code class="docutils literal notranslate"><span class="pre">*args</span></code>（可变位置参数）：</strong></p>
+<ul class="simple">
+<li><p>收集所有未被匹配的位置参数到一个元组中</p></li>
+<li><p>参数名<code class="docutils literal notranslate"><span class="pre">args</span></code>是约定俗成，可使用其他名称</p></li>
+<li><p>允许函数接受任意数量的位置参数</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">make_pizza</span><span class="p">(</span><span class="o">*</span><span class="n">toppings</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""制作披萨，可以添加任意数量的配料"""</span>
+</span><span id="line-3">    <span class="nb">print</span><span class="p">(</span><span class="s2">"制作披萨，配料如下："</span><span class="p">)</span>
+</span><span id="line-4">    <span class="k">for</span> <span class="n">topping</span> <span class="ow">in</span> <span class="n">toppings</span><span class="p">:</span>
+</span><span id="line-5">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"- </span><span class="si">{</span><span class="n">topping</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-6">
+</span><span id="line-7"><span class="n">make_pizza</span><span class="p">(</span><span class="s2">"蘑菇"</span><span class="p">)</span>
+</span><span id="line-8"><span class="n">make_pizza</span><span class="p">(</span><span class="s2">"蘑菇"</span><span class="p">,</span> <span class="s2">"青椒"</span><span class="p">,</span> <span class="s2">"奶酪"</span><span class="p">,</span> <span class="s2">"香肠"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>运行结果</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">制作披萨，配料如下：
+</span><span id="line-2">- 蘑菇
+</span><span id="line-3">制作披萨，配料如下：
+</span><span id="line-4">- 蘑菇
+</span><span id="line-5">- 青椒
+</span><span id="line-6">- 奶酪
+</span><span id="line-7">- 香肠
+</span></code></pre></div>
+</div>
+<p><strong><code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>（可变关键字参数）：</strong></p>
+<ul class="simple">
+<li><p>收集所有未被匹配的关键字参数到一个字典中</p></li>
+<li><p>参数名<code class="docutils literal notranslate"><span class="pre">kwargs</span></code>是约定俗成，可使用其他名称</p></li>
+<li><p>允许函数接受任意数量的关键字参数</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">build_profile</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="o">**</span><span class="n">user_info</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""构建用户信息字典"""</span>
+</span><span id="line-3">    <span class="n">profile</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span id="line-4">    <span class="n">profile</span><span class="p">[</span><span class="s1">'姓'</span><span class="p">]</span> <span class="o">=</span> <span class="n">first</span>
+</span><span id="line-5">    <span class="n">profile</span><span class="p">[</span><span class="s1">'名'</span><span class="p">]</span> <span class="o">=</span> <span class="n">last</span>
+</span><span id="line-6">    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">user_info</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span id="line-7">        <span class="n">profile</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</span><span id="line-8">    <span class="k">return</span> <span class="n">profile</span>
+</span><span id="line-9">
+</span><span id="line-10"><span class="n">user_profile</span> <span class="o">=</span> <span class="n">build_profile</span><span class="p">(</span><span class="s1">'张'</span><span class="p">,</span> <span class="s1">'三'</span><span class="p">,</span> <span class="n">年龄</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">城市</span><span class="o">=</span><span class="s1">'北京'</span><span class="p">,</span> <span class="n">职业</span><span class="o">=</span><span class="s1">'工程师'</span><span class="p">)</span>
+</span><span id="line-11"><span class="nb">print</span><span class="p">(</span><span class="n">user_profile</span><span class="p">)</span> 
+</span></code></pre></div>
+</div>
+<p>运行结果</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="p">{</span><span class="s1">'姓'</span><span class="p">:</span> <span class="s1">'张'</span><span class="p">,</span> <span class="s1">'名'</span><span class="p">:</span> <span class="s1">'三'</span><span class="p">,</span> <span class="s1">'年龄'</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">'城市'</span><span class="p">:</span> <span class="s1">'北京'</span><span class="p">,</span> <span class="s1">'职业'</span><span class="p">:</span> <span class="s1">'工程师'</span><span class="p">}</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>4 变量作用域<a class="headerlink" href="#id13" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id13'"><span>#</span></a></h2>
+<section id="id14">
+<h3>4.1 局部变量<a class="headerlink" href="#id14" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id14'"><span>#</span></a></h3>
+<p>局部变量是在函数内部定义的变量：</p>
+<p><strong>特点：</strong></p>
+<ul class="simple">
+<li><p><strong>作用域限制</strong>：只能在定义它的函数内部访问</p></li>
+<li><p><strong>生命周期</strong>：随函数调用而创建，函数结束而销毁</p></li>
+<li><p><strong>名称隔离</strong>：不同函数中同名局部变量互不影响</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>局部变量优先于同名全局变量在函数内被访问</p></li>
+<li><p>函数参数也属于局部变量</p></li>
+<li><p>在函数内修改全局变量需要使用<code class="docutils literal notranslate"><span class="pre">global</span></code>关键字声明</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">calculate_sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""计算两个数的和"""</span>
+</span><span id="line-3">    <span class="n">result</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>  <span class="c1"># result是局部变量</span>
+</span><span id="line-4">    <span class="k">return</span> <span class="n">result</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="n">sum_value</span> <span class="o">=</span> <span class="n">calculate_sum</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span id="line-7"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"和: </span><span class="si">{</span><span class="n">sum_value</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="c1"># 和: 7</span>
+</span><span id="line-8"><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># 这里会报错，result在函数外部不可访问</span>
+</span></code></pre></div>
+</div>
+<p>运行结果</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">和</span><span class="p">:</span> <span class="mi">7</span>
+</span><span id="line-2"><span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">):</span>
+</span><span id="line-3">  <span class="n">File</span> <span class="s2">"test.py"</span><span class="p">,</span> <span class="n">line</span> <span class="mi">8</span><span class="p">,</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+</span><span id="line-4">    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># 这里会报错，result在函数外部不可访问</span>
+</span><span id="line-5"><span class="ne">NameError</span><span class="p">:</span> <span class="n">name</span> <span class="s1">'result'</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>4.2 全局变量<a class="headerlink" href="#id15" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id15'"><span>#</span></a></h3>
+<p>全局变量是在函数外部、模块层面定义的变量：</p>
+<p><strong>特性：</strong></p>
+<ul class="simple">
+<li><p><strong>全局作用域</strong>：从定义点开始，在整个模块内都可访问</p></li>
+<li><p><strong>持久生命周期</strong>：从创建到程序结束或模块卸载</p></li>
+<li><p><strong>共享数据</strong>：可在多个函数间共享数据</p></li>
+</ul>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>函数内可直接读取全局变量</p></li>
+<li><p>要在函数内修改全局变量，必须使用<code class="docutils literal notranslate"><span class="pre">global</span></code>关键字声明</p></li>
+<li><p>应避免过多使用全局变量，以免降低代码可维护性</p></li>
+<li><p>常量通常使用大写字母命名的全局变量表示</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">PI</span> <span class="o">=</span> <span class="mf">3.14159</span>  <span class="c1"># 全局变量</span>
+</span><span id="line-2">
+</span><span id="line-3"><span class="k">def</span><span class="w"> </span><span class="nf">calculate_circle_area</span><span class="p">(</span><span class="n">radius</span><span class="p">):</span>
+</span><span id="line-4"><span class="w">    </span><span class="sd">"""计算圆的面积"""</span>
+</span><span id="line-5">    <span class="n">area</span> <span class="o">=</span> <span class="n">PI</span> <span class="o">*</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">radius</span>  <span class="c1"># 可以访问全局变量PI</span>
+</span><span id="line-6">    <span class="k">return</span> <span class="n">area</span>
+</span><span id="line-7">
+</span><span id="line-8"><span class="n">area1</span> <span class="o">=</span> <span class="n">calculate_circle_area</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"半径为5的圆面积: </span><span class="si">{</span><span class="n">area1</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># 半径为5的圆面积: 78.53975</span>
+</span><span id="line-10"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"圆周率: </span><span class="si">{</span><span class="n">PI</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># 圆周率: 3.14159    </span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="global">
+<h3>4.3 global关键字<a class="headerlink" href="#global" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#global'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">global</span></code>关键字用于在函数内部声明使用全局变量：</p>
+<p><strong>主要用途：</strong></p>
+<ul class="simple">
+<li><p><strong>修改变量</strong>：在函数内修改全局变量的值</p></li>
+<li><p><strong>明确意图</strong>：明确表示操作的是全局变量而非创建新的局部变量</p></li>
+<li><p><strong>提高可读性</strong>：让代码阅读者清楚知道变量作用域</p></li>
+</ul>
+<p>使用要点：</p>
+<ol class="arabic simple">
+<li><p>在函数内先使用<code class="docutils literal notranslate"><span class="pre">global</span></code>声明变量名</p></li>
+<li><p>声明后即可对该全局变量进行读写操作</p></li>
+<li><p>未声明时，对变量赋值会创建同名局部变量</p></li>
+<li><p>避免过度使用，优先考虑通过参数传递和返回值</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 全局变量</span>
+</span><span id="line-2">
+</span><span id="line-3"><span class="k">def</span><span class="w"> </span><span class="nf">increment</span><span class="p">():</span>
+</span><span id="line-4"><span class="w">    </span><span class="sd">"""增加计数器"""</span>
+</span><span id="line-5">    <span class="k">global</span> <span class="n">count</span>  <span class="c1"># 声明使用全局变量</span>
+</span><span id="line-6">    <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="line-7">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"当前计数: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-8">
+</span><span id="line-9"><span class="n">increment</span><span class="p">()</span>
+</span><span id="line-10"><span class="n">increment</span><span class="p">()</span>
+</span><span id="line-11"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"最终计数: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>运行结果</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">当前计数</span><span class="p">:</span> <span class="mi">1</span>
+</span><span id="line-2"><span class="n">当前计数</span><span class="p">:</span> <span class="mi">2</span>
+</span><span id="line-3"><span class="n">最终计数</span><span class="p">:</span> <span class="mi">2</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>5 高级函数特性<a class="headerlink" href="#id16" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id16'"><span>#</span></a></h2>
+<section id="id17">
+<h3>5.1 返回多个值<a class="headerlink" href="#id17" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id17'"><span>#</span></a></h3>
+<p>Python函数可返回多个值，实际是返回一个元组：</p>
+<p><strong>实现方式：</strong></p>
+<ul class="simple">
+<li><p>使用逗号分隔多个返回值：<code class="docutils literal notranslate"><span class="pre">return</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">c</span></code></p></li>
+<li><p>实际上是返回一个元组<code class="docutils literal notranslate"><span class="pre">(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code></p></li>
+<li><p>支持直接解包赋值给多个变量</p></li>
+</ul>
+<p><strong>使用技巧：</strong></p>
+<ol class="arabic simple">
+<li><p>通过元组解包接收：<code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">y,</span> <span class="pre">z</span> <span class="pre">=</span> <span class="pre">func()</span></code></p></li>
+<li><p>也可作为单个元组接收：<code class="docutils literal notranslate"><span class="pre">result</span> <span class="pre">=</span> <span class="pre">func()</span></code></p></li>
+<li><p>返回值数量不限，但建议不超过3-5个以保持代码清晰</p></li>
+</ol>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>返回的元组是不可变的</p></li>
+<li><p>解包时变量数量必须与返回值数量一致</p></li>
+<li><p>可通过返回字典或命名元组提高代码可读性</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">get_student_info</span><span class="p">():</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""获取学生信息"""</span>
+</span><span id="line-3">    <span class="n">name</span> <span class="o">=</span> <span class="s2">"李四"</span>
+</span><span id="line-4">    <span class="n">age</span> <span class="o">=</span> <span class="mi">20</span>
+</span><span id="line-5">    <span class="n">score</span> <span class="o">=</span> <span class="mf">95.5</span>
+</span><span id="line-6">    <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">,</span> <span class="n">score</span>  <span class="c1"># 返回元组</span>
+</span><span id="line-7">
+</span><span id="line-8"><span class="c1"># 接收多个返回值</span>
+</span><span id="line-9"><span class="n">student_name</span><span class="p">,</span> <span class="n">student_age</span><span class="p">,</span> <span class="n">student_score</span> <span class="o">=</span> <span class="n">get_student_info</span><span class="p">()</span>
+</span><span id="line-10"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"姓名: </span><span class="si">{</span><span class="n">student_name</span><span class="si">}</span><span class="s2">, 年龄: </span><span class="si">{</span><span class="n">student_age</span><span class="si">}</span><span class="s2">, 分数: </span><span class="si">{</span><span class="n">student_score</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-11">
+</span><span id="line-12"><span class="c1"># 也可以直接接收为元组</span>
+</span><span id="line-13"><span class="n">info</span> <span class="o">=</span> <span class="n">get_student_info</span><span class="p">()</span>
+</span><span id="line-14"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"完整信息: </span><span class="si">{</span><span class="n">info</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-15"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"类型: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">info</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>运行结果</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">姓名: 李四, 年龄: 20, 分数: 95.5
+</span><span id="line-2">完整信息: ('李四', 20, 95.5)
+</span><span id="line-3">类型: &lt;class 'tuple'&gt;
+</span></code></pre></div>
+</div>
+</section>
+<section id="id18">
+<h3>5.2 函数作为参数<a class="headerlink" href="#id18" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id18'"><span>#</span></a></h3>
+<p>在Python中，函数可作为参数传递给其他函数：</p>
+<p><strong>核心概念：</strong></p>
+<ul class="simple">
+<li><p><strong>函数变量</strong>：函数可以像变量一样传递和使用</p></li>
+<li><p><strong>高阶函数</strong>：接收函数作为参数的函数称为高阶函数</p></li>
+<li><p><strong>回调机制</strong>：通过参数传递的函数称为回调函数</p></li>
+</ul>
+<p><strong>使用场景：</strong></p>
+<ol class="arabic simple">
+<li><p>定制化操作：如排序规则、过滤条件</p></li>
+<li><p>算法策略：根据不同策略执行不同计算</p></li>
+<li><p>事件处理：指定特定事件发生时的处理函数</p></li>
+</ol>
+<p>注意事项：</p>
+<ul class="simple">
+<li><p>传递函数名时不带括号：<code class="docutils literal notranslate"><span class="pre">operation</span></code>而非<code class="docutils literal notranslate"><span class="pre">operation()</span></code></p></li>
+<li><p>可使用lambda表达式简化简单函数的定义</p></li>
+<li><p>增强了代码的模块化和复用性</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">apply_operation</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">operation</span><span class="p">):</span>
+</span><span id="line-2"><span class="w">    </span><span class="sd">"""对列表中的每个数应用指定操作"""</span>
+</span><span id="line-3">    <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="line-4">    <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">:</span>
+</span><span id="line-5">        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">operation</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+</span><span id="line-6">    <span class="k">return</span> <span class="n">results</span>
+</span><span id="line-7">
+</span><span id="line-8"><span class="k">def</span><span class="w"> </span><span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span><span id="line-9">    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span><span id="line-10">
+</span><span id="line-11"><span class="k">def</span><span class="w"> </span><span class="nf">double</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span><span id="line-12">    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="mi">2</span>
+</span><span id="line-13">
+</span><span id="line-14"><span class="n">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+</span><span id="line-15">
+</span><span id="line-16"><span class="n">squared_numbers</span> <span class="o">=</span> <span class="n">apply_operation</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">square</span><span class="p">)</span>
+</span><span id="line-17"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"平方结果: </span><span class="si">{</span><span class="n">squared_numbers</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>   <span class="c1">#平方结果: [1, 4, 9, 16, 25]</span>
+</span><span id="line-18">
+</span><span id="line-19"><span class="n">doubled_numbers</span> <span class="o">=</span> <span class="n">apply_operation</span><span class="p">(</span><span class="n">numbers</span><span class="p">,</span> <span class="n">double</span><span class="p">)</span>
+</span><span id="line-20"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"加倍结果: </span><span class="si">{</span><span class="n">doubled_numbers</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># 加倍结果: [2, 4, 6, 8, 10]</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="lambda">
+<h3>5.3 lambda表达式<a class="headerlink" href="#lambda" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#lambda'"><span>#</span></a></h3>
+<p>lambda表达式用于创建简单的匿名函数：</p>
+<p><strong>语法结构：</strong> <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">参数:</span> <span class="pre">表达式</span></code></p>
+<p><strong>主要特点：</strong></p>
+<ul class="simple">
+<li><p><strong>匿名性</strong>：没有函数名，适合一次性使用</p></li>
+<li><p><strong>简洁性</strong>：单行表达式，自动返回结果</p></li>
+<li><p><strong>局限性</strong>：只能包含一个表达式，不能包含复杂逻辑</p></li>
+</ul>
+<p><strong>适用场景：</strong></p>
+<ol class="arabic simple">
+<li><p>作为高阶函数的参数（如<code class="docutils literal notranslate"><span class="pre">sorted()</span></code>的<code class="docutils literal notranslate"><span class="pre">key</span></code>参数）</p></li>
+<li><p>简单的数据处理和转换</p></li>
+<li><p>需要临时函数但不值得定义完整函数的场合</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 普通函数定义</span>
+</span><span id="line-2"><span class="k">def</span><span class="w"> </span><span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span><span id="line-3">    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="c1"># lambda表达式</span>
+</span><span id="line-6"><span class="n">square_lambda</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</span><span id="line-7">
+</span><span id="line-8"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"普通函数: </span><span class="si">{</span><span class="n">square</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"lambda函数: </span><span class="si">{</span><span class="n">square_lambda</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-10">
+</span><span id="line-11"><span class="c1"># lambda常用于简单操作，如排序</span>
+</span><span id="line-12"><span class="n">students</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="line-13">    <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"张三"</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">:</span> <span class="mi">85</span><span class="p">},</span>
+</span><span id="line-14">    <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"李四"</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">:</span> <span class="mi">92</span><span class="p">},</span>
+</span><span id="line-15">    <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"王五"</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">:</span> <span class="mi">78</span><span class="p">}</span>
+</span><span id="line-16"><span class="p">]</span>
+</span><span id="line-17">
+</span><span id="line-18"><span class="c1"># 按分数排序</span>
+</span><span id="line-19"><span class="n">sorted_students</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">students</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">student</span><span class="p">:</span> <span class="n">student</span><span class="p">[</span><span class="s2">"score"</span><span class="p">])</span>
+</span><span id="line-20"><span class="nb">print</span><span class="p">(</span><span class="s2">"按分数排序:"</span><span class="p">)</span>
+</span><span id="line-21"><span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="n">sorted_students</span><span class="p">:</span>
+</span><span id="line-22">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="s1">'name'</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">student</span><span class="p">[</span><span class="s1">'score'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>运行结果</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">普通函数</span><span class="p">:</span> <span class="mi">25</span>
+</span><span id="line-2"><span class="n">lambda函数</span><span class="p">:</span> <span class="mi">25</span>
+</span><span id="line-3"><span class="n">按分数排序</span><span class="p">:</span>
+</span><span id="line-4"><span class="n">王五</span><span class="p">:</span> <span class="mi">78</span>
+</span><span id="line-5"><span class="n">张三</span><span class="p">:</span> <span class="mi">85</span>
+</span><span id="line-6"><span class="n">李四</span><span class="p">:</span> <span class="mi">92</span>
+</span></code></pre></div>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./1_8_数据类型转换.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./1_10_类.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div></section>
+</section>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">1 函数的基本概念</a><ul>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">1.1 为什么需要函数</a></li>
+<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">1.2 函数的定义</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">2 定义和调用函数</a><ul>
+<li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">2.1 无参函数</a></li>
+<li><a :data-current="activeSection === '#id7'" class="reference internal" href="#id7">2.2 带参数的函数</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id8'" class="reference internal" href="#id8">3 参数类型</a><ul>
+<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">3.1 位置参数</a></li>
+<li><a :data-current="activeSection === '#id10'" class="reference internal" href="#id10">3.2 关键字参数</a></li>
+<li><a :data-current="activeSection === '#id11'" class="reference internal" href="#id11">3.3 默认参数</a></li>
+<li><a :data-current="activeSection === '#id12'" class="reference internal" href="#id12">3.4 可变参数</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id13'" class="reference internal" href="#id13">4 变量作用域</a><ul>
+<li><a :data-current="activeSection === '#id14'" class="reference internal" href="#id14">4.1 局部变量</a></li>
+<li><a :data-current="activeSection === '#id15'" class="reference internal" href="#id15">4.2 全局变量</a></li>
+<li><a :data-current="activeSection === '#global'" class="reference internal" href="#global">4.3 global关键字</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id16'" class="reference internal" href="#id16">5 高级函数特性</a><ul>
+<li><a :data-current="activeSection === '#id17'" class="reference internal" href="#id17">5.1 返回多个值</a></li>
+<li><a :data-current="activeSection === '#id18'" class="reference internal" href="#id18">5.2 函数作为参数</a></li>
+<li><a :data-current="activeSection === '#lambda'" class="reference internal" href="#lambda">5.3 lambda表达式</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
+</main>
+</div>
+</div><footer class="py-6 border-t border-border md:py-0">
+<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+<div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.1.3</a></p>
+</div>
+</div>
+</footer>
+</div>
+<script src="../_static/documentation_options.js?v=f115507d"></script>
+<script src="../_static/doctools.js?v=9bcbadda"></script>
+<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script defer="defer" src="../_static/theme.js?v=073f68d9"></script>
+<script src="../_static/translations.js?v=beaddf03"></script>
+</body>
+</html>
