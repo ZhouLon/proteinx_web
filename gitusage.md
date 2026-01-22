@@ -31,17 +31,29 @@ git log --oneline --graph --all
 ## 配置邮箱
 git config --global user.email "你的邮箱"
 
-## 配置公钥
+## 配置私钥和公钥
 ssh-keygen -t ed25519 -C "xxxxxxxx@qq.com"
 
+## 查看公钥
+cat ~/.ssh/id_ed25519.pub
+
+## 复制公钥
+注意复制公钥到github
+
+## 配置ssh本地设置
+编辑 `~/.ssh/config`（Windows 在 `C:\Users\用户名\.ssh\config`）
+```
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/id_ed25519_laptop
+```
 ## 配置名字
 git config --global user.name "你的名字"
 
 ## 查看配置是否生效
 git config --global --list | grep user
 
-## 查看公钥
-cat ~/.ssh/id_ed25519.pub
 
 ## 配置链接
 git remote set-url origin git@github.com:your_username/your_repo.git
