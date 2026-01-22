@@ -63,3 +63,7 @@ git remote set-url origin git@github.com:your_username/your_repo.git
 2. 执行更改后推到自己的仓库
 3. 拉取最新的更新
 4. 在自己的fork仓库上向原仓库提出pull request
+
+## 分支名字不一致的情况
+1. 重命名本地 master 分支为 main: `git branch -m master main`
+2. 把本地的master推为main: `git push origin master:main`
