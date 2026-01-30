@@ -31,14 +31,14 @@ sudo nginx -t
 sudo systemctl status nginx
 
 ## 启动<br>
-sudo systemctl start nginx
-
+Linux `sudo systemctl start nginx`
+Windows `start nginx.exe`
 ## 重启<br>
 sudo systemctl restart nginx
 
 ## 停止<br>
-sudo systemctl stop nginx
-
+Linux `sudo systemctl stop nginx`
+Windows `taskkill /F /IM nginx.exe`
 # 符号操作
 
 ## 启用站点链接

@@ -32,14 +32,6 @@ def init_db():
 def home():
     return render_template('pages/home.html')
 
-@app.route('/docs')
-def docs():
-    "点击培训文档"
-    base_url = request.host_url.rstrip('/')
-    server_address = base_url.replace(':5000', ':8080')
-    print(f"Redirecting to: {server_address}")
-    return redirect(server_address)
-
 
 
 @app.route('/api/view_count', methods=['POST'])
