@@ -34,8 +34,8 @@ sudo systemctl status nginx
 Linux `sudo systemctl start nginx`
 Windows `start nginx.exe`
 ## 重启<br>
-sudo systemctl restart nginx
-
+Linux `sudo systemctl restart nginx`
+Windows `taskkill /F /IM nginx.exe && start nginx.exe`
 ## 停止<br>
 Linux `sudo systemctl stop nginx`
 Windows `taskkill /F /IM nginx.exe`
