@@ -1,72 +1,314 @@
 # 1_11_文件管理
 
-这是一个简单的 Markdown 文件示例，展示了常见的 Markdown 语法。
+**作者**: ZhouLong<br>
+**创建日期**: 2026 年 01 月 31 日<br>
+**版本**: 1.0<br>
 
-## 标题
-Markdown 支持 6 级标题，使用 `#` 号表示。
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./1_10_类.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./1_12_常见库介绍.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
 
-## 文本格式
-- **粗体文本**：使用 `**` 或 `__` 包裹
-- *斜体文本*：使用 `*` 或 `_` 包裹
-- ***粗斜体***：使用 `***` 或 `___` 包裹
-- ~~删除线~~：使用 `~~` 包裹
 
-## 列表
 
-### 无序列表
-- 项目一
-- 项目二
-  - 子项目一
-  - 子项目二
-- 项目三
+## 1、文件路径处理
 
-### 有序列表
-1. 第一项
-2. 第二项
-3. 第三项
+### 1.1 路径表示方法
 
-## 链接和图片
-- [链接到 OpenAI](https://openai.com)
-- 图片示例：`![替代文本](图片地址)`
+在Python中，处理文件路径有多种方式，传统方法可以用字符串来表示，此外为了方便，也常用`os.path`模块和`pathlib`模块。`pathlib`的`Path`对象可以像普通字符串一样使用，但功能更强大。
 
-## 代码
-
-行内代码：`print("Hello, World!")`
-
-代码块：
 ```python
-def hello():
-    print("Hello, Markdown!")
-    return True
+# 字符串表示
+file_path = "data/file.txt"   # 最基础
+file_path = "./data/file.txt" # 等价上行有无./不影响
+file_path = r".\data\file.txt"   # windows 的文件路径一般复制来是反斜杠，有反斜杠一定需要加r在前
+file_path = ".\\data\\file.txt"  # 和上一行相比，不加r，则要以双反斜杠表示
+
+# 使用os.path
+import os
+current_dir = os.getcwd()  # 获取当前工作目录
+file_path = os.path.join(current_dir, "data", "file.txt")  # 跨平台路径拼接
+
+# 使用pathlib
+from pathlib import Path
+current_path = Path.cwd()  # 当前目录Path对象
+file_path = current_path / "data" / "file.txt"  # 使用/运算符拼接路径
 ```
 
-## 表格
-
-| 姓名 | 年龄 | 城市 |
-|------|------|------|
-| 张三 | 25   | 北京 |
-| 李四 | 30   | 上海 |
-| 王五 | 28   | 广州 |
-
-## 引用
-
-> 这是引用文本。
-> 可以有多行。
-
-## 水平线
 
 
+### 1.2 路径操作
 
-## 其他元素
+```python
+from pathlib import Path
 
-任务列表：
-- [x] 已完成任务
-- [ ] 未完成任务
+path = Path("/home/user/data/sample.txt")
 
-脚注示例[^1]
+# 获取路径各部分
+print(path.name)      # 获取文件名+扩展名
+print(path.stem)      # 获取文件名
+print(path.suffix)    # 获取扩展名
+print(path.parent)    # 获取父目录
+print(path.anchor)    # 获取根目录
 
-[^1]: 这是一个脚注示例。
+# 检查路径
+print(path.exists())   # 路径是否存在
+print(path.is_file())  # 是否是文件
+print(path.is_dir())   # 是否是目录
+```
+运行结果
+```
+sample.txt
+sample
+.txt
+\home\user\data
+\
+False
+False
+False
+```
 
----
+### 1.3 遍历目录
 
-*最后更新：2024年*
+`iterdir()`列出目录内容，`glob()`使用通配符匹配，`rglob()`递归匹配。这些方法比传统的`os.listdir()`更强大易用。
+```python
+from pathlib import Path
+
+# 遍历当前目录
+for item in Path(".").iterdir():
+    print(item.name)
+
+# 遍历当前目录所有py文件
+for file_path in Path(".").glob("*.py"):
+    print(file_path)
+
+# 递归遍历所有py文件
+for file_path in Path(".").rglob("*.py"):
+    print(file_path)
+```
+
+
+## 2、基本文件类型介绍
+平时我们可能会接触到很多文件类型，不同文件类型以不同后缀来区别。
+
+### 2.1 文本文件（.txt）
+**纯文本格式**，最基本的文件类型，仅包含字符数据，无格式信息。使用字符编码（如UTF-8、GBK）存储文本内容。  
+**特点**：体积小、通用性强、可跨平台阅读。  
+**适用场景**：程序源代码、配置文件、日志记录、简单文档、README文件。  
+**局限性**：不支持富文本格式（如字体、颜色）、结构简单。
+
+### 2.2 JSON文件（.json）
+**结构化数据格式**，源于JavaScript，现已成为跨语言通用数据交换标准。采用键值对结构，支持嵌套对象和数组。  
+**特点**：人类可读、易于解析、支持复杂数据结构、与Web技术天然兼容。  
+**适用场景**：API请求/响应数据、应用程序配置、前后端数据传递、NoSQL数据库导出。  
+**标准结构**：`{"key": "value", "array": [1, 2, 3], "nested": {"item": "data"}}`
+
+### 2.3 FASTA文件（.fasta, .fa, .fna）
+**生物序列格式**，生物信息学领域标准，存储核酸（DNA/RNA）或蛋白质序列数据。  
+**格式规范**：">"开头行为序列描述行，后续行为序列数据（可多行）。  
+**特点**：简洁明了、专业领域通用、支持长序列分段存储。  
+**适用场景**：基因组序列存储、蛋白质数据库、序列比对分析、生物信息学研究。  
+**示例格式**：
+```
+>序列1名字|描述信息1
+ATCGATCGATCGATCG
+ATCGATCGATCGATCG
+>序列2名字|描述信息2
+TCGATCGATCGATCGA
+TCGATCGATCGATCGA
+```
+
+### 2.4 CSV文件（.csv）
+**表格数据格式**，以纯文本形式存储表格数据，每行一条记录，字段间用逗号分隔。  
+**特点**：跨平台兼容、体积较小、可被Excel/数据库直接导入、支持文本编辑器查看。  
+**适用场景**：数据导出/导入、数据库备份、简单统计报表、机器学习数据集。  
+**变体格式**：TSV、SSV、自定义分隔符。  
+**注意点**：字段含逗号或换行时需用引号包裹，无统一标准可能造成解析差异。
+
+### 2.5 Excel文件（.xlsx, .xls）
+**电子表格文件**，微软Office套件标准格式，包含完整电子表格功能。xlsx基于XML（ZIP压缩），xls为二进制旧格式。  
+**特点**：支持多工作表、单元格格式、公式计算、图表、数据验证等丰富功能。  
+**适用场景**：商业报表、数据分析、财务管理、项目计划、带有格式的数据存储。  
+**优势功能**：数据透视表、条件格式、宏编程（VBA）、图表可视化、多工作表组织。
+
+### 2.6 NumPy数组文件（.npz, .npy）
+**科学计算专用格式**，NumPy库优化的二进制存储格式，专为多维数组设计。  
+**.npy格式**：保存单个NumPy数组，包含数据类型、形状等元数据。  
+**.npz格式**：压缩格式，可保存多个数组（类似字典结构），支持数据压缩。  
+**特点**：读写速度快、存储效率高、保留数组结构信息、Python科学计算生态原生支持。  
+**适用场景**：机器学习模型参数、数值计算中间结果、大型矩阵存储、数据预处理缓存。
+
+### 2.7 HDF5文件（.h5, .hdf5）
+**层次化科学数据格式**，设计用于存储和组织大量科学数据，支持并行I/O和压缩。  
+**核心概念**：类似文件系统的层次结构，包含组（group）、数据集（dataset）、属性（attribute）。  
+**特点**：支持TB/PB级数据、高效压缩、跨平台、支持部分读取、丰富的元数据管理。  
+**适用场景**：深度学习模型权重、大规模仿真数据、天文/气象数据、科学仪器原始数据存储。  
+**技术优势**：可扩展性高、支持数据切片访问、多进程并发读写安全。
+
+## 3、不同类型文件的读写方法
+
+对文件的操作有多种方法。无论哪种操作，都需要使用`with`语句。使用`with`语句可以确保文件正确关闭，即使发生异常。指定编码（如utf-8）可以避免乱码问题。对于大文件，建议逐行读取以节省内存。
+### 3.1 文件处理模式
+```python
+# 不同文件打开模式
+# "r": 只读（默认）
+# "w": 写入（会覆盖，文件不存在会创建）
+# "a": 追加
+# "x": 创建新文件（如果存在则失败）
+# "b": 二进制模式
+# "t": 文本模式（默认）
+# "+": 读写模式
+
+# 二进制文件读写
+with open("image.jpg", "rb") as f:
+    binary_data = f.read()
+
+# 上下文管理器处理多个文件
+with open("source.txt", "r") as src, open("dest.txt", "w") as dst:
+    dst.write(src.read()) #  把source.txt的内容写入dest.txt
+```
+### 3.2 文本文件读写
+
+```python
+# 读取文本文件
+with open("data.txt", "r", encoding="utf-8") as f:
+    content = f.read()  # 读取全部内容
+    lines = f.readlines()  # 读取所有行到列表
+
+# 写入文本文件
+with open("output.txt", "w", encoding="utf-8") as f:
+    f.write("Hello, World!\n")
+    f.writelines(["Line 1\n", "Line 2\n"])
+```
+
+### 3.3 JSON文件读写
+
+```python
+import json
+
+# 读取JSON文件
+with open("data.json", "r", encoding="utf-8") as f:
+    data = json.load(f)  # 返回Python对象
+
+# 写入JSON文件
+data = {"name": "Alice", "age": 30, "scores": [85, 92, 78]}
+with open("output.json", "w", encoding="utf-8") as f:
+    json.dump(data, f)  
+
+# JSON字符串与Python对象转换
+json_str = json.dumps(data)  # 对象转JSON字符串
+python_obj = json.loads(json_str)  # JSON字符串转对象
+```
+
+### 3.4 FASTA文件读写
+
+FASTA文件以`>`开头的行作为序列标识符，后续行是序列数据。生物信息学中常用，处理DNA、RNA或蛋白质序列。
+```python
+def read_fasta(file_path):
+    """读取FASTA文件"""
+    sequences = {}
+    with open(file_path, "r") as f:
+        current_id = None
+        current_seq = []
+        for line in f:
+            line = line.strip()
+            if line.startswith(">"):
+                if current_id:
+                    sequences[current_id] = "".join(current_seq)
+                current_id = line[1:]  # 去掉">"
+                current_seq = []
+            else:
+                current_seq.append(line)
+        if current_id:
+            sequences[current_id] = "".join(current_seq)
+    return sequences
+
+def write_fasta(sequences, file_path):
+    """写入FASTA文件"""
+    with open(file_path, "w") as f:
+        for seq_id, sequence in sequences.items():
+            f.write(f">{seq_id}\n")
+            # 每60个字符一行
+            for i in range(0, len(sequence), 60):
+                f.write(sequence[i:i+60] + "\n")
+
+# 使用示例
+sequences = read_fasta("sample.fasta")
+write_fasta(sequences, "output.fasta")
+```
+
+### 3.5 CSV文件读写
+
+```python
+import csv
+
+# 读取CSV文件
+with open("data.csv", "r", encoding="utf-8") as f:
+    reader = csv.reader(f)
+    headers = next(reader)  # 读取表头
+    for row in reader:
+        print(row)
+
+# 使用DictReader（推荐）
+with open("data.csv", "r", encoding="utf-8") as f:
+    reader = csv.DictReader(f)
+    for row in reader:  # 每行是一个字典
+        print(row["name"], row["age"])
+
+# 写入CSV文件
+data = [
+    ["Name", "Age", "City"],
+    ["Alice", "30", "Beijing"],
+    ["Bob", "25", "Shanghai"]
+]
+with open("output.csv", "w", encoding="utf-8", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerows(data)
+
+# 使用DictWriter
+with open("output2.csv", "w", encoding="utf-8", newline="") as f:
+    fieldnames = ["Name", "Age", "City"]
+    writer = csv.DictWriter(f, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerow({"Name": "Alice", "Age": 30, "City": "Beijing"})
+```
+
+### 3.6 NumPy数组文件读写
+
+```python
+import numpy as np
+
+# 创建示例数据
+array1 = np.array([[1, 2, 3], [4, 5, 6]])
+array2 = np.random.rand(3, 4)
+
+# 保存单个数组为.npy文件
+np.save("single_array.npy", array1)
+
+# 保存多个数组为.npz文件
+np.savez("multiple_arrays.npz", arr1=array1, arr2=array2)
+
+# 保存压缩的npz文件
+np.savez_compressed("compressed_arrays.npz", arr1=array1, arr2=array2)
+
+# 读取文件
+loaded_single = np.load("single_array.npy")
+loaded_multi = np.load("multiple_arrays.npz")
+print(loaded_multi.files)  # 查看包含的数组名
+print(loaded_multi["arr1"])  # 访问特定数组
+```
+
+**解释**：`.npy`格式保存单个NumPy数组，`.npz`格式保存多个数组（类似字典）。NumPy二进制格式加载速度快，适合科学计算中的中间数据存储。
+
+
+
+
+
+
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./1_10_类.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./1_12_常见库介绍.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
