@@ -1,5 +1,8 @@
 @echo off
 
+:: 打补丁
+python ./develop/develop_tools/view_counts.py
+
 :: 删除旧的构建目录
 if exist build rmdir /s /q build
 

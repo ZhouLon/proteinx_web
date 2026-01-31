@@ -103,6 +103,7 @@
 <p><strong>作者</strong>: ZhouLong<br/>
 <strong>创建日期</strong>: 2026 年 01 月 14 日<br/>
 <strong>版本</strong>: 1.0<br/></p>
+<p><strong>浏览量</strong>: <span id="viewCount" style="font-weight: 700; color: rgb(59, 130, 246); transition: 0.3s;"> </span></p>
 <div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
 <a href="./1_5_列表和列表操作.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
 <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
@@ -451,5 +452,63 @@
 <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
 <script defer="defer" src="../_static/theme.js?v=582b20c5"></script>
 <script src="../_static/translations.js?v=beaddf03"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 获取当前页面的路径
+    const pagePath = window.location.pathname;
+    // 对于根页面，使用'/'或空字符串
+    const pageInfo = pagePath.endsWith('/') ? pagePath.slice(0, -1) : pagePath;
+    const currentPage = pageInfo || '/';
+    
+    console.log('正在统计页面浏览量:', currentPage);
+    
+    // 发送请求到后端API
+    fetch('/api/view_count', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        page: currentPage,
+        timestamp: new Date().toISOString()
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('网络响应不正常');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('收到浏览量数据:', data);
+      // 更新页面上的浏览量显示
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement && data.count !== undefined) {
+        // 格式化显示数字，添加千位分隔符
+        const formattedCount = new Intl.NumberFormat('zh-CN').format(data.count);
+        viewCountElement.textContent = formattedCount;
+        
+        // 为浏览量数字添加样式
+        viewCountElement.style.fontWeight = '700';
+        viewCountElement.style.color = '#10b981'; // 成功时改为绿色
+        
+        // 添加简单的动画效果
+        viewCountElement.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          viewCountElement.style.color = '#3b82f6'; // 0.3秒后变回蓝色
+        }, 300);
+      }
+    })
+    .catch(error => {
+      console.error('获取浏览量时出错:', error);
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement) {
+        viewCountElement.textContent = '加载失败';
+        viewCountElement.style.color = '#ef4444'; // 失败时改为红色
+        viewCountElement.style.fontWeight = '600';
+      }
+    });
+  });
+</script>
 </body>
 </html>
