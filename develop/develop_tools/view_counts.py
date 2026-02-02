@@ -146,9 +146,9 @@ def creat_view_counts_dir(dir_path):
         print(f"错误: 处理目录 {dir_path} 时出错: {str(e)}")
 
 if __name__ == "__main__":
-    # 测试代码
     file_path = "./develop/document/01_dl/build/html/index.html"
-    dir_path = "./develop/document/01_dl/build/html/01_Python介绍"
+    dir_path1 = "./develop/document/01_dl/build/html/01_Python介绍"
+    dir_path2 = "./develop/document/01_dl/build/html/02_深度学习介绍"
     
     # 如果文件存在，则处理单个文件
     if os.path.exists(file_path):
@@ -156,8 +156,13 @@ if __name__ == "__main__":
     else:
         print(f"测试文件不存在: {file_path}")
     
-    # 如果目录存在，则处理目录
-    if os.path.exists(dir_path):
-        creat_view_counts_dir(dir_path)
+    # 处理目录1
+    if os.path.exists(dir_path1):
+        creat_view_counts_dir(dir_path1)
     else:
-        print(f"测试目录不存在: {dir_path}")
+        print(f"测试目录不存在: {dir_path1}")
+    # 处理目录2
+    if os.path.exists(dir_path2):
+        creat_view_counts_dir(dir_path2)
+    else:
+        print(f"测试目录不存在: {dir_path2}")
