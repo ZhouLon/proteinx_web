@@ -99,7 +99,7 @@
 </nav>
 <div id="content" role="main">
 <section id="id1">
-<h1>1_11_文件管理<a class="headerlink" href="#id1" title="Link to this heading"><span>#</span></a></h1>
+<h1>1_11_文件管理<a class="headerlink" href="#id1" title="链接到此标题。"><span>#</span></a></h1>
 <p><strong>作者</strong>: ZhouLong<br/>
 <strong>创建日期</strong>: 2026 年 01 月 31 日<br/>
 <strong>版本</strong>: 1.0<br/></p>
@@ -110,9 +110,9 @@
 <a href="./1_12_常见库介绍.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
 </div>
 <section id="id2">
-<h2>1、文件路径处理<a class="headerlink" href="#id2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<h2>1、文件路径处理<a class="headerlink" href="#id2" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
 <section id="id3">
-<h3>1.1 路径表示方法<a class="headerlink" href="#id3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h3>
+<h3>1.1 路径表示方法<a class="headerlink" href="#id3" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h3>
 <p>在Python中，处理文件路径有多种方式，传统方法可以用字符串来表示，此外为了方便，也常用<code class="docutils literal notranslate"><span class="pre">os.path</span></code>模块和<code class="docutils literal notranslate"><span class="pre">pathlib</span></code>模块。<code class="docutils literal notranslate"><span class="pre">pathlib</span></code>的<code class="docutils literal notranslate"><span class="pre">Path</span></code>对象可以像普通字符串一样使用，但功能更强大。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 字符串表示</span>
 </span><span id="line-2"><span class="n">file_path</span> <span class="o">=</span> <span class="s2">"data/file.txt"</span>   <span class="c1"># 最基础</span>
@@ -133,7 +133,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>1.2 路径操作<a class="headerlink" href="#id4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h3>
+<h3>1.2 路径操作<a class="headerlink" href="#id4" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 </span><span id="line-2">
 </span><span id="line-3"><span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"/home/user/data/sample.txt"</span><span class="p">)</span>
@@ -164,7 +164,7 @@
 </div>
 </section>
 <section id="id5">
-<h3>1.3 遍历目录<a class="headerlink" href="#id5" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h3>
+<h3>1.3 遍历目录<a class="headerlink" href="#id5" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">iterdir()</span></code>列出目录内容，<code class="docutils literal notranslate"><span class="pre">glob()</span></code>使用通配符匹配，<code class="docutils literal notranslate"><span class="pre">rglob()</span></code>递归匹配。这些方法比传统的<code class="docutils literal notranslate"><span class="pre">os.listdir()</span></code>更强大易用。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 </span><span id="line-2">
@@ -184,24 +184,24 @@
 </section>
 </section>
 <section id="id6">
-<h2>2、基本文件类型介绍<a class="headerlink" href="#id6" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h2>
+<h2>2、基本文件类型介绍<a class="headerlink" href="#id6" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h2>
 <p>平时我们可能会接触到很多文件类型，不同文件类型以不同后缀来区别。</p>
 <section id="txt">
-<h3>2.1 文本文件（.txt）<a class="headerlink" href="#txt" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#txt'"><span>#</span></a></h3>
+<h3>2.1 文本文件（.txt）<a class="headerlink" href="#txt" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#txt'"><span>#</span></a></h3>
 <p><strong>纯文本格式</strong>，最基本的文件类型，仅包含字符数据，无格式信息。使用字符编码（如UTF-8、GBK）存储文本内容。<br>
 <strong>特点</strong>：体积小、通用性强、可跨平台阅读。<br>
 <strong>适用场景</strong>：程序源代码、配置文件、日志记录、简单文档、README文件。<br>
 <strong>局限性</strong>：不支持富文本格式（如字体、颜色）、结构简单。</br></br></br></p>
 </section>
 <section id="json-json">
-<h3>2.2 JSON文件（.json）<a class="headerlink" href="#json-json" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#json-json'"><span>#</span></a></h3>
+<h3>2.2 JSON文件（.json）<a class="headerlink" href="#json-json" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#json-json'"><span>#</span></a></h3>
 <p><strong>结构化数据格式</strong>，源于JavaScript，现已成为跨语言通用数据交换标准。采用键值对结构，支持嵌套对象和数组。<br/>
 <strong>特点</strong>：人类可读、易于解析、支持复杂数据结构、与Web技术天然兼容。<br/>
 <strong>适用场景</strong>：API请求/响应数据、应用程序配置、前后端数据传递、NoSQL数据库导出。<br/>
 <strong>标准结构</strong>：<code class="docutils literal notranslate"><span class="pre">{"key":</span> <span class="pre">"value",</span> <span class="pre">"array":</span> <span class="pre">[1,</span> <span class="pre">2,</span> <span class="pre">3],</span> <span class="pre">"nested":</span> <span class="pre">{"item":</span> <span class="pre">"data"}}</span></code></p>
 </section>
 <section id="fasta-fasta-fa-fna">
-<h3>2.3 FASTA文件（.fasta, .fa, .fna）<a class="headerlink" href="#fasta-fasta-fa-fna" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#fasta-fasta-fa-fna'"><span>#</span></a></h3>
+<h3>2.3 FASTA文件（.fasta, .fa, .fna）<a class="headerlink" href="#fasta-fasta-fa-fna" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#fasta-fasta-fa-fna'"><span>#</span></a></h3>
 <p><strong>生物序列格式</strong>，生物信息学领域标准，存储核酸（DNA/RNA）或蛋白质序列数据。<br/>
 <strong>格式规范</strong>："&gt;"开头行为序列描述行，后续行为序列数据（可多行）。<br/>
 <strong>特点</strong>：简洁明了、专业领域通用、支持长序列分段存储。<br/>
@@ -217,7 +217,7 @@
 </div>
 </section>
 <section id="csv-csv">
-<h3>2.4 CSV文件（.csv）<a class="headerlink" href="#csv-csv" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#csv-csv'"><span>#</span></a></h3>
+<h3>2.4 CSV文件（.csv）<a class="headerlink" href="#csv-csv" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#csv-csv'"><span>#</span></a></h3>
 <p><strong>表格数据格式</strong>，以纯文本形式存储表格数据，每行一条记录，字段间用逗号分隔。<br/>
 <strong>特点</strong>：跨平台兼容、体积较小、可被Excel/数据库直接导入、支持文本编辑器查看。<br/>
 <strong>适用场景</strong>：数据导出/导入、数据库备份、简单统计报表、机器学习数据集。<br/>
@@ -225,14 +225,14 @@
 <strong>注意点</strong>：字段含逗号或换行时需用引号包裹，无统一标准可能造成解析差异。</p>
 </section>
 <section id="excel-xlsx-xls">
-<h3>2.5 Excel文件（.xlsx, .xls）<a class="headerlink" href="#excel-xlsx-xls" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#excel-xlsx-xls'"><span>#</span></a></h3>
+<h3>2.5 Excel文件（.xlsx, .xls）<a class="headerlink" href="#excel-xlsx-xls" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#excel-xlsx-xls'"><span>#</span></a></h3>
 <p><strong>电子表格文件</strong>，微软Office套件标准格式，包含完整电子表格功能。xlsx基于XML（ZIP压缩），xls为二进制旧格式。<br/>
 <strong>特点</strong>：支持多工作表、单元格格式、公式计算、图表、数据验证等丰富功能。<br/>
 <strong>适用场景</strong>：商业报表、数据分析、财务管理、项目计划、带有格式的数据存储。<br/>
 <strong>优势功能</strong>：数据透视表、条件格式、宏编程（VBA）、图表可视化、多工作表组织。</p>
 </section>
 <section id="numpy-npz-npy">
-<h3>2.6 NumPy数组文件（.npz, .npy）<a class="headerlink" href="#numpy-npz-npy" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#numpy-npz-npy'"><span>#</span></a></h3>
+<h3>2.6 NumPy数组文件（.npz, .npy）<a class="headerlink" href="#numpy-npz-npy" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#numpy-npz-npy'"><span>#</span></a></h3>
 <p><strong>科学计算专用格式</strong>，NumPy库优化的二进制存储格式，专为多维数组设计。<br/>
 <strong>.npy格式</strong>：保存单个NumPy数组，包含数据类型、形状等元数据。<br/>
 <strong>.npz格式</strong>：压缩格式，可保存多个数组（类似字典结构），支持数据压缩。<br/>
@@ -240,7 +240,7 @@
 <strong>适用场景</strong>：机器学习模型参数、数值计算中间结果、大型矩阵存储、数据预处理缓存。</p>
 </section>
 <section id="hdf5-h5-hdf5">
-<h3>2.7 HDF5文件（.h5, .hdf5）<a class="headerlink" href="#hdf5-h5-hdf5" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#hdf5-h5-hdf5'"><span>#</span></a></h3>
+<h3>2.7 HDF5文件（.h5, .hdf5）<a class="headerlink" href="#hdf5-h5-hdf5" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#hdf5-h5-hdf5'"><span>#</span></a></h3>
 <p><strong>层次化科学数据格式</strong>，设计用于存储和组织大量科学数据，支持并行I/O和压缩。<br/>
 <strong>核心概念</strong>：类似文件系统的层次结构，包含组（group）、数据集（dataset）、属性（attribute）。<br/>
 <strong>特点</strong>：支持TB/PB级数据、高效压缩、跨平台、支持部分读取、丰富的元数据管理。<br/>
@@ -249,10 +249,10 @@
 </section>
 </section>
 <section id="id7">
-<h2>3、不同类型文件的读写方法<a class="headerlink" href="#id7" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h2>
+<h2>3、不同类型文件的读写方法<a class="headerlink" href="#id7" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h2>
 <p>对文件的操作有多种方法。无论哪种操作，都需要使用<code class="docutils literal notranslate"><span class="pre">with</span></code>语句。使用<code class="docutils literal notranslate"><span class="pre">with</span></code>语句可以确保文件正确关闭，即使发生异常。指定编码（如utf-8）可以避免乱码问题。对于大文件，建议逐行读取以节省内存。</p>
 <section id="id8">
-<h3>3.1 文件处理模式<a class="headerlink" href="#id8" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h3>
+<h3>3.1 文件处理模式<a class="headerlink" href="#id8" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 不同文件打开模式</span>
 </span><span id="line-2"><span class="c1"># "r": 只读（默认）</span>
 </span><span id="line-3"><span class="c1"># "w": 写入（会覆盖，文件不存在会创建）</span>
@@ -273,7 +273,7 @@
 </div>
 </section>
 <section id="id9">
-<h3>3.2 文本文件读写<a class="headerlink" href="#id9" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h3>
+<h3>3.2 文本文件读写<a class="headerlink" href="#id9" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 读取文本文件</span>
 </span><span id="line-2"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"data.txt"</span><span class="p">,</span> <span class="s2">"r"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 </span><span id="line-3">    <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>  <span class="c1"># 读取全部内容</span>
@@ -287,7 +287,7 @@
 </div>
 </section>
 <section id="json">
-<h3>3.3 JSON文件读写<a class="headerlink" href="#json" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#json'"><span>#</span></a></h3>
+<h3>3.3 JSON文件读写<a class="headerlink" href="#json" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#json'"><span>#</span></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 </span><span id="line-2">
 </span><span id="line-3"><span class="c1"># 读取JSON文件</span>
@@ -306,7 +306,7 @@
 </div>
 </section>
 <section id="fasta">
-<h3>3.4 FASTA文件读写<a class="headerlink" href="#fasta" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#fasta'"><span>#</span></a></h3>
+<h3>3.4 FASTA文件读写<a class="headerlink" href="#fasta" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#fasta'"><span>#</span></a></h3>
 <p>FASTA文件以<code class="docutils literal notranslate"><span class="pre">&gt;</span></code>开头的行作为序列标识符，后续行是序列数据。生物信息学中常用，处理DNA、RNA或蛋白质序列。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">read_fasta</span><span class="p">(</span><span class="n">file_path</span><span class="p">):</span>
 </span><span id="line-2"><span class="w">    </span><span class="sd">"""读取FASTA文件"""</span>
@@ -343,7 +343,7 @@
 </div>
 </section>
 <section id="csv">
-<h3>3.5 CSV文件读写<a class="headerlink" href="#csv" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#csv'"><span>#</span></a></h3>
+<h3>3.5 CSV文件读写<a class="headerlink" href="#csv" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#csv'"><span>#</span></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
 </span><span id="line-2">
 </span><span id="line-3"><span class="c1"># 读取CSV文件</span>
@@ -379,7 +379,7 @@
 </div>
 </section>
 <section id="numpy">
-<h3>3.6 NumPy数组文件读写<a class="headerlink" href="#numpy" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#numpy'"><span>#</span></a></h3>
+<h3>3.6 NumPy数组文件读写<a class="headerlink" href="#numpy" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#numpy'"><span>#</span></a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </span><span id="line-2">
 </span><span id="line-3"><span class="c1"># 创建示例数据</span>
@@ -446,16 +446,16 @@
 </div><footer class="py-6 border-t border-border md:py-0">
 <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
 <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.1.3</a></p>
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 9.1.0</a></p>
 </div>
 </div>
 </footer>
 </div>
 <script src="../_static/documentation_options.js?v=f115507d"></script>
-<script src="../_static/doctools.js?v=9bcbadda"></script>
-<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../_static/doctools.js?v=fd6eb6e6"></script>
+<script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
 <script defer="defer" src="../_static/theme.js?v=582b20c5"></script>
-<script src="../_static/translations.js?v=beaddf03"></script>
+<script src="../_static/translations.js?v=540d3cec"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // 获取当前页面的路径

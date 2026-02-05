@@ -289,6 +289,14 @@ conda init powershell
          style="display: block; margin: 20px auto; width: 90%; max-width: 1000px;">
 </div>
 
+如果发现有报错如下，这个错误是因为 Windows PowerShell 的执行策略限制。需要更改执行策略才能运行脚本。
+通过设置`Set-ExecutionPolicy Unrestricted -Scope CurrentUser`可以更改策略。然后再新建一次即可成功出现base。
+<div style="margin: 20px 0; text-align: center;">
+    <img src="../_static/figures/1/ps_error.png" 
+         alt="base_appear" 
+         style="display: block; margin: 20px auto; width: 80%; max-width: 1000px;">
+</div>
+
 输入`conda`测试是否可以正常运行
 ```powershell
 #不需要复制运行，展示运作流程

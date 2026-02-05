@@ -128,7 +128,7 @@
 
     <div id="content" role="main">
       <section id="id1">
-<h1>深度学习入门的知识与规范<a class="headerlink" href="#id1" title="Link to this heading"><span>#</span></a></h1>
+<h1>深度学习入门的知识与规范<a class="headerlink" href="#id1" title="链接到此标题。"><span>#</span></a></h1>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
@@ -139,7 +139,7 @@
 <p><strong>浏览量</strong>: <span id="viewCount" style="font-weight: 700; color: rgb(59, 130, 246); transition: 0.3s;"> </span></p>
 </aside>
 <section id="id2">
-<h2>简介<a class="headerlink" href="#id2" title="Link to this heading"><span>#</span></a></h2>
+<h2>简介<a class="headerlink" href="#id2" title="链接到此标题。"><span>#</span></a></h2>
 <p>本文档作为 <strong>深度学习入门指南</strong>，系统性地涵盖了初学者所需掌握的基础理论知识与核心实践技能，并明确了实验规范与工程方法。文档旨在帮助读者快速构建对深度学习的整体认知，奠定扎实的入门基础，并培养良好的研发习惯。</p>
 <p>文档的主要服务于 <strong>非计算机背景的学习者</strong>，在尽可能收集了当前的主流技术与方法的同时，简化了部分复杂内容，以降低学习门槛。希望通过本指南，读者能够顺利迈出深度学习的第一步，并为后续深入学习打下坚实基础。</p>
 <a class="reference internal image-reference" href="_images/深度学习入门.png"><img alt="深度学习入门示意图" class="align-center" src="_images/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8.png" style="width: 1000px;" />
@@ -148,13 +148,13 @@
 <div class="line"><br /></div>
 </div>
 <section id="id3">
-<h3>00-目录链接<a class="headerlink" href="#id3" title="Link to this heading"><span>#</span></a></h3>
+<h3>00-目录链接<a class="headerlink" href="#id3" title="链接到此标题。"><span>#</span></a></h3>
 <p><strong>点击左侧边栏的目录导航，快速访问各章节详细内容</strong></p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
 <section id="python">
-<h3>01-Python介绍<a class="headerlink" href="#python" title="Link to this heading"><span>#</span></a></h3>
+<h3>01-Python介绍<a class="headerlink" href="#python" title="链接到此标题。"><span>#</span></a></h3>
 <p>Python是一种简单易学但功能强大的高级编程语言，以其清晰的语法和丰富的生态库著称，广泛应用于科学计算、人工智能、Web开发等领域。本部分将从零开始系统介绍Python的核心概念和实践技能：首先了解Python语言的特点与优势，
 然后指导开发环境搭建和IDE选择；接着深入讲解变量、数据类型、流程控制结构等基础知识；随后重点掌握Python的三大核心数据结构——列表、元组和字典的操作方法；进一步学习函数的定义与使用、面向对象编程中的类与对象概念；
 最后介绍文件管理和常用库的应用。</p>
@@ -165,7 +165,7 @@
 </div>
 </section>
 <section id="id4">
-<h3>02-深度学习介绍<a class="headerlink" href="#id4" title="Link to this heading"><span>#</span></a></h3>
+<h3>02-深度学习介绍<a class="headerlink" href="#id4" title="链接到此标题。"><span>#</span></a></h3>
 <p>当前，各类人工智能应用蓬勃发展，其底层根基在于深度学习技术。作为传统机器学习的重要分支，深度学习以其强大的神经网络为核心，能够从海量数据中自动捕捉那些人类难以通过显式规则精确描述的复杂模式与内在规律。</p>
 <p>深度学习的卓越能力，建立在严谨的数学框架与高效的计算原理之上。本章将系统阐述支撑其运转的核心理论支柱：线性代数构成了数据表示与空间变换的语言；微积分赋予了模型从数据中自主学习和适应的能力；目标函数为
 学习过程定义了明确的优化方向；而优化算法则负责探索抵达目标的最优路径。在此基础上，我们将深入剖析模型学习的核心机制——前向传播与反向传播，揭示神经网络如何通过这两个精密协作的过程，将抽象的数学理论转化
@@ -174,14 +174,14 @@
 和 真正的 <strong>算法工程师</strong> 的核心区别所在。</p>
 </section>
 <section id="pytorch">
-<h3>03-PyTorch介绍<a class="headerlink" href="#pytorch" title="Link to this heading"><span>#</span></a></h3>
+<h3>03-PyTorch介绍<a class="headerlink" href="#pytorch" title="链接到此标题。"><span>#</span></a></h3>
 <p>PyTorch 是一个由 Meta（原 Facebook）人工智能研究院团队主导开发的开源深度学习框架，以其动态计算图和直观的 Pythonic 设计而著称。它巧妙地将强大的 GPU 加速张量计算功能与基于自动微分（Autograd）的
 动态神经网络构建能力相结合，使得研究人员能够像编写普通 Python 程序一样，灵活、直观地定义、修改和调试复杂的神经网络模型，极大加速了从研究原型到生产部署的迭代过程。凭借其简洁的 API、活跃的社区，PyTorch
 不仅在学术研究领域成为事实上的主流标准，深受科研人员的喜爱，也正通过其完善的生态和良好兼容性，在工业界部署中扮演着越来越重要的角色。</p>
 <p>通过本章的学习，你将掌握 PyTorch 的核心概念与基础技能，能够使用其张量操作、自动微分机制以及神经网络模块，为后续构建、训练和评估深度学习模型打下基础。</p>
 </section>
 <section id="id5">
-<h3>04-实验工程方法与规范<a class="headerlink" href="#id5" title="Link to this heading"><span>#</span></a></h3>
+<h3>04-实验工程方法与规范<a class="headerlink" href="#id5" title="链接到此标题。"><span>#</span></a></h3>
 <p>本章系统性地介绍了当前研究开发中的工程实践体系。本章从基础方法入手，涵盖Linux操作系统的基本使用、开发环境的构建与管理，为实验工作奠定稳定高效的基础。进而深入到进阶方法，讲解深度学习的核心训练技巧，如
 训练过程监控、混合精度训练以提升效率，以及分布式训练处理大规模任务；同时引入环境隔离的容器化技术和基础的前端交互方法，确保实验的可复现性与成果的可展示性。最后，本章着重强调研发规范，包括代码格式与注释
 规范、单元测试与文档撰写、实验过程的详细记录以及Git版本工具的标准使用流程，旨在培养研究者严谨、协作、可持续的工程化科研习惯，全面提升实验项目的质量与可维护性。</p>
@@ -193,7 +193,7 @@
 </section>
 </section>
 <section id="id6">
-<h2>引用<a class="headerlink" href="#id6" title="Link to this heading"><span>#</span></a></h2>
+<h2>引用<a class="headerlink" href="#id6" title="链接到此标题。"><span>#</span></a></h2>
 <ol class="arabic simple">
 <li><p><a class="reference external" href="https://github.com/d2l-ai/d2l-zh">动手学深度学习</a></p></li>
 <li><p><a class="reference external" href="http://home.ustc.edu.cn/~zy18803425504/Python/Python(Eric%20Matthes).pdf">Python编程从入门到实践（第2版）</a></p></li>
@@ -201,7 +201,7 @@
 </ol>
 </section>
 <section id="id8">
-<h2>反馈<a class="headerlink" href="#id8" title="Link to this heading"><span>#</span></a></h2>
+<h2>反馈<a class="headerlink" href="#id8" title="链接到此标题。"><span>#</span></a></h2>
 <ul class="simple">
 <li><p><strong>如果您觉得本文对您有帮助，或有任何想法想要分享，欢迎随时提出。您的每一条建议都会让内容变得更好。</strong></p></li>
 <li><p><strong>我们始终致力于改进与完善内容。如果您希望补充内容、修正错误或提出改进建议，请点击</strong> <a class="reference external" href="https://github.com/ZhouLon/KnowledgeBase/issues">Issues</a></p></li>
@@ -236,17 +236,17 @@
       <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
         <p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong&nbsp;Built with <a class="font-medium underline underline-offset-4"
     href="https://www.sphinx-doc.org"
-    rel="noreferrer">Sphinx 8.1.3</a></p>
+    rel="noreferrer">Sphinx 9.1.0</a></p>
 </div>
 </div>
 </footer>
     </div>
     
     <script src="_static/documentation_options.js?v=f115507d"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script defer="defer" src="_static/theme.js?v=582b20c5"></script>
-    <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/translations.js?v=540d3cec"></script>
     
 <script>
   document.addEventListener('DOMContentLoaded', function() {

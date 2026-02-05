@@ -99,7 +99,7 @@
 </nav>
 <div id="content" role="main">
 <section id="id1">
-<h1>2_1_深度学习简介<a class="headerlink" href="#id1" title="Link to this heading"><span>#</span></a></h1>
+<h1>2_1_深度学习简介<a class="headerlink" href="#id1" title="链接到此标题。"><span>#</span></a></h1>
 <p><strong>作者</strong>: ZhouLong<br/>
 <strong>创建日期</strong>: 2026 年 02 月 02 日<br/>
 <strong>版本</strong>: 1.0<br/></p>
@@ -110,7 +110,7 @@
 <a href="./2_2_数据集.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
 </div>
 <section id="id2">
-<h2>1 什么是深度学习<a class="headerlink" href="#id2" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<h2>1 什么是深度学习<a class="headerlink" href="#id2" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
 <div class="admonition tip">
 <p class="admonition-title"><b>建议</b></p>
 <p>本文档撰写时很多内容参考《动手学深度学习》该书的结构和内容，但为了方便入门理解，做了简化处理。想深入学习，此书有纸质版和<a href="https://zh.d2l.ai/" target="_blank">电子版（免费!）</a>，读者可根据阅读习惯来选择</p>
@@ -119,20 +119,20 @@
 <img alt="动手学深度学习书籍" src="../_static/figures/2/book.png" style="display: block; margin: 20px auto; width: 60%; max-width: 500px;"/>
 </div>
 <section id="id3">
-<h3>1.1 人工智能、机器学习与深度学习的关系<a class="headerlink" href="#id3" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h3>
+<h3>1.1 人工智能、机器学习与深度学习的关系<a class="headerlink" href="#id3" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h3>
 <p><strong>人工智能（Artificial Intelligence, AI）</strong> 是最广泛的概念，指让机器展现出类似人类智能行为的科学与工程。AI的目标是创建能够感知、推理、学习和解决问题的系统。它是一个宏大的研究领域，包含机器学习，深度学习，强化学习等多个分支。</p>
 <p><strong>机器学习（Machine Learning, ML）</strong> 是实现人工智能的一种核心方法。它不依赖于硬编码的规则，而是让计算机从数据中自动学习规律和模式，并对新的数据做出预测或决策。其核心是“从经验中学习”。传统的机器学习方法包括线性回归、决策树、支持向量机（SVM）等。</p>
 <p><strong>深度学习（Deep Learning, DL）</strong> 是机器学习的一个特定且强大的子领域。它主要基于<strong>神经网络</strong>，尤其是具有多个“深度”层的神经网络。深度学习通过多层次的非线性变换，从原始数据中自动提取由低级到高级的、越来越抽象的特征表示。</p>
 </section>
 <section id="id4">
-<h3>1.2 神经网络的基本思想<a class="headerlink" href="#id4" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h3>
+<h3>1.2 神经网络的基本思想<a class="headerlink" href="#id4" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h3>
 <p>神经网络的基本思想受到<strong>人脑神经元结构和功能的启发</strong>。其核心概念如下：</p>
 </section>
 <section id="id5">
-<h3>1.3 <strong>神经网络基本组成</strong><a class="headerlink" href="#id5" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h3>
+<h3>1.3 <strong>神经网络基本组成</strong><a class="headerlink" href="#id5" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h3>
 <p>人工神经网络(Artificial Neural Networks，简写为ANNs)是一种模仿动物神经网络行为特征，进行分布式并行信息处理的数学模型。这种网络依靠系统的复杂程度，通过调整内部大量节点之间相互连接的关系，从而达到处理信息的目的，并具有自学习和自适应的能力。神经网络类型众多，其中最为重要的是多层感知机（Multi Layer Perceptron，MLP）。为了详细地描述神经网络，我们先从最简单的神经网络说起。</p>
 <section id="perceptron">
-<h4><strong>感知机（Perceptron）</strong><a class="headerlink" href="#perceptron" title="Link to this heading"><span>#</span></a></h4>
+<h4><strong>感知机（Perceptron）</strong><a class="headerlink" href="#perceptron" title="链接到此标题。"><span>#</span></a></h4>
 <p>感知机（Perceptron）于1957年由罗森布拉特（Rosenblatt）提出，是最早期的神经网络模型之一。其设计灵感来源于生物学中的神经元工作原理，核心思想是对生物神经网络的简化模拟。</p>
 <p>人脑可以视为一个复杂的生物神经网络，其基本单元是神经元（neuron）。大量神经元相互连接，构成了一个能够处理信息的网络结构。在机器学习和深度学习领域，我们所讨论的“神经网络”（Neural Networks）通常指的是人工神经网络（Artificial Neural Networks, ANNs），即对人脑神经结构的计算抽象。</p>
 <p>下图展示了生物神经元的基本工作机制：
@@ -159,7 +159,7 @@
 </div>
 </section>
 <section id="mlp">
-<h4>多层感知机（MLP）<a class="headerlink" href="#mlp" title="Link to this heading"><span>#</span></a></h4>
+<h4>多层感知机（MLP）<a class="headerlink" href="#mlp" title="链接到此标题。"><span>#</span></a></h4>
 <p>多层感知机由感知机推广而来，最主要的特点是有多个神经元层，最先输入的是输入层，中间是隐藏层，最后是输出层。其中隐藏层神经元会与前一层和下一层的神经元完全连接。</p>
 <div style="margin: 20px 0; text-align: center;">
 <img alt="多层感知机2" src="../_static/figures/2/mlp2.png" style="display: block; margin: 20px auto; width: 80%; max-width: 1000px;"/>
@@ -172,7 +172,7 @@ MLP是最简单的模型，表达能力有限，实际上目前各个领域所�
 </section>
 </section>
 <section id="id6">
-<h3>1.4 激活函数<a class="headerlink" href="#id6" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h3>
+<h3>1.4 激活函数<a class="headerlink" href="#id6" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h3>
 <p>激活函数(Activation functions)对于人工神经网络 模型去学习、理解非常复杂和非线性的函数来说具有十分重要的作用。它们将非线性特性引入到我们的网络中。如下图，在神经元中，输入的inputs 通过加权，求和后，还被作用了一个函数，这个函数就是激活函数。引入激活函数是为了增加神经网络模型的非线性。没有激活函数的每层都相当于矩阵相乘。就算你叠加了若干层之后，得到的只是线性的结果！<br/>
 因此，激活函数都是非线性函数。</p>
 <p><strong>为什么激活函数需要非线性函数?</strong></p>
@@ -203,7 +203,7 @@ MLP是最简单的模型，表达能力有限，实际上目前各个领域所�
 </ul>
 </section>
 <section id="id7">
-<h3>1.5 前向传播、损失函数和反向传播<a class="headerlink" href="#id7" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h3>
+<h3>1.5 前向传播、损失函数和反向传播<a class="headerlink" href="#id7" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h3>
 <p>神经网络的计算主要有两种:前向传播(foward propagation,FP)作用于每一层的输入，通过逐层计算得到输出结果;反向传播(backward propagation,BP)作用于网络的输出，通过计算梯度由后到前更新网络参数。<br/>
 其中损失函数起到了在两个环节中的桥梁作用。前向传播中，损失函数衡量了前向传播的预测结果和真实标签的差异。反向传播中，基于对前向过程的损失函数计算出的差异进行求导，往损失函数数值下降的方向求梯度，从而更新模型参数、。</p>
 <p>前向传播是指<strong>从输入数据开始</strong>，通过神经网络的各层逐层计算并传递数据，最终得到模型的输出结果。在前向传播过程中，输入数据通过每一层的权重和偏置进行线性变换，并经过激活函数进行非线性变换，然后输出到下一层，直到达到输出层。前向传播的目的是计算模型的预测值。</p>
@@ -226,10 +226,10 @@ MLP是最简单的模型，表达能力有限，实际上目前各个领域所�
 </section>
 </section>
 <section id="id8">
-<h2>2 深度学习的应用<a class="headerlink" href="#id8" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h2>
+<h2>2 深度学习的应用<a class="headerlink" href="#id8" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h2>
 <p>深度学习凭借其强大的特征提取与表示学习能力，已广泛应用于众多领域，并持续推动技术进步和产业变革。其核心优势在于能够处理<strong>高维、复杂、非结构化</strong>的数据（如图像、语音、文本），并自动学习其中的层次化抽象特征，而无需过多依赖人工设计的规则。</p>
 <section id="cv">
-<h3>2.1 计算机视觉（CV）<a class="headerlink" href="#cv" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#cv'"><span>#</span></a></h3>
+<h3>2.1 计算机视觉（CV）<a class="headerlink" href="#cv" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#cv'"><span>#</span></a></h3>
 <p>这是深度学习最早取得突破性成功的领域之一。</p>
 <ul class="simple">
 <li><p><strong>图像分类与识别</strong>：识别图像中的主要物体或场景（如猫、狗、汽车），经典数据集包括ImageNet。模型如ResNet、EfficientNet。</p></li>
@@ -241,7 +241,7 @@ MLP是最简单的模型，表达能力有限，实际上目前各个领域所�
 </ul>
 </section>
 <section id="nlp">
-<h3>2.2 自然语言处理 (NLP)<a class="headerlink" href="#nlp" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#nlp'"><span>#</span></a></h3>
+<h3>2.2 自然语言处理 (NLP)<a class="headerlink" href="#nlp" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#nlp'"><span>#</span></a></h3>
 <p>深度学习彻底改变了NLP领域，使机器能更好地理解和生成人类语言。</p>
 <ul class="simple">
 <li><p><strong>机器翻译</strong>：实现不同语言间高质量的自动翻译，如谷歌翻译、DeepL。</p></li>
@@ -252,7 +252,7 @@ MLP是最简单的模型，表达能力有限，实际上目前各个领域所�
 </ul>
 </section>
 <section id="id9">
-<h3>2.3 语音与音频处理<a class="headerlink" href="#id9" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h3>
+<h3>2.3 语音与音频处理<a class="headerlink" href="#id9" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>语音识别</strong>：将人类语音实时转换为可操作的文本指令，是智能家居、车载系统、会议纪要的核心。</p></li>
 <li><p><strong>说话人识别</strong>：识别或验证说话人的身份。</p></li>
@@ -260,18 +260,18 @@ MLP是最简单的模型，表达能力有限，实际上目前各个领域所�
 </ul>
 </section>
 <section id="id10">
-<h3>2.4 推荐系统<a class="headerlink" href="#id10" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id10'"><span>#</span></a></h3>
+<h3>2.4 推荐系统<a class="headerlink" href="#id10" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id10'"><span>#</span></a></h3>
 <p>深度学习通过分析用户的历史行为（点击、购买、观看）、物品特征和上下文信息，学习复杂的用户偏好，实现更精准的个性化推荐。广泛应用于电商（淘宝、亚马逊）、视频平台（Netflix、YouTube）、新闻资讯等。</p>
 </section>
 <section id="id11">
-<h3>2.5 游戏与强化学习<a class="headerlink" href="#id11" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id11'"><span>#</span></a></h3>
+<h3>2.5 游戏与强化学习<a class="headerlink" href="#id11" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id11'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>游戏AI</strong>：深度学习与强化学习结合，训练出能在复杂环境中做出决策的AI，如AlphaGo（围棋）、AlphaStar（星际争霸）、OpenAI Five（Dota2），它们通过自我对弈达到超人类水平。</p></li>
 <li><p><strong>机器人控制</strong>：让机器人学习行走、抓取等复杂技能。</p></li>
 </ul>
 </section>
 <section id="id12">
-<h3>2.6 科学与医疗健康<a class="headerlink" href="#id12" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id12'"><span>#</span></a></h3>
+<h3>2.6 科学与医疗健康<a class="headerlink" href="#id12" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id12'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>药物发现</strong>：预测分子性质、生成新的候选药物分子、加速药物研发流程。</p></li>
 <li><p><strong>医疗影像分析</strong>：辅助医生从X光、CT、MRI、病理切片中检测病灶（如肿瘤）、进行分割和诊断，提高准确性和效率。</p></li>
@@ -279,7 +279,7 @@ MLP是最简单的模型，表达能力有限，实际上目前各个领域所�
 </ul>
 </section>
 <section id="id13">
-<h3>2.7 其他领域<a class="headerlink" href="#id13" title="Link to this heading" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id13'"><span>#</span></a></h3>
+<h3>2.7 其他领域<a class="headerlink" href="#id13" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id13'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>自动驾驶</strong>：融合计算机视觉、传感器数据处理和决策控制，实现环境感知、路径规划和车辆控制。</p></li>
 <li><p><strong>金融科技</strong>：用于欺诈检测、 algorithmic trading、信用风险评估和客户服务。</p></li>
@@ -330,16 +330,16 @@ MLP是最简单的模型，表达能力有限，实际上目前各个领域所�
 </div><footer class="py-6 border-t border-border md:py-0">
 <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
 <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.1.3</a></p>
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 9.1.0</a></p>
 </div>
 </div>
 </footer>
 </div>
 <script src="../_static/documentation_options.js?v=f115507d"></script>
-<script src="../_static/doctools.js?v=9bcbadda"></script>
-<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../_static/doctools.js?v=fd6eb6e6"></script>
+<script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
 <script defer="defer" src="../_static/theme.js?v=582b20c5"></script>
-<script src="../_static/translations.js?v=beaddf03"></script>
+<script src="../_static/translations.js?v=540d3cec"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // 获取当前页面的路径

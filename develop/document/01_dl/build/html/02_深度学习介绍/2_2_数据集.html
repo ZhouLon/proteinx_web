@@ -28,7 +28,7 @@
 <link href="../_static/theme.css?v=73505e79" rel="stylesheet" type="text/css"/>
 <link href="../search.html" rel="search" title="搜索"/>
 <link href="../genindex.html" rel="index" title="索引"/>
-<link href="../03_PyTorch%E4%BB%8B%E7%BB%8D/index.html" rel="next" title="03_PyTorch介绍"/>
+<link href="2_3_%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0.html" rel="next" title="2_3_损失函数"/>
 <link href="2_1_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B.html" rel="prev" title="2_1_深度学习简介"/>
 </head>
 <body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
@@ -99,23 +99,646 @@
 </nav>
 <div id="content" role="main">
 <section id="id1">
-<h1>2_2_数据集<a class="headerlink" href="#id1" title="Link to this heading"><span>#</span></a></h1>
+<h1>2_2_数据集<a class="headerlink" href="#id1" title="链接到此标题。"><span>#</span></a></h1>
+<p><strong>作者</strong>: ZhouLong<br/>
+<strong>创建日期</strong>: 2026 年 02 月 04 日<br/>
+<strong>版本</strong>: 1.0<br/></p>
+<p><strong>浏览量</strong>: <span id="viewCount" style="font-weight: 700; color: rgb(59, 130, 246); transition: 0.3s;"> </span></p>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./2_1_深度学习简介.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./2_3_损失函数.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+<section id="id2">
+<h2>1. 数据存储方法<a class="headerlink" href="#id2" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<p>数据存储的方法分为基本文件存储和数据库存储两大类。</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>特征</p></th>
+<th class="head"><p>基本文件存储</p></th>
+<th class="head"><p>数据库存储</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>数据结构</strong></p></td>
+<td><p>通常非结构化或半结构化</p></td>
+<td><p>高度结构化，有明确模式</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>数据关系</strong></p></td>
+<td><p>难以建立和维护数据间关系</p></td>
+<td><p>支持复杂的关系和关联</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>查询能力</strong></p></td>
+<td><p>简单查找，效率较低</p></td>
+<td><p>强大的查询和检索功能</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>并发控制</strong></p></td>
+<td><p>有限，需自行实现锁机制</p></td>
+<td><p>内置完善的并发控制</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>数据完整性</strong></p></td>
+<td><p>需手动保证</p></td>
+<td><p>通过约束、事务保证</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>扩展性</strong></p></td>
+<td><p>垂直扩展为主</p></td>
+<td><p>支持水平和垂直扩展</p></td>
+</tr>
+</tbody>
+</table>
+<section id="id3">
+<h3>1.1 基本文件存储<a class="headerlink" href="#id3" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h3>
+<p><strong>基本文件存储是什么？</strong></p>
+<ul class="simple">
+<li><p>以文件形式直接存储在文件系统中</p></li>
+<li><p>常见格式：文本文件（.txt, .csv, .json）、二进制文件、XML等</p></li>
+<li><p>通过操作系统API进行读写操作</p></li>
+</ul>
+<p><strong>适合使用文件存储的场景</strong></p>
+<ul class="simple">
+<li><p>简单的配置文件和日志文件</p></li>
+<li><p>多媒体文件（图片、视频、音频）</p></li>
+<li><p>文档和静态内容</p></li>
+<li><p>数据量小、结构简单的应用</p></li>
+<li><p>需要直接访问原始文件的应用</p></li>
+</ul>
+<section id="csv">
+<h4>CSV<a class="headerlink" href="#csv" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>特点</strong>：纯文本格式，易于人类阅读，兼容性极佳</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">id</span><span class="p">,</span><span class="n">name</span><span class="p">,</span><span class="n">age</span><span class="p">,</span><span class="n">score</span>
+</span><span id="line-2"><span class="mi">1</span><span class="p">,</span><span class="n">张三</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mf">85.5</span>
+</span><span id="line-3"><span class="mi">2</span><span class="p">,</span><span class="n">李四</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mf">92.0</span>
+</span><span id="line-4"><span class="mi">3</span><span class="p">,</span><span class="n">王五</span><span class="p">,</span><span class="mi">28</span><span class="p">,</span><span class="mf">78.5</span>
+</span></code></pre></div>
+</div>
+<p><strong>适用场景</strong>：</p>
+<ul class="simple">
+<li><p>中小型数据集</p></li>
+<li><p>数据交换和共享</p></li>
+<li><p>Excel兼容需求</p></li>
+</ul>
 </section>
-</div></div>
+<section id="json">
+<h4>JSON<a class="headerlink" href="#json" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>特点</strong>：结构化格式，支持嵌套。但存储效率低下。一般不作为大量数据的存储方式。</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="p">[</span>
+</span><span id="line-2"><span class="w">  </span><span class="p">{</span>
+</span><span id="line-3"><span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span id="line-4"><span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"张三"</span><span class="p">,</span>
+</span><span id="line-5"><span class="w">    </span><span class="nt">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="line-6"><span class="w">      </span><span class="nt">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
+</span><span id="line-7"><span class="w">      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">85.5</span>
+</span><span id="line-8"><span class="w">    </span><span class="p">}</span>
+</span><span id="line-9"><span class="w">  </span><span class="p">},</span>
+</span><span id="line-10"><span class="w">  </span><span class="p">{</span>
+</span><span id="line-11"><span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span id="line-12"><span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"李四"</span><span class="p">,</span>
+</span><span id="line-13"><span class="w">    </span><span class="nt">"attributes"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span id="line-14"><span class="w">      </span><span class="nt">"age"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+</span><span id="line-15"><span class="w">      </span><span class="nt">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">92.0</span>
+</span><span id="line-16"><span class="w">    </span><span class="p">}</span>
+</span><span id="line-17"><span class="w">  </span><span class="p">}</span>
+</span><span id="line-18"><span class="p">]</span>
+</span></code></pre></div>
+</div>
+<p><strong>适用场景</strong>：</p>
+<ul class="simple">
+<li><p>API数据交换</p></li>
+<li><p>配置文件和元数据</p></li>
+<li><p>嵌套结构数据</p></li>
+</ul>
+</section>
+<section id="fasta">
+<h4>FASTA<a class="headerlink" href="#fasta" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>特点</strong>：专用于生物信息学，简单序列表示。可在名字处添加简单标签。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="o">&gt;</span><span class="n">seq1</span> <span class="o">|</span> <span class="n">label1</span>
+</span><span id="line-2"><span class="n">ATCGATCGATCG</span>
+</span><span id="line-3"><span class="o">&gt;</span><span class="n">seq2</span> <span class="o">|</span> <span class="n">label2</span>
+</span><span id="line-4"><span class="n">TAGCTAGCTAGC</span>
+</span></code></pre></div>
+</div>
+<p><strong>适用场景</strong>：</p>
+<ul class="simple">
+<li><p>DNA/RNA/蛋白质序列</p></li>
+<li><p>生物信息学研究</p></li>
+<li><p>标签较为简单的场景</p></li>
+</ul>
+</section>
+</section>
+<section id="id4">
+<h3>1.2 数据库存储<a class="headerlink" href="#id4" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h3>
+<p><strong>数据库存储</strong></p>
+<ul class="simple">
+<li><p>通过数据库管理系统（DBMS）组织、存储和管理数据</p></li>
+<li><p>使用结构化查询语言（SQL）或特定API进行操作</p></li>
+</ul>
+<p><strong>适合使用数据库存储的场景</strong></p>
+<ul class="simple">
+<li><p>需要复杂查询和数据分析</p></li>
+<li><p>多用户并发访问的系统</p></li>
+<li><p>数据之间有复杂关系</p></li>
+<li><p>需要保证数据一致性和完整性</p></li>
+<li><p>需要频繁更新和事务支持</p></li>
+</ul>
+<section id="mysql">
+<h4>MySQL<a class="headerlink" href="#mysql" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>特点</strong>：关系型数据库，支持复杂查询，适合结构化数据</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1">-- 创建表</span>
+</span><span id="line-2"><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="p">(</span>
+</span><span id="line-3"><span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+</span><span id="line-4"><span class="w">    </span><span class="n">name</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span>
+</span><span id="line-5"><span class="w">    </span><span class="n">age</span><span class="w"> </span><span class="nb">INT</span><span class="p">,</span>
+</span><span id="line-6"><span class="w">    </span><span class="n">score</span><span class="w"> </span><span class="nb">FLOAT</span>
+</span><span id="line-7"><span class="p">);</span>
+</span><span id="line-8">
+</span><span id="line-9"><span class="c1">-- 插入数据</span>
+</span><span id="line-10"><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">users</span><span class="w"> </span><span class="k">VALUES</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s1">'张三'</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">.</span><span class="mi">5</span><span class="p">);</span>
+</span></code></pre></div>
+</div>
+<p><strong>适用场景</strong>：</p>
+<ul class="simple">
+<li><p>大规模结构化数据</p></li>
+<li><p>需要事务支持</p></li>
+<li><p>复杂查询需求</p></li>
+</ul>
+</section>
+<section id="sqlite">
+<h4>SQLite<a class="headerlink" href="#sqlite" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>特点</strong>：轻量级嵌入式数据库，单文件存储</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="o">--</span> <span class="n">SQLite使用类似SQL语法</span>
+</span><span id="line-2"><span class="o">--</span> <span class="n">数据存储在单个</span><span class="o">.</span><span class="n">db文件中</span>
+</span></code></pre></div>
+</div>
+<p><strong>适用场景</strong>：</p>
+<ul class="simple">
+<li><p>移动应用和桌面应用</p></li>
+<li><p>小型项目原型</p></li>
+<li><p>无需独立数据库服务器的场景</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="id5">
+<h2>2. 数据特征类型<a class="headerlink" href="#id5" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h2>
+<section id="id6">
+<h3>2.1 离散型特征<a class="headerlink" href="#id6" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h3>
+<p><strong>定义</strong>：取值有限且不连续的特征，通常表示类别或状态。</p>
+<p><strong>示例</strong>：</p>
+<ul class="simple">
+<li><p>性别：{男, 女}</p></li>
+<li><p>颜色：{红, 绿, 蓝}</p></li>
+<li><p>产品类别：{电子, 服装, 食品}</p></li>
+</ul>
+<p><strong>嵌入方法</strong>：</p>
+<ol class="arabic simple">
+<li><p><strong>独热编码（One-Hot Encoding）</strong></p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">原始数据：颜色 = [红, 绿, 蓝, 红]
+</span><span id="line-2">编码后：
+</span><span id="line-3">红: [1, 0, 0]
+</span><span id="line-4">绿: [0, 1, 0]
+</span><span id="line-5">蓝: [0, 0, 1]
+</span></code></pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>标签编码（Label Encoding）</strong></p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">颜色 → 数字映射：
+</span><span id="line-2">红: 0, 绿: 1, 蓝: 2
+</span></code></pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>嵌入层（Embedding Layer）</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>深度学习中常用</p></li>
+<li><p>将离散值映射到低维连续向量</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>2.2 连续型特征<a class="headerlink" href="#id7" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h3>
+<p><strong>定义</strong>：取值在某个范围内连续变化的特征</p>
+<p><strong>示例</strong>：</p>
+<ul class="simple">
+<li><p>年龄：0-120岁</p></li>
+<li><p>温度：-50℃到50℃</p></li>
+<li><p>收入：0-100万元</p></li>
+</ul>
+<p><strong>嵌入方法</strong>：</p>
+<ol class="arabic simple">
+<li><p><strong>直接输入</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>适用于数值范围合理的特征</p></li>
+<li><p>模型直接学习原始数值</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>标准化（Standardization）</strong>
+标准化可以减少不同特征下数据的量纲大小对结果的影响</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">公式：z = (x - μ) / σ
+</span><span id="line-2">其中：μ是均值，σ是标准差
+</span><span id="line-3">
+</span><span id="line-4">示例：
+</span><span id="line-5">原始数据：[1000, 2000, 3000]
+</span><span id="line-6">标准化后：[-1.22, 0, 1.22]（假设）
+</span></code></pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>归一化（Normalization）</strong>
+归一化和标准化的目的是一致的，只是另一种数学实现。</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">公式：x' = (x - min) / (max - min)
+</span><span id="line-2">结果范围：[0, 1]
+</span><span id="line-3">
+</span><span id="line-4">示例：
+</span><span id="line-5">原始数据：[10, 20, 30]
+</span><span id="line-6">归一化后：[0, 0.5, 1]
+</span></code></pre></div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p><strong>分箱（Binning）</strong>
+将连续值转换为离散区间，把无穷的连续空间转化为有限的分类空间，这样的好处是使得训练更加稳定。</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">年龄分箱：
+</span><span id="line-2">0-18: 儿童
+</span><span id="line-3">19-35: 青年
+</span><span id="line-4">36-60: 中年
+</span><span id="line-5">60+: 老年
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>3. 不同模态的数据<a class="headerlink" href="#id8" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h2>
+<p>数据有各种各样的模态，不同的模态有对应的特征，以及对应的处理方法。</p>
+<section id="id9">
+<h3>3.1 图像数据<a class="headerlink" href="#id9" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h3>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>高维度（像素矩阵）</p></li>
+<li><p>空间相关性（邻近像素相关）</p></li>
+<li><p>颜色通道（RGB, 灰度）</p></li>
+<li><p>常见格式：JPEG, PNG, BMP</p></li>
+<li><p>常用模型：CNN, GAN, DDPM(Diffusion)等</p></li>
+</ul>
+</section>
+<section id="id10">
+<h3>3.2 文本数据<a class="headerlink" href="#id10" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id10'"><span>#</span></a></h3>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>序列数据</p></li>
+<li><p>语义丰富</p></li>
+<li><p>长度可变</p></li>
+<li><p>编码多样（ASCII, UTF-8）</p></li>
+<li><p>常用模型：RNN, Transformer等</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>3.3 音频数据<a class="headerlink" href="#id11" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id11'"><span>#</span></a></h3>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>时间序列数据</p></li>
+<li><p>频率特征丰富</p></li>
+<li><p>采样率影响质量</p></li>
+<li><p>常见格式：WAV, MP3</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>3.4 表格数据<a class="headerlink" href="#id12" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id12'"><span>#</span></a></h3>
+<p><strong>特点</strong>：</p>
+<ul class="simple">
+<li><p>结构化行列</p></li>
+<li><p>混合数据类型</p></li>
+<li><p>缺失值常见</p></li>
+<li><p>关系明确</p></li>
+</ul>
+</section>
+</section>
+<section id="id13">
+<h2>4. 数据预处理<a class="headerlink" href="#id13" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id13'"><span>#</span></a></h2>
+<section id="id14">
+<h3>4.1 缺失值处理<a class="headerlink" href="#id14" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id14'"><span>#</span></a></h3>
+<p><strong>统计方法</strong>：</p>
+<ol class="arabic simple">
+<li><p><strong>删除法</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>删除缺失值所在行/列</p></li>
+<li><p>适用于缺失比例较小的情况</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>填充法</strong>
+填充法需要根据特定场景来选择合适的方案，没有固定的方法。</p></li>
+</ol>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">常用填充策略：
+</span><span id="line-2">- 均值填充（数值型）
+</span><span id="line-3">- 众数填充（类别型）
+</span><span id="line-4">- 中位数填充（有离群值时）
+</span><span id="line-5">- 前后值填充（时间序列）
+</span></code></pre></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>插值法</strong>
+插值法同样需要根据特定场景来选择合适的方案，没有固定的方法。</p></li>
+</ol>
+<ul class="simple">
+<li><p>线性插值</p></li>
+<li><p>多项式插值</p></li>
+<li><p>时间序列插值</p></li>
+</ul>
+<p><strong>模型生成方法</strong>：</p>
+<ol class="arabic simple">
+<li><p><strong>KNN填充</strong>：使用最邻近样本的值填充</p></li>
+<li><p><strong>回归填充</strong>：用其他特征预测缺失值</p></li>
+<li><p><strong>深度学习填充</strong>：使用自动编码器等模型</p></li>
+</ol>
+</section>
+<section id="id15">
+<h3>4.2 异常值处理<a class="headerlink" href="#id15" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id15'"><span>#</span></a></h3>
+<p><strong>检测方法</strong>：</p>
+<ol class="arabic simple">
+<li><p><strong>标准差法</strong>：超出均值±3σ视为异常</p></li>
+<li><p><strong>箱线图法</strong>：超出1.5倍IQR视为异常</p></li>
+<li><p><strong>孤立森林</strong>：专门检测异常的算法</p></li>
+<li><p><strong>DBSCAN聚类</strong>：将稀疏点视为异常</p></li>
+</ol>
+<p><strong>处理方法</strong>：</p>
+<ol class="arabic simple">
+<li><p><strong>删除</strong>：直接移除异常样本</p></li>
+<li><p><strong>替换</strong>：用边界值或统计值替换</p></li>
+<li><p><strong>分箱</strong>：将异常值归入边界箱</p></li>
+<li><p><strong>保留</strong>：某些场景下异常值包含重要信息，不需要处理</p></li>
+</ol>
+</section>
+</section>
+<section id="id16">
+<h2>5. 数据集划分<a class="headerlink" href="#id16" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id16'"><span>#</span></a></h2>
+<section id="id17">
+<h3>5.1 训练集、验证集、测试集解释<a class="headerlink" href="#id17" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id17'"><span>#</span></a></h3>
+<ul class="simple">
+<li><p>训练集（Training Set）
+<strong>作用</strong>：用于模型训练和参数学习
+<strong>比例</strong>：通常占总数据的60-80%
+<strong>特点</strong>：模型直接从中学习规律</p></li>
+<li><p>验证集（Validation Set）
+<strong>作用</strong>：</p></li>
+</ul>
+<ul class="simple">
+<li><p>用于监测模型训练过程
+<strong>比例</strong>：通常占10-20%
+<strong>特点</strong>：不参与训练，用于模型训练过程的评估</p></li>
+</ul>
+<ul class="simple">
+<li><p>测试集（Test Set）
+<strong>作用</strong>：</p></li>
+</ul>
+<ul class="simple">
+<li><p>最终模型的评估</p></li>
+<li><p>估计泛化能力</p></li>
+<li><p>报告最终性能
+<strong>比例</strong>：通常占10-20%
+<strong>特点</strong>：</p></li>
+<li><p>只在最终使用一次</p></li>
+<li><p>模拟真实场景</p></li>
+<li><p>必须与训练集/验证集无交集，即无数据泄露的情况</p></li>
+</ul>
+<p>一般比例按<code class="docutils literal notranslate"><span class="pre">8：1：1</span></code>，<code class="docutils literal notranslate"><span class="pre">7：1：2</span></code>或者其他都可，没有强制固定</p>
+</section>
+<section id="k">
+<h3>5.2 K折交叉验证<a class="headerlink" href="#k" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#k'"><span>#</span></a></h3>
+<ul class="simple">
+<li><p>原理：
+将数据集均分为K份，进行K次训练和验证</p></li>
+<li><p>流程：</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>将数据随机打乱并分为K等份</p></li>
+<li><p>进行K轮训练验证：</p>
+<ul class="simple">
+<li><p>每次用K-1份作为训练集</p></li>
+<li><p>用剩下的1份作为验证集</p></li>
+</ul>
+</li>
+<li><p>计算K次验证结果的平均值</p></li>
+</ol>
+<ul class="simple">
+<li><p>优点：</p></li>
+</ul>
+<ul class="simple">
+<li><p>充分利用数据</p></li>
+<li><p>减少随机划分的影响</p></li>
+<li><p>更可靠的性能评估</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">K=5折交叉验证示例：
+</span><span id="line-2">原始数据：100个样本
+</span><span id="line-3">
+</span><span id="line-4">第1轮：训练集=折2-5，验证集=折1
+</span><span id="line-5">第2轮：训练集=折1,3-5，验证集=折2
+</span><span id="line-6">第3轮：训练集=折1-2,4-5，验证集=折3
+</span><span id="line-7">第4轮：训练集=折1-3,5，验证集=折4
+</span><span id="line-8">第5轮：训练集=折1-4，验证集=折5
+</span></code></pre></div>
+</div>
+<ul class="simple">
+<li><p>选择K值：</p></li>
+</ul>
+<ul class="simple">
+<li><p><strong>小数据集</strong>：建议K=5或10</p></li>
+<li><p><strong>大数据集</strong>：K=3可能足够</p></li>
+<li><p><strong>计算资源充足</strong>：使用较大K值</p></li>
+</ul>
+</section>
+<section id="id18">
+<h3>5.3 比例分割方法<a class="headerlink" href="#id18" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id18'"><span>#</span></a></h3>
+<section id="id19">
+<h4>简单随机分割<a class="headerlink" href="#id19" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>适用场景</strong>：数据分布均匀，无特殊要求</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 伪代码示例（仅展示逻辑）</span>
+</span><span id="line-2"><span class="c1"># 假设data包含所有样本和标签</span>
+</span><span id="line-3">
+</span><span id="line-4"><span class="n">total_samples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="line-5"><span class="n">indices</span> <span class="o">=</span> <span class="n">随机打乱</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">total_samples</span><span class="p">))</span>
+</span><span id="line-6">
+</span><span id="line-7"><span class="n">train_end</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.7</span> <span class="o">*</span> <span class="n">total_samples</span><span class="p">)</span>
+</span><span id="line-8"><span class="n">val_end</span> <span class="o">=</span> <span class="n">train_end</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.15</span> <span class="o">*</span> <span class="n">total_samples</span><span class="p">)</span>
+</span><span id="line-9">
+</span><span id="line-10"><span class="n">train_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:</span><span class="n">train_end</span><span class="p">]</span>
+</span><span id="line-11"><span class="n">val_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">train_end</span><span class="p">:</span><span class="n">val_end</span><span class="p">]</span>
+</span><span id="line-12"><span class="n">test_indices</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">val_end</span><span class="p">:]</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id20">
+<h4>分层采样分割<a class="headerlink" href="#id20" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>适用场景</strong>：类别不平衡，需要保持分布一致</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">保持每个集合中各类别比例与原始数据相同
+</span><span id="line-2">
+</span><span id="line-3">原始数据：类别A占60%，类别B占40%
+</span><span id="line-4">→ 训练集：A占60%，B占40%
+</span><span id="line-5">→ 验证集：A占60%，B占40%
+</span><span id="line-6">→ 测试集：A占60%，B占40%
+</span></code></pre></div>
+</div>
+</section>
+<section id="id21">
+<h4>时间序列分割<a class="headerlink" href="#id21" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>适用场景</strong>：时间相关数据，防止未来信息泄露</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">按时间顺序划分：
+</span><span id="line-2">最早70%时间点 → 训练集
+</span><span id="line-3">中间15%时间点 → 验证集
+</span><span id="line-4">最近15%时间点 → 测试集
+</span></code></pre></div>
+</div>
+</section>
+<section id="id22">
+<h4>分组分割<a class="headerlink" href="#id22" title="链接到此标题。"><span>#</span></a></h4>
+<p><strong>适用场景</strong>：同一对象有多个样本，需保证同一对象不在不同集合</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">同一患者的多张医疗影像：
+</span><span id="line-2">患者1的所有影像 → 训练集
+</span><span id="line-3">患者2的所有影像 → 验证集
+</span><span id="line-4">患者3的所有影像 → 测试集
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id23">
+<h3>6. 注意事项<a class="headerlink" href="#id23" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id23'"><span>#</span></a></h3>
+<ol class="arabic simple">
+<li><p><strong>随机种子</strong>：一般需要设置固定随机种子保证可复现性</p></li>
+<li><p><strong>数据泄露</strong>：确保三个数据集是无交集的，数据无重复</p></li>
+<li><p><strong>备份原始数据</strong>：始终保留原始数据副本</p></li>
+<li><p><strong>记录划分信息</strong>：记录划分方法和参数</p></li>
+</ol>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./2_1_深度学习简介.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./2_3_损失函数.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div></section>
+</section>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">1. 数据存储方法</a><ul>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">1.1 基本文件存储</a><ul>
+<li><a :data-current="activeSection === '#csv'" class="reference internal" href="#csv">CSV</a></li>
+<li><a :data-current="activeSection === '#json'" class="reference internal" href="#json">JSON</a></li>
+<li><a :data-current="activeSection === '#fasta'" class="reference internal" href="#fasta">FASTA</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">1.2 数据库存储</a><ul>
+<li><a :data-current="activeSection === '#mysql'" class="reference internal" href="#mysql">MySQL</a></li>
+<li><a :data-current="activeSection === '#sqlite'" class="reference internal" href="#sqlite">SQLite</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">2. 数据特征类型</a><ul>
+<li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">2.1 离散型特征</a></li>
+<li><a :data-current="activeSection === '#id7'" class="reference internal" href="#id7">2.2 连续型特征</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id8'" class="reference internal" href="#id8">3. 不同模态的数据</a><ul>
+<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">3.1 图像数据</a></li>
+<li><a :data-current="activeSection === '#id10'" class="reference internal" href="#id10">3.2 文本数据</a></li>
+<li><a :data-current="activeSection === '#id11'" class="reference internal" href="#id11">3.3 音频数据</a></li>
+<li><a :data-current="activeSection === '#id12'" class="reference internal" href="#id12">3.4 表格数据</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id13'" class="reference internal" href="#id13">4. 数据预处理</a><ul>
+<li><a :data-current="activeSection === '#id14'" class="reference internal" href="#id14">4.1 缺失值处理</a></li>
+<li><a :data-current="activeSection === '#id15'" class="reference internal" href="#id15">4.2 异常值处理</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id16'" class="reference internal" href="#id16">5. 数据集划分</a><ul>
+<li><a :data-current="activeSection === '#id17'" class="reference internal" href="#id17">5.1 训练集、验证集、测试集解释</a></li>
+<li><a :data-current="activeSection === '#k'" class="reference internal" href="#k">5.2 K折交叉验证</a></li>
+<li><a :data-current="activeSection === '#id18'" class="reference internal" href="#id18">5.3 比例分割方法</a><ul>
+<li><a :data-current="activeSection === '#id19'" class="reference internal" href="#id19">简单随机分割</a></li>
+<li><a :data-current="activeSection === '#id20'" class="reference internal" href="#id20">分层采样分割</a></li>
+<li><a :data-current="activeSection === '#id21'" class="reference internal" href="#id21">时间序列分割</a></li>
+<li><a :data-current="activeSection === '#id22'" class="reference internal" href="#id22">分组分割</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id23'" class="reference internal" href="#id23">6. 注意事项</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
 </main>
 </div>
 </div><footer class="py-6 border-t border-border md:py-0">
 <div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
 <div class="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
-<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 8.1.3</a></p>
+<p class="text-sm leading-loose text-center text-muted-foreground md:text-left">© 2026, ZhouLong Built with <a class="font-medium underline underline-offset-4" href="https://www.sphinx-doc.org" rel="noreferrer">Sphinx 9.1.0</a></p>
 </div>
 </div>
 </footer>
 </div>
 <script src="../_static/documentation_options.js?v=f115507d"></script>
-<script src="../_static/doctools.js?v=9bcbadda"></script>
-<script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../_static/doctools.js?v=fd6eb6e6"></script>
+<script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
 <script defer="defer" src="../_static/theme.js?v=582b20c5"></script>
-<script src="../_static/translations.js?v=beaddf03"></script>
+<script src="../_static/translations.js?v=540d3cec"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 获取当前页面的路径
+    const pagePath = window.location.pathname;
+    // 对于根页面，使用'/'或空字符串
+    const pageInfo = pagePath.endsWith('/') ? pagePath.slice(0, -1) : pagePath;
+    const currentPage = pageInfo || '/';
+    
+    console.log('正在统计页面浏览量:', currentPage);
+    
+    // 发送请求到后端API
+    fetch('/api/view_count', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        page: currentPage,
+        timestamp: new Date().toISOString()
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('网络响应不正常');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('收到浏览量数据:', data);
+      // 更新页面上的浏览量显示
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement && data.count !== undefined) {
+        // 格式化显示数字，添加千位分隔符
+        const formattedCount = new Intl.NumberFormat('zh-CN').format(data.count);
+        viewCountElement.textContent = formattedCount;
+        
+        // 为浏览量数字添加样式
+        viewCountElement.style.fontWeight = '700';
+        viewCountElement.style.color = '#10b981'; // 成功时改为绿色
+        
+        // 添加简单的动画效果
+        viewCountElement.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          viewCountElement.style.color = '#3b82f6'; // 0.3秒后变回蓝色
+        }, 300);
+      }
+    })
+    .catch(error => {
+      console.error('获取浏览量时出错:', error);
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement) {
+        viewCountElement.textContent = '加载失败';
+        viewCountElement.style.color = '#ef4444'; // 失败时改为红色
+        viewCountElement.style.fontWeight = '600';
+      }
+    });
+  });
+</script>
 </body>
 </html>
