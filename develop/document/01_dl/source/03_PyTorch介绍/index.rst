@@ -3,5 +3,7 @@
  
 .. toctree::
    :maxdepth: 1
-   :caption: 内容目录:
+   
+   3_1_PyTorch简介
+   3_2_数据库实践
    
