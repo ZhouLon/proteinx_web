@@ -110,7 +110,7 @@
 <a href="./2_4_优化器.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
 </div>
 <section id="id2">
-<h2>1 损失函数是什么<a class="headerlink" href="#id2" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<h2>1 <strong>损失函数是什么</strong><a class="headerlink" href="#id2" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
 <p>损失函数（Loss Function）这个是深度学习模型训练中的核心概念，用于衡量模型预测结果与真实标签之间的误差或差距。<b>训练模型的本质就是为了降低损失函数的值</b>。</p>
 <p>相关概念在<code class="docutils literal notranslate"><span class="pre">2_1_深度学习简介</span></code>中有介绍基础原理，本篇侧重系统介绍损失函数都有哪些，原理有哪些。不同任务一般会运用特定的损失函数，如回归任务，分类任务，排序任务等。因此掌握好损失函数，才可以构建恰当的模型来解决特定的问题。</p>
 <div class="admonition tip">
@@ -119,18 +119,18 @@
 </div>
 </section>
 <section id="id3">
-<h2>2 损失函数的性质<a class="headerlink" href="#id3" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h2>
+<h2>2 <strong>损失函数的性质</strong><a class="headerlink" href="#id3" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h2>
 <p>损失函数通过优化器中的优化算法来调整模型参数以最小化这一差异。损失函数的选择直接影响模型的训练效果、收敛速度和泛化能力。以下是损失函数应具备的几个重要性质。</p>
 <p>损失函数（Loss Function）在深度学习中扮演着核心角色，它用于衡量模型预测值与真实值之间的差异，并通过优化算法（如梯度下降）来调整模型参数以最小化这一差异。损失函数的选择直接影响模型的训练效果、收敛速度和泛化能力。以下是损失函数应具备的几个重要性质，及其在深度学习中的意义：</p>
 <section id="convexity">
-<h3>2.1. <strong>凸性（Convexity）</strong><a class="headerlink" href="#convexity" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#convexity'"><span>#</span></a></h3>
+<h3>2.1. 凸性（Convexity）<a class="headerlink" href="#convexity" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#convexity'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：如果损失函数在其定义域内是凸函数，则任何局部最小值都是全局最小值。</p></li>
 <li><p><strong>重要性</strong>：凸损失函数更容易优化，因为梯度下降等优化算法能够稳定地收敛到全局最优解，避免陷入局部极小值。</p></li>
 </ul>
 </section>
 <section id="differentiability">
-<h3>2.2 <strong>可微性（Differentiability）</strong><a class="headerlink" href="#differentiability" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#differentiability'"><span>#</span></a></h3>
+<h3>2.2 可微性（Differentiability）<a class="headerlink" href="#differentiability" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#differentiability'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：损失函数在其定义域内是可导的，即存在连续梯度。</p></li>
 <li><p><strong>重要性</strong>：梯度下降等基于梯度的优化算法依赖于损失函数对模型参数的导数。如果损失函数不可微，则无法直接使用这些方法。</p></li>
@@ -138,28 +138,28 @@
 </ul>
 </section>
 <section id="robustness">
-<h3>2.3 <strong>鲁棒性（Robustness）</strong><a class="headerlink" href="#robustness" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#robustness'"><span>#</span></a></h3>
+<h3>2.3 鲁棒性（Robustness）<a class="headerlink" href="#robustness" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#robustness'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：损失函数对异常值不敏感，不会因为少数极端值而产生过大影响。</p></li>
 <li><p><strong>重要性</strong>：在实际数据中，异常值难以避免。鲁棒的损失函数能减少这些值对模型训练的干扰，提高模型的稳定性。</p></li>
 </ul>
 </section>
 <section id="smoothness">
-<h3>2.4 <strong>平滑性（Smoothness）</strong><a class="headerlink" href="#smoothness" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#smoothness'"><span>#</span></a></h3>
+<h3>2.4 平滑性（Smoothness）<a class="headerlink" href="#smoothness" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#smoothness'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：损失函数的梯度连续变化，没有突变或陡峭的跳跃。</p></li>
 <li><p><strong>重要性</strong>：平滑的损失函数能提供更稳定的梯度信息，有利于优化算法的收敛。</p></li>
 </ul>
 </section>
 <section id="sparsity">
-<h3>2.5 <strong>稀疏性（Sparsity）</strong><a class="headerlink" href="#sparsity" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#sparsity'"><span>#</span></a></h3>
+<h3>2.5 稀疏性（Sparsity）<a class="headerlink" href="#sparsity" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#sparsity'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：损失函数能鼓励模型输出稀疏解，即只有少数特征或参数对预测有贡献。</p></li>
 <li><p><strong>重要性</strong>：在高维数据或特征选择任务中，稀疏性有助于提高模型的解释性和泛化能力。</p></li>
 </ul>
 </section>
 <section id="monotonicity">
-<h3>2.6 <strong>单调性（Monotonicity）</strong><a class="headerlink" href="#monotonicity" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#monotonicity'"><span>#</span></a></h3>
+<h3>2.6 单调性（Monotonicity）<a class="headerlink" href="#monotonicity" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#monotonicity'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>定义</strong>：损失函数值随预测值接近真实值而单调递减。</p></li>
 <li><p><strong>重要性</strong>：单调性保证了优化过程是朝着正确的方向进行的，即减少误差会降低损失。</p></li>
@@ -167,11 +167,11 @@
 </section>
 </section>
 <section id="id4">
-<h2>3 回归任务的损失函数<a class="headerlink" href="#id4" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h2>
+<h2>3 <strong>回归任务的损失函数</strong><a class="headerlink" href="#id4" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h2>
 <p>回归任务中常用的损失函数主要包括以下几种，每种都有其特定的数学形式、性质、适用场景与优缺点：</p>
 <hr class="docutils"/>
 <section id="id5">
-<h3>3.1 <strong>均方误差</strong><a class="headerlink" href="#id5" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h3>
+<h3>3.1 均方误差<a class="headerlink" href="#id5" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h3>
 <p>均方误差，又称为<code class="docutils literal notranslate"><span class="pre">Mean</span> <span class="pre">Squared</span> <span class="pre">Error</span></code>, <code class="docutils literal notranslate"><span class="pre">MSE</span></code>, <code class="docutils literal notranslate"><span class="pre">L2</span> <span class="pre">Loss</span></code></p>
 <ul class="simple">
 <li><p><strong>公式</strong>：</p></li>
@@ -203,7 +203,7 @@
 </section>
 <hr class="docutils"/>
 <section id="id6">
-<h3>3.2 <strong>平均绝对误差</strong><a class="headerlink" href="#id6" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h3>
+<h3>3.2 平均绝对误差<a class="headerlink" href="#id6" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h3>
 <p>平均绝对误差，又称为<code class="docutils literal notranslate"><span class="pre">Mean</span> <span class="pre">Absolute</span> <span class="pre">Error</span></code>, <code class="docutils literal notranslate"><span class="pre">MAE</span></code>, <code class="docutils literal notranslate"><span class="pre">L1</span> <span class="pre">Loss</span></code>。其和MSE的区别在于内部的核不是求差的平方，而是差的绝对值。</p>
 <ul class="simple">
 <li><p><strong>公式</strong>：</p></li>
@@ -235,7 +235,7 @@
 </section>
 <hr class="docutils"/>
 <section id="huber-loss">
-<h3>3.3 <strong>Huber Loss</strong><a class="headerlink" href="#huber-loss" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#huber-loss'"><span>#</span></a></h3>
+<h3>3.3 Huber Loss<a class="headerlink" href="#huber-loss" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#huber-loss'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>公式</strong>：</p></li>
 </ul>
@@ -265,7 +265,7 @@
 </section>
 <hr class="docutils"/>
 <section id="log-cosh-loss">
-<h3>3.4 <strong>Log-Cosh Loss</strong><a class="headerlink" href="#log-cosh-loss" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#log-cosh-loss'"><span>#</span></a></h3>
+<h3>3.4 Log-Cosh Loss<a class="headerlink" href="#log-cosh-loss" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#log-cosh-loss'"><span>#</span></a></h3>
 <ul class="simple">
 <li><p><strong>公式</strong>：</p></li>
 </ul>
@@ -307,7 +307,7 @@
 </section>
 <hr class="docutils"/>
 <section id="id7">
-<h3>3.5 <strong>分位数损失</strong><a class="headerlink" href="#id7" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h3>
+<h3>3.5 分位数损失<a class="headerlink" href="#id7" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h3>
 <p>分位数损失，又称为Quantile Loss</p>
 <ul class="simple">
 <li><p><strong>公式</strong>：</p></li>
@@ -339,7 +339,7 @@
 </section>
 <hr class="docutils"/>
 <section id="id8">
-<h3>3.6 <strong>泊松损失</strong><a class="headerlink" href="#id8" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h3>
+<h3>3.6 泊松损失<a class="headerlink" href="#id8" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h3>
 <p>泊松损失，又称为Poisson Loss</p>
 <ul class="simple">
 <li><p><strong>公式</strong>：</p></li>
@@ -369,7 +369,7 @@
 </section>
 <hr class="docutils"/>
 <section id="id9">
-<h2>4 分类任务的损失函数<a class="headerlink" href="#id9" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h2>
+<h2>4 <strong>分类任务的损失函数</strong><a class="headerlink" href="#id9" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h2>
 <p>在分类任务中，一般模型需要完成C分类的任务，则需要设置输出层有C个神经元。此时模型输出的向量被称作logits向量，logits向量需要通过 Softmax 函数 转换为概率分布。Softmax 函数如下：</p>
 <div style="margin: 20px 0; text-align: center;">
 <img alt="pij" src="../_static/figures/2/pij.png" style="display: block; margin: 20px auto; width: 100%; max-width: 1000px;"/>
@@ -658,26 +658,26 @@ Poly-1损失：它在标准交叉熵的顶部添加了一个线性项。<br/>
 </div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
 <div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
 <ul>
-<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">1 损失函数是什么</a></li>
-<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">2 损失函数的性质</a><ul>
-<li><a :data-current="activeSection === '#convexity'" class="reference internal" href="#convexity">2.1. <strong>凸性（Convexity）</strong></a></li>
-<li><a :data-current="activeSection === '#differentiability'" class="reference internal" href="#differentiability">2.2 <strong>可微性（Differentiability）</strong></a></li>
-<li><a :data-current="activeSection === '#robustness'" class="reference internal" href="#robustness">2.3 <strong>鲁棒性（Robustness）</strong></a></li>
-<li><a :data-current="activeSection === '#smoothness'" class="reference internal" href="#smoothness">2.4 <strong>平滑性（Smoothness）</strong></a></li>
-<li><a :data-current="activeSection === '#sparsity'" class="reference internal" href="#sparsity">2.5 <strong>稀疏性（Sparsity）</strong></a></li>
-<li><a :data-current="activeSection === '#monotonicity'" class="reference internal" href="#monotonicity">2.6 <strong>单调性（Monotonicity）</strong></a></li>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">1 <strong>损失函数是什么</strong></a></li>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">2 <strong>损失函数的性质</strong></a><ul>
+<li><a :data-current="activeSection === '#convexity'" class="reference internal" href="#convexity">2.1. 凸性（Convexity）</a></li>
+<li><a :data-current="activeSection === '#differentiability'" class="reference internal" href="#differentiability">2.2 可微性（Differentiability）</a></li>
+<li><a :data-current="activeSection === '#robustness'" class="reference internal" href="#robustness">2.3 鲁棒性（Robustness）</a></li>
+<li><a :data-current="activeSection === '#smoothness'" class="reference internal" href="#smoothness">2.4 平滑性（Smoothness）</a></li>
+<li><a :data-current="activeSection === '#sparsity'" class="reference internal" href="#sparsity">2.5 稀疏性（Sparsity）</a></li>
+<li><a :data-current="activeSection === '#monotonicity'" class="reference internal" href="#monotonicity">2.6 单调性（Monotonicity）</a></li>
 </ul>
 </li>
-<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">3 回归任务的损失函数</a><ul>
-<li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">3.1 <strong>均方误差</strong></a></li>
-<li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">3.2 <strong>平均绝对误差</strong></a></li>
-<li><a :data-current="activeSection === '#huber-loss'" class="reference internal" href="#huber-loss">3.3 <strong>Huber Loss</strong></a></li>
-<li><a :data-current="activeSection === '#log-cosh-loss'" class="reference internal" href="#log-cosh-loss">3.4 <strong>Log-Cosh Loss</strong></a></li>
-<li><a :data-current="activeSection === '#id7'" class="reference internal" href="#id7">3.5 <strong>分位数损失</strong></a></li>
-<li><a :data-current="activeSection === '#id8'" class="reference internal" href="#id8">3.6 <strong>泊松损失</strong></a></li>
+<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">3 <strong>回归任务的损失函数</strong></a><ul>
+<li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">3.1 均方误差</a></li>
+<li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">3.2 平均绝对误差</a></li>
+<li><a :data-current="activeSection === '#huber-loss'" class="reference internal" href="#huber-loss">3.3 Huber Loss</a></li>
+<li><a :data-current="activeSection === '#log-cosh-loss'" class="reference internal" href="#log-cosh-loss">3.4 Log-Cosh Loss</a></li>
+<li><a :data-current="activeSection === '#id7'" class="reference internal" href="#id7">3.5 分位数损失</a></li>
+<li><a :data-current="activeSection === '#id8'" class="reference internal" href="#id8">3.6 泊松损失</a></li>
 </ul>
 </li>
-<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">4 分类任务的损失函数</a><ul>
+<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">4 <strong>分类任务的损失函数</strong></a><ul>
 <li><a :data-current="activeSection === '#id10'" class="reference internal" href="#id10">4.1 二元交叉熵损失</a></li>
 <li><a :data-current="activeSection === '#id11'" class="reference internal" href="#id11">4.2 分类交叉熵损失</a></li>
 <li><a :data-current="activeSection === '#id12'" class="reference internal" href="#id12">4.3 稀疏分类交叉熵损失</a></li>
