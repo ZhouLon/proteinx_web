@@ -149,6 +149,7 @@ if __name__ == "__main__":
     file_path = "./develop/document/01_dl/build/html/index.html"
     dir_path1 = "./develop/document/01_dl/build/html/01_Python介绍"
     dir_path2 = "./develop/document/01_dl/build/html/02_深度学习介绍"
+    dir_path3 = "./develop/document/01_dl/build/html/03_PyTorch介绍"
     
     # 如果文件存在，则处理单个文件
     if os.path.exists(file_path):
@@ -166,3 +167,8 @@ if __name__ == "__main__":
         creat_view_counts_dir(dir_path2)
     else:
         print(f"测试目录不存在: {dir_path2}")
+    # 处理目录3
+    if os.path.exists(dir_path3):
+        creat_view_counts_dir(dir_path3)
+    else:
+        print(f"测试目录不存在: {dir_path3}")

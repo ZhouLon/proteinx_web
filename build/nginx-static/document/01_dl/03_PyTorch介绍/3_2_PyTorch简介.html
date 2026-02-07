@@ -21,15 +21,15 @@
 <meta content="#ffffff" media="(prefers-color-scheme: light)" name="theme-color"/>
 <meta content="#030711" media="(prefers-color-scheme: dark)" name="theme-color"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>2_4_优化器 | 深度学习入门的知识与规范 1.0 文档</title>
-<meta content="2_4_优化器 | 深度学习入门的知识与规范 1.0 文档" property="og:title"/>
-<meta content="2_4_优化器 | 深度学习入门的知识与规范 1.0 文档" name="twitter:title"/>
+<title>3_2_PyTorch简介 | 深度学习入门的知识与规范 1.0 文档</title>
+<meta content="3_2_PyTorch简介 | 深度学习入门的知识与规范 1.0 文档" property="og:title"/>
+<meta content="3_2_PyTorch简介 | 深度学习入门的知识与规范 1.0 文档" name="twitter:title"/>
 <link href="../_static/pygments.css?v=e72c8e07" rel="stylesheet" type="text/css"/>
 <link href="../_static/theme.css?v=73505e79" rel="stylesheet" type="text/css"/>
 <link href="../search.html" rel="search" title="搜索"/>
 <link href="../genindex.html" rel="index" title="索引"/>
-<link href="2_5_%E6%A8%A1%E5%9E%8B%E8%AF%84%E4%BC%B0.html" rel="next" title="2_5_模型评估"/>
-<link href="2_3_%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0.html" rel="prev" title="2_3_损失函数"/>
+<link href="3_3_%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%9E%E8%B7%B5.html" rel="next" title="3_3_数据库实践"/>
+<link href="3_1_DL%E6%A1%86%E6%9E%B6%E7%AE%80%E4%BB%8B.html" rel="prev" title="3_1_PyTorch简介"/>
 </head>
 <body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
 <div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
@@ -72,8 +72,8 @@
 <div class="overflow-y-auto h-full w-full relative pr-6"><nav class="table w-full min-w-full my-6 lg:my-8">
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../01_Python%E4%BB%8B%E7%BB%8D/index.html">01_Python介绍</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">02_深度学习介绍</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../03_PyTorch%E4%BB%8B%E7%BB%8D/index.html">03_PyTorch介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../02_%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%BB%8B%E7%BB%8D/index.html">02_深度学习介绍</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">03_PyTorch介绍</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../04_%E5%AE%9E%E9%AA%8C%E5%B7%A5%E7%A8%8B%E6%96%B9%E6%B3%95%E4%B8%8E%E8%A7%84%E8%8C%83/index.html">04_实验工程方法与规范</a></li>
 </ul>
 </nav>
@@ -94,27 +94,40 @@
 <path d="M240 856h120V616h240v240h120V496L480 316 240 496v360Zm-80 80V456l320-240 320 240v480H520V696h-80v240H160Zm320-350Z"></path>
 </svg>
 </a>
-<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">02_深度学习介绍</a>
-<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">2_4_优化器</span>
+<div class="mr-1">/</div><a class="hover:text-foreground overflow-hidden text-ellipsis whitespace-nowrap" href="index.html">03_PyTorch介绍</a>
+<div class="mr-1">/</div><span aria-current="page" class="font-medium text-foreground overflow-hidden text-ellipsis whitespace-nowrap">3_2_PyTorch简介</span>
 </nav>
 <div id="content" role="main">
-<section id="id1">
-<h1>2_4_优化器<a class="headerlink" href="#id1" title="链接到此标题。"><span>#</span></a></h1>
+<section id="pytorch">
+<h1>3_2_PyTorch简介<a class="headerlink" href="#pytorch" title="链接到此标题。"><span>#</span></a></h1>
 <p><strong>作者</strong>: ZhouLong<br/>
 <strong>创建日期</strong>: 2026 年 02 月 07 日<br/>
 <strong>版本</strong>: 1.0<br/></p>
 <p><strong>浏览量</strong>: <span id="viewCount" style="font-weight: 700; color: rgb(59, 130, 246); transition: 0.3s;"> </span></p>
-<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
-<a href="./2_3_损失函数.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
-<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
-<a href="./2_5_模型评估.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+<section id="id1">
+<h2>1 PyTorch的框架<a class="headerlink" href="#id1" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id1'"><span>#</span></a></h2>
+<p>逐层解释</p>
+</section>
+<section id="id2">
+<h2>2 PyTorch安装方法<a class="headerlink" href="#id2" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<ul class="simple">
+<li><p>cpu版本</p></li>
+<li><p>gpu版本</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>简单指引<a class="headerlink" href="#id3" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h2>
+</section>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#id1'" class="reference internal" href="#id1">1 PyTorch的框架</a></li>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">2 PyTorch安装方法</a></li>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">简单指引</a></li>
+</ul>
 </div>
-<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
-<a href="./2_3_损失函数.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
-<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
-<a href="./2_5_模型评估.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
-</div></section>
-</div></div>
+</aside>
 </main>
 </div>
 </div><footer class="py-6 border-t border-border md:py-0">
