@@ -249,6 +249,217 @@ with torch.no_grad():
 Predicted: "短靴", Actual: "短靴"
 ```
 
+## 6 完整代码流程
+
+可以复制下述完整代码来运行
+```python
+import torch
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+
+# ==================== 1. 数据准备阶段 ====================
+print("=== 数据准备阶段 ===")
+
+# 设置设备
+device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"使用设备: {device}")
+
+# 下载数据集
+transform = transforms.ToTensor()
+train_data = datasets.FashionMNIST(
+    root="data",
+    train=True,
+    download=True,
+    transform=transform
+)
+test_data = datasets.FashionMNIST(
+    root="data",
+    train=False,
+    download=True,
+    transform=transform
+)
+
+print(f"训练集大小: {len(train_data)}")
+print(f"测试集大小: {len(test_data)}")
+
+# 创建数据加载器
+batch_size = 64
+train_loader = DataLoader(train_data, batch_size=batch_size, shuffle=True)
+test_loader = DataLoader(test_data, batch_size=batch_size, shuffle=False)
+
+# 查看一个批次的数据
+for X, y in test_loader:
+    print(f"批次数据形状: X: {X.shape}, y: {y.shape}")
+    break
+
+# ==================== 2. 模型构建阶段 ====================
+print("\n=== 模型构建阶段 ===")
+
+class SimpleNet(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.flatten = nn.Flatten()
+        self.network = nn.Sequential(
+            nn.Linear(28*28, 128),
+            nn.ReLU(),
+            nn.Linear(128, 64),
+            nn.ReLU(),
+            nn.Linear(64, 10)
+        )
+    
+    def forward(self, x):
+        x = self.flatten(x)
+        return self.network(x)
+
+# 创建模型
+model = SimpleNet().to(device)
+print(f"模型结构:\n{model}")
+print(f"总参数数量: {sum(p.numel() for p in model.parameters()):,}")
+
+# ==================== 3. 训练配置阶段 ====================
+print("\n=== 训练配置阶段 ===")
+
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+
+# ==================== 4. 训练循环阶段 ====================
+print("\n=== 开始训练 ===")
+
+def train_one_epoch(epoch, dataloader, model, loss_fn, optimizer):
+    """训练一个epoch"""
+    model.train()
+    total_loss = 0
+    correct = 0
+    total = 0
+    
+    for batch, (X, y) in enumerate(dataloader):
+        X, y = X.to(device), y.to(device)
+        
+        # 前向传播
+        pred = model(X)
+        loss = loss_fn(pred, y)
+        total_loss += loss.item()
+        
+        # 计算准确率
+        correct += (pred.argmax(1) == y).sum().item()
+        total += len(y)
+        
+        # 反向传播
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+        
+        # 每100个批次打印一次
+        if batch % 100 == 0:
+            current = batch * len(X)
+            size = len(dataloader.dataset)
+            print(f"Epoch {epoch}: [{current:>5d}/{size:>5d}]")
+    
+    avg_loss = total_loss / len(dataloader)
+    accuracy = 100 * correct / total
+    return avg_loss, accuracy
+
+def test(dataloader, model, loss_fn):
+    """测试模型"""
+    model.eval()
+    total_loss = 0
+    correct = 0
+    total = 0
+    
+    with torch.no_grad():
+        for X, y in dataloader:
+            X, y = X.to(device), y.to(device)
+            pred = model(X)
+            total_loss += loss_fn(pred, y).item()
+            correct += (pred.argmax(1) == y).sum().item()
+            total += len(y)
+    
+    avg_loss = total_loss / len(dataloader)
+    accuracy = 100 * correct / total
+    return avg_loss, accuracy
+
+# 训练多个epoch
+epochs = 5
+train_losses = []
+test_losses = []
+train_accs = []
+test_accs = []
+
+for epoch in range(epochs):
+    print(f"\nEpoch {epoch+1}/{epochs}")
+    print("-" * 40)
+    
+    # 训练
+    train_loss, train_acc = train_one_epoch(epoch+1, train_loader, model, loss_fn, optimizer)
+    train_losses.append(train_loss)
+    train_accs.append(train_acc)
+    
+    # 测试
+    test_loss, test_acc = test(test_loader, model, loss_fn)
+    test_losses.append(test_loss)
+    test_accs.append(test_acc)
+    
+    print(f"训练损失: {train_loss:.4f}, 训练准确率: {train_acc:.2f}%")
+    print(f"测试损失: {test_loss:.4f}, 测试准确率: {test_acc:.2f}%")
+
+# ==================== 5. 模型保存阶段 ====================
+print("\n=== 模型保存阶段 ===")
+
+# 保存模型
+torch.save(model.state_dict(), "model.pth")
+print(" 模型已保存为 model.pth")
+
+# ==================== 6. 模型加载和预测阶段 ====================
+print("\n=== 模型加载和预测阶段 ===")
+
+# 加载模型
+loaded_model = SimpleNet().to(device)
+loaded_model.load_state_dict(torch.load("model.pth", weights_only=True))
+loaded_model.eval()
+print(" 模型加载成功")
+
+# 类别标签
+classes = [
+    "T恤/上衣", "裤子", "套头衫", "连衣裙", "外套",
+    "凉鞋", "衬衫", "运动鞋", "包", "短靴"
+]
+
+# 进行预测
+def predict_single_sample(model, sample, true_label):
+    """预测单个样本"""
+    with torch.no_grad():
+        sample = sample.to(device).unsqueeze(0)  # 增加批次维度
+        pred = model(sample)
+        predicted_class = pred.argmax(1).item()
+        
+    predicted_label = classes[predicted_class]
+    true_label_name = classes[true_label]
+    
+    return predicted_label, true_label_name
+
+# 预测测试集中的几个样本
+print("\n预测结果:")
+print("-" * 40)
+
+for i in range(5):
+    sample, label = test_data[i]
+    pred_label, true_label = predict_single_sample(loaded_model, sample, label)
+    result = "✅" if pred_label == true_label else "❌"
+    print(f"样本 {i+1}: 预测={pred_label:12s} | 实际={true_label:12s} {result}")
+
+
+# ==================== 7. 最终评估 ====================
+print("\n=== 最终模型评估 ===")
+
+final_test_loss, final_test_acc = test(test_loader, loaded_model, loss_fn)
+print(f"最终测试准确率: {final_test_acc:.2f}%")
+print(f"最终测试损失: {final_test_loss:.4f}")
+print("\n" + "="*50)
+print("🎉 完整流程执行完毕!")
+print("="*50)
+```
+
 <div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
     <a href="./3_2_PyTorch配置.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
     <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>

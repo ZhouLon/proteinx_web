@@ -100,8 +100,393 @@
 <div id="content" role="main">
 <section id="id1">
 <h1>3_4_张量<a class="headerlink" href="#id1" title="链接到此标题。"><span>#</span></a></h1>
+<p><strong>作者</strong>: ZhouLong<br/>
+<strong>创建日期</strong>: 2026 年 02 月 08 日<br/>
+<strong>版本</strong>: 1.0<br/></p>
+<p><strong>浏览量</strong>: <span id="viewCount" style="font-weight: 700; color: rgb(59, 130, 246); transition: 0.3s;"> </span></p>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./3_3_快速开始.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./3_5_数据库实践.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+<section id="id2">
+<h2>1 概述<a class="headerlink" href="#id2" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<p>张量（Tensors）是一种特殊的数据结构，与数组和矩阵非常相似。在PyTorch中，我们使用张量来：</p>
+<ul class="simple">
+<li><p>编码模型的输入和输出</p></li>
+<li><p>存储模型的参数</p></li>
+</ul>
+<p>张量与NumPy的ndarrays类似，但具有以下优势：</p>
+<ul class="simple">
+<li><p>可以在GPU或其他硬件加速器上运行</p></li>
+<li><p>可以与NumPy数组共享底层内存（无需复制数据）</p></li>
+<li><p>针对自动微分进行了优化</p></li>
+</ul>
 </section>
-</div></div>
+<section id="id3">
+<h2>2 初始化张量<a class="headerlink" href="#id3" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h2>
+<section id="id4">
+<h3>2.1 直接从数据创建<a class="headerlink" href="#id4" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">data</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]</span>
+</span><span id="line-2"><span class="n">x_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># 数据类型自动推断</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="numpy">
+<h3>2.2 从NumPy数组创建<a class="headerlink" href="#numpy" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#numpy'"><span>#</span></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">np_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span id="line-2"><span class="n">x_np</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np_array</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>2.3 从其他张量创建<a class="headerlink" href="#id5" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h3>
+<p>新张量保留参数张量的属性（形状、数据类型），除非显式覆盖。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">x_ones</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>  <span class="c1"># 保留x_data的属性</span>
+</span><span id="line-2"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ones Tensor: </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">x_ones</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-3">
+</span><span id="line-4"><span class="n">x_rand</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>  <span class="c1"># 覆盖x_data的数据类型</span>
+</span><span id="line-5"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Random Tensor: </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">x_rand</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Ones</span> <span class="n">Tensor</span><span class="p">:</span>
+</span><span id="line-2"> <span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+</span><span id="line-3">        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="n">Random</span> <span class="n">Tensor</span><span class="p">:</span>
+</span><span id="line-6"> <span class="n">tensor</span><span class="p">([[</span><span class="mf">0.8646</span><span class="p">,</span> <span class="mf">0.5918</span><span class="p">],</span>
+</span><span id="line-7">        <span class="p">[</span><span class="mf">0.4937</span><span class="p">,</span> <span class="mf">0.6902</span><span class="p">]])</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>2.4 使用随机值或常数值创建<a class="headerlink" href="#id6" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">shape</span></code>是张量维度的元组，决定输出张量的维度。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,)</span>
+</span><span id="line-2"><span class="n">rand_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+</span><span id="line-3"><span class="n">ones_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+</span><span id="line-4"><span class="n">zeros_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Random Tensor: </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">rand_tensor</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-7"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ones Tensor: </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">ones_tensor</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-8"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Zeros Tensor: </span><span class="se">\n</span><span class="s2"> </span><span class="si">{</span><span class="n">zeros_tensor</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Random</span> <span class="n">Tensor</span><span class="p">:</span>
+</span><span id="line-2"> <span class="n">tensor</span><span class="p">([[</span><span class="mf">0.0968</span><span class="p">,</span> <span class="mf">0.1822</span><span class="p">,</span> <span class="mf">0.8513</span><span class="p">],</span>
+</span><span id="line-3">        <span class="p">[</span><span class="mf">0.4819</span><span class="p">,</span> <span class="mf">0.6444</span><span class="p">,</span> <span class="mf">0.3248</span><span class="p">]])</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="n">Ones</span> <span class="n">Tensor</span><span class="p">:</span>
+</span><span id="line-6"> <span class="n">tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-7">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+</span><span id="line-8">
+</span><span id="line-9"><span class="n">Zeros</span> <span class="n">Tensor</span><span class="p">:</span>
+</span><span id="line-10"> <span class="n">tensor</span><span class="p">([[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
+</span><span id="line-11">        <span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">]])</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>3 张量属性<a class="headerlink" href="#id7" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h2>
+<p>张量属性描述其<code class="docutils literal notranslate"><span class="pre">形状</span></code>、<code class="docutils literal notranslate"><span class="pre">数据类型</span></code>和<code class="docutils literal notranslate"><span class="pre">存储设备</span></code>。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span id="line-2">
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Shape of tensor: </span><span class="si">{</span><span class="n">tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Datatype of tensor: </span><span class="si">{</span><span class="n">tensor</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-5"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Device tensor is stored on: </span><span class="si">{</span><span class="n">tensor</span><span class="o">.</span><span class="n">device</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Shape</span> <span class="n">of</span> <span class="n">tensor</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</span><span id="line-2"><span class="n">Datatype</span> <span class="n">of</span> <span class="n">tensor</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span>
+</span><span id="line-3"><span class="n">Device</span> <span class="n">tensor</span> <span class="ow">is</span> <span class="n">stored</span> <span class="n">on</span><span class="p">:</span> <span class="n">cpu</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id8">
+<h2>4 张量操作<a class="headerlink" href="#id8" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id8'"><span>#</span></a></h2>
+<p>PyTorch提供超过1200种张量操作，包括算术、线性代数、矩阵操作等。</p>
+<section id="id9">
+<h3>4.1 设备转移<a class="headerlink" href="#id9" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id9'"><span>#</span></a></h3>
+<p>默认情况下，张量在CPU上创建。需要显式将张量移动到加速器。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 检查加速器是否可用并移动张量</span>
+</span><span id="line-2"><span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+</span><span id="line-3">    <span class="n">tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">current_accelerator</span><span class="p">())</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id10">
+<h3>4.2 索引和切片<a class="headerlink" href="#id10" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id10'"><span>#</span></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span><span id="line-2"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"First row: </span><span class="si">{</span><span class="n">tensor</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"First column: </span><span class="si">{</span><span class="n">tensor</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Last column: </span><span class="si">{</span><span class="n">tensor</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-5"><span class="n">tensor</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 修改第二列为0</span>
+</span><span id="line-6"><span class="nb">print</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">First</span> <span class="n">row</span><span class="p">:</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+</span><span id="line-2"><span class="n">First</span> <span class="n">column</span><span class="p">:</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+</span><span id="line-3"><span class="n">Last</span> <span class="n">column</span><span class="p">:</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+</span><span id="line-4"><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-5">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-6">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-7">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>4.3 连接张量<a class="headerlink" href="#id11" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id11'"><span>#</span></a></h3>
+<p>使用<code class="docutils literal notranslate"><span class="pre">torch.cat</span></code>沿指定维度连接张量序列。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">t1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="line-2"><span class="nb">print</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-2">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-3">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-4">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id12">
+<h3>4.4 算术运算<a class="headerlink" href="#id12" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id12'"><span>#</span></a></h3>
+<ol class="arabic simple">
+<li><p>矩阵乘法</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 三种等价的矩阵乘法方式</span>
+</span><span id="line-2"><span class="n">y1</span> <span class="o">=</span> <span class="n">tensor</span> <span class="o">@</span> <span class="n">tensor</span><span class="o">.</span><span class="n">T</span>
+</span><span id="line-3"><span class="n">y2</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</span><span id="line-4"><span class="n">y3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span>
+</span><span id="line-5"><span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">y3</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>逐元素乘法</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 三种等价的逐元素乘法方式</span>
+</span><span id="line-2"><span class="n">z1</span> <span class="o">=</span> <span class="n">tensor</span> <span class="o">*</span> <span class="n">tensor</span>
+</span><span id="line-3"><span class="n">z2</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+</span><span id="line-4"><span class="n">z3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+</span><span id="line-5"><span class="n">torch</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">z3</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>4.5 单元素张量<a class="headerlink" href="#id13" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id13'"><span>#</span></a></h3>
+<p>如果有一个单元素张量，可以使用<code class="docutils literal notranslate"><span class="pre">item()</span></code>将其转换为Python数值。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">agg</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</span><span id="line-2"><span class="n">agg_item</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="n">agg_item</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">agg_item</span><span class="p">))</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">12.0 &lt;class 'float'&gt;
+</span></code></pre></div>
+</div>
+</section>
+<section id="id14">
+<h3>4.6 原地操作<a class="headerlink" href="#id14" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id14'"><span>#</span></a></h3>
+<p>原地操作将结果存储到操作数中，用<code class="docutils literal notranslate"><span class="pre">_</span></code>后缀表示。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">tensor</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-2"><span class="n">tensor</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># 原地加5</span>
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="n">tensor</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">tensor</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-2">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-3">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">],</span>
+</span><span id="line-4">        <span class="p">[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">]])</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="n">tensor</span><span class="p">([[</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">],</span>
+</span><span id="line-7">        <span class="p">[</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">],</span>
+</span><span id="line-8">        <span class="p">[</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">],</span>
+</span><span id="line-9">        <span class="p">[</span><span class="mf">6.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">,</span> <span class="mf">6.</span><span class="p">]])</span>
+</span></code></pre></div>
+</div>
+<p><strong>注意</strong>：原地操作可以节省内存，但在计算导数时可能会因为立即丢失历史记录而出现问题，因此不鼓励使用。</p>
+</section>
+<section id="id15">
+<h3>4.7 形状变换<a class="headerlink" href="#id15" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id15'"><span>#</span></a></h3>
+<p>张量形状变换是深度学习中的核心操作之一。PyTorch 提供了多种方法来重塑、展平、转置和操作张量的维度。</p>
+<p>4.7.1. reshape() 重塑形状</p>
+<p><strong>不改变数据内容，只改变视图</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 将3x4张量重塑为2x6</span>
+</span><span id="line-2"><span class="n">reshaped</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"reshape后形状: </span><span class="si">{</span><span class="n">reshaped</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="c1"># 自动计算一个维度（使用-1）</span>
+</span><span id="line-6"><span class="n">auto_reshaped</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 自动计算第一个维度</span>
+</span><span id="line-7"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"使用-1自动计算: </span><span class="si">{</span><span class="n">auto_reshaped</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-8">
+</span><span id="line-9"><span class="c1"># 展平为一维</span>
+</span><span id="line-10"><span class="n">flattened</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># 或 tensor.flatten()</span>
+</span><span id="line-11"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"展平后形状: </span><span class="si">{</span><span class="n">flattened</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>4.7.2. view() - 视图重塑</p>
+<p><strong>与reshape类似，但有更严格的限制</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># view需要数据在内存中是连续的</span>
+</span><span id="line-2"><span class="n">tensor_contiguous</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+</span><span id="line-3"><span class="n">viewed</span> <span class="o">=</span> <span class="n">tensor_contiguous</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"view后形状: </span><span class="si">{</span><span class="n">viewed</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 注意：view和reshape的主要区别</span>
+</span><span id="line-7"><span class="c1"># - view要求张量在内存中是连续的</span>
+</span><span id="line-8"><span class="c1"># - reshape会自动处理连续性要求</span>
+</span></code></pre></div>
+</div>
+<p>4.7.3. 转置操作</p>
+<ol class="arabic simple">
+<li><p>transpose() - 交换两个维度</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 创建3x4x5张量</span>
+</span><span id="line-2"><span class="n">tensor_3d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"原始3D形状: </span><span class="si">{</span><span class="n">tensor_3d</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="c1"># 交换维度0和1</span>
+</span><span id="line-6"><span class="n">transposed</span> <span class="o">=</span> <span class="n">tensor_3d</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="line-7"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"交换维度0和1后: </span><span class="si">{</span><span class="n">transposed</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># (4, 3, 5)</span>
+</span><span id="line-8">
+</span><span id="line-9"><span class="c1"># 交换最后两个维度</span>
+</span><span id="line-10"><span class="n">transposed_last</span> <span class="o">=</span> <span class="n">tensor_3d</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="line-11"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"交换最后两个维度: </span><span class="si">{</span><span class="n">transposed_last</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># (3, 5, 4)</span>
+</span></code></pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>permute() - 重新排列所有维度</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 重新排列维度顺序</span>
+</span><span id="line-2"><span class="n">permuted</span> <span class="o">=</span> <span class="n">tensor_3d</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 将原始(3,4,5)变为(5,3,4)</span>
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"permute后形状: </span><span class="si">{</span><span class="n">permuted</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="c1"># 实际应用：处理图像数据</span>
+</span><span id="line-6"><span class="c1"># 图像通常为 (batch, height, width, channels)</span>
+</span><span id="line-7"><span class="c1"># 但PyTorch期望 (batch, channels, height, width)</span>
+</span><span id="line-8"><span class="n">image_batch</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># 32张224x224的RGB图像</span>
+</span><span id="line-9"><span class="n">image_batch_correct</span> <span class="o">=</span> <span class="n">image_batch</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="line-10"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"图像批次调整后: </span><span class="si">{</span><span class="n">image_batch_correct</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># (32, 3, 224, 224)</span>
+</span></code></pre></div>
+</div>
+<p>4.7.4 维度操作</p>
+<ol class="arabic simple">
+<li><p>unsqueeze() - 添加维度</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 在指定位置添加大小为1的维度</span>
+</span><span id="line-2"><span class="n">tensor_1d</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</span><span id="line-3"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"原始1D形状: </span><span class="si">{</span><span class="n">tensor_1d</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-4">
+</span><span id="line-5"><span class="c1"># 添加批次维度（位置0）</span>
+</span><span id="line-6"><span class="n">tensor_with_batch</span> <span class="o">=</span> <span class="n">tensor_1d</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="line-7"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"添加批次维度后: </span><span class="si">{</span><span class="n">tensor_with_batch</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># (1, 4)</span>
+</span><span id="line-8">
+</span><span id="line-9"><span class="c1"># 添加特征维度（位置1）</span>
+</span><span id="line-10"><span class="n">tensor_with_feature</span> <span class="o">=</span> <span class="n">tensor_1d</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="line-11"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"添加特征维度后: </span><span class="si">{</span><span class="n">tensor_with_feature</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># (4, 1)</span>
+</span><span id="line-12">
+</span><span id="line-13"><span class="c1"># 同时添加多个维度</span>
+</span><span id="line-14"><span class="n">tensor_3d</span> <span class="o">=</span> <span class="n">tensor_1d</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="line-15"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"同时添加维度后: </span><span class="si">{</span><span class="n">tensor_3d</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># (1, 4, 1)</span>
+</span></code></pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>squeeze() - 压缩维度</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 移除所有大小为1的维度</span>
+</span><span id="line-2"><span class="n">tensor_with_ones</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="line-3"><span class="n">squeezed_all</span> <span class="o">=</span> <span class="n">tensor_with_ones</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"压缩所有单维后: </span><span class="si">{</span><span class="n">squeezed_all</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># (3, 4)</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 只移除指定位置的单维</span>
+</span><span id="line-7"><span class="n">squeezed_specific</span> <span class="o">=</span> <span class="n">tensor_with_ones</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># 只压缩维度0</span>
+</span><span id="line-8"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"只压缩维度0后: </span><span class="si">{</span><span class="n">squeezed_specific</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>  <span class="c1"># (3, 1, 4, 1)</span>
+</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>5 与NumPy的桥接<a class="headerlink" href="#id16" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id16'"><span>#</span></a></h2>
+<p>CPU上的张量和NumPy数组可以共享底层内存位置，更改一个会更改另一个。</p>
+<section id="id17">
+<h3>5.1 张量转NumPy数组<a class="headerlink" href="#id17" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id17'"><span>#</span></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span id="line-2"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"t: </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-3"><span class="n">n</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</span><span id="line-4"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n: </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># 修改张量会影响NumPy数组</span>
+</span><span id="line-7"><span class="n">t</span><span class="o">.</span><span class="n">add_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="line-8"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"t after add_: </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-9"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n after tensor modification: </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">t</span><span class="p">:</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">1.</span><span class="p">])</span>
+</span><span id="line-2"><span class="n">n</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.</span> <span class="mf">1.</span> <span class="mf">1.</span> <span class="mf">1.</span> <span class="mf">1.</span><span class="p">]</span>
+</span><span id="line-3"><span class="n">t</span> <span class="n">after</span> <span class="n">add_</span><span class="p">:</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">])</span>
+</span><span id="line-4"><span class="n">n</span> <span class="n">after</span> <span class="n">tensor</span> <span class="n">modification</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.</span> <span class="mf">2.</span> <span class="mf">2.</span> <span class="mf">2.</span> <span class="mf">2.</span><span class="p">]</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id18">
+<h3>5.2 NumPy数组转张量<a class="headerlink" href="#id18" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id18'"><span>#</span></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span id="line-2"><span class="n">t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span id="line-3">
+</span><span id="line-4"><span class="c1"># 修改NumPy数组会影响张量</span>
+</span><span id="line-5"><span class="n">np</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+</span><span id="line-6"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"t: </span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-7"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"n: </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">t</span><span class="p">:</span> <span class="n">tensor</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+</span><span id="line-2"><span class="n">n</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.</span> <span class="mf">2.</span> <span class="mf">2.</span> <span class="mf">2.</span> <span class="mf">2.</span><span class="p">]</span>
+</span></code></pre></div>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./3_3_快速开始.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./3_5_数据库实践.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div></section>
+</section>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">1 概述</a></li>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">2 初始化张量</a><ul>
+<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">2.1 直接从数据创建</a></li>
+<li><a :data-current="activeSection === '#numpy'" class="reference internal" href="#numpy">2.2 从NumPy数组创建</a></li>
+<li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">2.3 从其他张量创建</a></li>
+<li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">2.4 使用随机值或常数值创建</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id7'" class="reference internal" href="#id7">3 张量属性</a></li>
+<li><a :data-current="activeSection === '#id8'" class="reference internal" href="#id8">4 张量操作</a><ul>
+<li><a :data-current="activeSection === '#id9'" class="reference internal" href="#id9">4.1 设备转移</a></li>
+<li><a :data-current="activeSection === '#id10'" class="reference internal" href="#id10">4.2 索引和切片</a></li>
+<li><a :data-current="activeSection === '#id11'" class="reference internal" href="#id11">4.3 连接张量</a></li>
+<li><a :data-current="activeSection === '#id12'" class="reference internal" href="#id12">4.4 算术运算</a></li>
+<li><a :data-current="activeSection === '#id13'" class="reference internal" href="#id13">4.5 单元素张量</a></li>
+<li><a :data-current="activeSection === '#id14'" class="reference internal" href="#id14">4.6 原地操作</a></li>
+<li><a :data-current="activeSection === '#id15'" class="reference internal" href="#id15">4.7 形状变换</a></li>
+</ul>
+</li>
+<li><a :data-current="activeSection === '#id16'" class="reference internal" href="#id16">5 与NumPy的桥接</a><ul>
+<li><a :data-current="activeSection === '#id17'" class="reference internal" href="#id17">5.1 张量转NumPy数组</a></li>
+<li><a :data-current="activeSection === '#id18'" class="reference internal" href="#id18">5.2 NumPy数组转张量</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</aside>
 </main>
 </div>
 </div><footer class="py-6 border-t border-border md:py-0">
@@ -117,5 +502,63 @@
 <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
 <script defer="defer" src="../_static/theme.js?v=582b20c5"></script>
 <script src="../_static/translations.js?v=540d3cec"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 获取当前页面的路径
+    const pagePath = window.location.pathname;
+    // 对于根页面，使用'/'或空字符串
+    const pageInfo = pagePath.endsWith('/') ? pagePath.slice(0, -1) : pagePath;
+    const currentPage = pageInfo || '/';
+    
+    console.log('正在统计页面浏览量:', currentPage);
+    
+    // 发送请求到后端API
+    fetch('/api/view_count', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        page: currentPage,
+        timestamp: new Date().toISOString()
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('网络响应不正常');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('收到浏览量数据:', data);
+      // 更新页面上的浏览量显示
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement && data.count !== undefined) {
+        // 格式化显示数字，添加千位分隔符
+        const formattedCount = new Intl.NumberFormat('zh-CN').format(data.count);
+        viewCountElement.textContent = formattedCount;
+        
+        // 为浏览量数字添加样式
+        viewCountElement.style.fontWeight = '700';
+        viewCountElement.style.color = '#10b981'; // 成功时改为绿色
+        
+        // 添加简单的动画效果
+        viewCountElement.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          viewCountElement.style.color = '#3b82f6'; // 0.3秒后变回蓝色
+        }, 300);
+      }
+    })
+    .catch(error => {
+      console.error('获取浏览量时出错:', error);
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement) {
+        viewCountElement.textContent = '加载失败';
+        viewCountElement.style.color = '#ef4444'; // 失败时改为红色
+        viewCountElement.style.fontWeight = '600';
+      }
+    });
+  });
+</script>
 </body>
 </html>

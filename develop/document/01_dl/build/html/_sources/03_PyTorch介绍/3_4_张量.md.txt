@@ -1,1 +1,360 @@
 # 3_4_张量
+
+**作者**: ZhouLong<br>
+**创建日期**: 2026 年 02 月 08 日<br>
+**版本**: 1.0<br>
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./3_3_快速开始.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./3_5_数据库实践.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+
+
+## 1 概述
+张量（Tensors）是一种特殊的数据结构，与数组和矩阵非常相似。在PyTorch中，我们使用张量来：
+- 编码模型的输入和输出
+- 存储模型的参数
+
+张量与NumPy的ndarrays类似，但具有以下优势：
+- 可以在GPU或其他硬件加速器上运行
+- 可以与NumPy数组共享底层内存（无需复制数据）
+- 针对自动微分进行了优化
+
+
+## 2 初始化张量
+
+### 2.1 直接从数据创建
+```python
+data = [[1, 2], [3, 4]]
+x_data = torch.tensor(data)  # 数据类型自动推断
+```
+
+### 2.2 从NumPy数组创建
+```python
+np_array = np.array(data)
+x_np = torch.from_numpy(np_array)
+```
+
+### 2.3 从其他张量创建
+新张量保留参数张量的属性（形状、数据类型），除非显式覆盖。
+
+```python
+x_ones = torch.ones_like(x_data)  # 保留x_data的属性
+print(f"Ones Tensor: \n {x_ones} \n")
+
+x_rand = torch.rand_like(x_data, dtype=torch.float)  # 覆盖x_data的数据类型
+print(f"Random Tensor: \n {x_rand} \n")
+```
+
+输出：
+```
+Ones Tensor:
+ tensor([[1, 1],
+        [1, 1]])
+
+Random Tensor:
+ tensor([[0.8646, 0.5918],
+        [0.4937, 0.6902]])
+```
+
+### 2.4 使用随机值或常数值创建
+`shape`是张量维度的元组，决定输出张量的维度。
+
+```python
+shape = (2, 3,)
+rand_tensor = torch.rand(shape)
+ones_tensor = torch.ones(shape)
+zeros_tensor = torch.zeros(shape)
+
+print(f"Random Tensor: \n {rand_tensor} \n")
+print(f"Ones Tensor: \n {ones_tensor} \n")
+print(f"Zeros Tensor: \n {zeros_tensor}")
+```
+
+输出：
+```
+Random Tensor:
+ tensor([[0.0968, 0.1822, 0.8513],
+        [0.4819, 0.6444, 0.3248]])
+
+Ones Tensor:
+ tensor([[1., 1., 1.],
+        [1., 1., 1.]])
+
+Zeros Tensor:
+ tensor([[0., 0., 0.],
+        [0., 0., 0.]])
+```
+
+## 3 张量属性
+张量属性描述其`形状`、`数据类型`和`存储设备`。
+
+```python
+tensor = torch.rand(3, 4)
+
+print(f"Shape of tensor: {tensor.shape}")
+print(f"Datatype of tensor: {tensor.dtype}")
+print(f"Device tensor is stored on: {tensor.device}")
+```
+
+输出：
+```
+Shape of tensor: torch.Size([3, 4])
+Datatype of tensor: torch.float32
+Device tensor is stored on: cpu
+```
+
+## 4 张量操作
+PyTorch提供超过1200种张量操作，包括算术、线性代数、矩阵操作等。
+
+### 4.1 设备转移
+默认情况下，张量在CPU上创建。需要显式将张量移动到加速器。
+
+```python
+# 检查加速器是否可用并移动张量
+if torch.accelerator.is_available():
+    tensor = tensor.to(torch.accelerator.current_accelerator())
+```
+
+### 4.2 索引和切片
+```python
+tensor = torch.ones(4, 4)
+print(f"First row: {tensor[0]}")
+print(f"First column: {tensor[:, 0]}")
+print(f"Last column: {tensor[..., -1]}")
+tensor[:, 1] = 0  # 修改第二列为0
+print(tensor)
+```
+
+输出：
+```
+First row: tensor([1., 1., 1., 1.])
+First column: tensor([1., 1., 1., 1.])
+Last column: tensor([1., 1., 1., 1.])
+tensor([[1., 0., 1., 1.],
+        [1., 0., 1., 1.],
+        [1., 0., 1., 1.],
+        [1., 0., 1., 1.]])
+```
+
+### 4.3 连接张量
+使用`torch.cat`沿指定维度连接张量序列。
+
+```python
+t1 = torch.cat([tensor, tensor, tensor], dim=1)
+print(t1)
+```
+
+输出：
+```
+tensor([[1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],
+        [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],
+        [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.],
+        [1., 0., 1., 1., 1., 0., 1., 1., 1., 0., 1., 1.]])
+```
+
+### 4.4 算术运算
+
+1. 矩阵乘法
+```python
+# 三种等价的矩阵乘法方式
+y1 = tensor @ tensor.T
+y2 = tensor.matmul(tensor.T)
+y3 = torch.rand_like(y1)
+torch.matmul(tensor, tensor.T, out=y3)
+```
+
+2. 逐元素乘法
+```python
+# 三种等价的逐元素乘法方式
+z1 = tensor * tensor
+z2 = tensor.mul(tensor)
+z3 = torch.rand_like(tensor)
+torch.mul(tensor, tensor, out=z3)
+```
+
+### 4.5 单元素张量
+如果有一个单元素张量，可以使用`item()`将其转换为Python数值。
+
+```python
+agg = tensor.sum()
+agg_item = agg.item()
+print(agg_item, type(agg_item))
+```
+
+输出：
+```
+12.0 <class 'float'>
+```
+
+### 4.6 原地操作
+原地操作将结果存储到操作数中，用`_`后缀表示。
+
+```python
+print(f"{tensor} \n")
+tensor.add_(5)  # 原地加5
+print(tensor)
+```
+
+输出：
+```
+tensor([[1., 0., 1., 1.],
+        [1., 0., 1., 1.],
+        [1., 0., 1., 1.],
+        [1., 0., 1., 1.]])
+
+tensor([[6., 5., 6., 6.],
+        [6., 5., 6., 6.],
+        [6., 5., 6., 6.],
+        [6., 5., 6., 6.]])
+```
+
+**注意**：原地操作可以节省内存，但在计算导数时可能会因为立即丢失历史记录而出现问题，因此不鼓励使用。
+
+### 4.7 形状变换
+
+张量形状变换是深度学习中的核心操作之一。PyTorch 提供了多种方法来重塑、展平、转置和操作张量的维度。
+
+4.7.1. reshape() 重塑形状
+
+**不改变数据内容，只改变视图**
+```python
+# 将3x4张量重塑为2x6
+reshaped = tensor.reshape(2, 6)
+print(f"reshape后形状: {reshaped.shape}")
+
+# 自动计算一个维度（使用-1）
+auto_reshaped = tensor.reshape(-1, 2)  # 自动计算第一个维度
+print(f"使用-1自动计算: {auto_reshaped.shape}")
+
+# 展平为一维
+flattened = tensor.reshape(-1)  # 或 tensor.flatten()
+print(f"展平后形状: {flattened.shape}")
+```
+
+4.7.2. view() - 视图重塑
+
+**与reshape类似，但有更严格的限制**
+```python
+# view需要数据在内存中是连续的
+tensor_contiguous = tensor.contiguous()
+viewed = tensor_contiguous.view(2, 6)
+print(f"view后形状: {viewed.shape}")
+
+# 注意：view和reshape的主要区别
+# - view要求张量在内存中是连续的
+# - reshape会自动处理连续性要求
+```
+
+4.7.3. 转置操作
+
+1. transpose() - 交换两个维度
+```python
+# 创建3x4x5张量
+tensor_3d = torch.randn(3, 4, 5)
+print(f"原始3D形状: {tensor_3d.shape}")
+
+# 交换维度0和1
+transposed = tensor_3d.transpose(0, 1)
+print(f"交换维度0和1后: {transposed.shape}")  # (4, 3, 5)
+
+# 交换最后两个维度
+transposed_last = tensor_3d.transpose(-1, -2)
+print(f"交换最后两个维度: {transposed_last.shape}")  # (3, 5, 4)
+```
+
+2. permute() - 重新排列所有维度
+```python
+# 重新排列维度顺序
+permuted = tensor_3d.permute(2, 0, 1)  # 将原始(3,4,5)变为(5,3,4)
+print(f"permute后形状: {permuted.shape}")
+
+# 实际应用：处理图像数据
+# 图像通常为 (batch, height, width, channels)
+# 但PyTorch期望 (batch, channels, height, width)
+image_batch = torch.randn(32, 224, 224, 3)  # 32张224x224的RGB图像
+image_batch_correct = image_batch.permute(0, 3, 1, 2)
+print(f"图像批次调整后: {image_batch_correct.shape}")  # (32, 3, 224, 224)
+```
+
+4.7.4 维度操作
+
+1. unsqueeze() - 添加维度
+```python
+# 在指定位置添加大小为1的维度
+tensor_1d = torch.tensor([1, 2, 3, 4])
+print(f"原始1D形状: {tensor_1d.shape}")
+
+# 添加批次维度（位置0）
+tensor_with_batch = tensor_1d.unsqueeze(0)
+print(f"添加批次维度后: {tensor_with_batch.shape}")  # (1, 4)
+
+# 添加特征维度（位置1）
+tensor_with_feature = tensor_1d.unsqueeze(1)
+print(f"添加特征维度后: {tensor_with_feature.shape}")  # (4, 1)
+
+# 同时添加多个维度
+tensor_3d = tensor_1d.unsqueeze(0).unsqueeze(-1)
+print(f"同时添加维度后: {tensor_3d.shape}")  # (1, 4, 1)
+```
+
+2. squeeze() - 压缩维度
+```python
+# 移除所有大小为1的维度
+tensor_with_ones = torch.randn(1, 3, 1, 4, 1)
+squeezed_all = tensor_with_ones.squeeze()
+print(f"压缩所有单维后: {squeezed_all.shape}")  # (3, 4)
+
+# 只移除指定位置的单维
+squeezed_specific = tensor_with_ones.squeeze(0)  # 只压缩维度0
+print(f"只压缩维度0后: {squeezed_specific.shape}")  # (3, 1, 4, 1)
+```
+
+## 5 与NumPy的桥接
+CPU上的张量和NumPy数组可以共享底层内存位置，更改一个会更改另一个。
+
+### 5.1 张量转NumPy数组
+```python
+t = torch.ones(5)
+print(f"t: {t}")
+n = t.numpy()
+print(f"n: {n}")
+
+# 修改张量会影响NumPy数组
+t.add_(1)
+print(f"t after add_: {t}")
+print(f"n after tensor modification: {n}")
+```
+
+输出：
+```
+t: tensor([1., 1., 1., 1., 1.])
+n: [1. 1. 1. 1. 1.]
+t after add_: tensor([2., 2., 2., 2., 2.])
+n after tensor modification: [2. 2. 2. 2. 2.]
+```
+
+### 5.2 NumPy数组转张量
+```python
+n = np.ones(5)
+t = torch.from_numpy(n)
+
+# 修改NumPy数组会影响张量
+np.add(n, 1, out=n)
+print(f"t: {t}")
+print(f"n: {n}")
+```
+
+输出：
+```
+t: tensor([2., 2., 2., 2., 2.], dtype=torch.float64)
+n: [2. 2. 2. 2. 2.]
+```
+
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./3_3_快速开始.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./3_5_数据库实践.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>

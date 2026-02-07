@@ -320,6 +320,217 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Predicted</span><span class="p">:</span> <span class="s2">"短靴"</span><span class="p">,</span> <span class="n">Actual</span><span class="p">:</span> <span class="s2">"短靴"</span>
 </span></code></pre></div>
 </div>
+</section>
+<section id="id7">
+<h2>6 完整代码流程<a class="headerlink" href="#id7" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id7'"><span>#</span></a></h2>
+<p>可以复制下述完整代码来运行</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+</span><span id="line-2"><span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+</span><span id="line-3"><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+</span><span id="line-4"><span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">transforms</span>
+</span><span id="line-5">
+</span><span id="line-6"><span class="c1"># ==================== 1. 数据准备阶段 ====================</span>
+</span><span id="line-7"><span class="nb">print</span><span class="p">(</span><span class="s2">"=== 数据准备阶段 ==="</span><span class="p">)</span>
+</span><span id="line-8">
+</span><span id="line-9"><span class="c1"># 设置设备</span>
+</span><span id="line-10"><span class="n">device</span> <span class="o">=</span> <span class="s2">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span>
+</span><span id="line-11"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"使用设备: </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-12">
+</span><span id="line-13"><span class="c1"># 下载数据集</span>
+</span><span id="line-14"><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">()</span>
+</span><span id="line-15"><span class="n">train_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+</span><span id="line-16">    <span class="n">root</span><span class="o">=</span><span class="s2">"data"</span><span class="p">,</span>
+</span><span id="line-17">    <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="line-18">    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="line-19">    <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
+</span><span id="line-20"><span class="p">)</span>
+</span><span id="line-21"><span class="n">test_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+</span><span id="line-22">    <span class="n">root</span><span class="o">=</span><span class="s2">"data"</span><span class="p">,</span>
+</span><span id="line-23">    <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="line-24">    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="line-25">    <span class="n">transform</span><span class="o">=</span><span class="n">transform</span>
+</span><span id="line-26"><span class="p">)</span>
+</span><span id="line-27">
+</span><span id="line-28"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"训练集大小: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">train_data</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-29"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"测试集大小: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">test_data</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-30">
+</span><span id="line-31"><span class="c1"># 创建数据加载器</span>
+</span><span id="line-32"><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+</span><span id="line-33"><span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="line-34"><span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="line-35">
+</span><span id="line-36"><span class="c1"># 查看一个批次的数据</span>
+</span><span id="line-37"><span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+</span><span id="line-38">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"批次数据形状: X: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">, y: </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-39">    <span class="k">break</span>
+</span><span id="line-40">
+</span><span id="line-41"><span class="c1"># ==================== 2. 模型构建阶段 ====================</span>
+</span><span id="line-42"><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 模型构建阶段 ==="</span><span class="p">)</span>
+</span><span id="line-43">
+</span><span id="line-44"><span class="k">class</span><span class="w"> </span><span class="nc">SimpleNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span><span id="line-45">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-46">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span><span id="line-47">        <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()</span>
+</span><span id="line-48">        <span class="bp">self</span><span class="o">.</span><span class="n">network</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+</span><span id="line-49">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+</span><span id="line-50">            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+</span><span id="line-51">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+</span><span id="line-52">            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+</span><span id="line-53">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span><span id="line-54">        <span class="p">)</span>
+</span><span id="line-55">    
+</span><span id="line-56">    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span><span id="line-57">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="line-58">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="line-59">
+</span><span id="line-60"><span class="c1"># 创建模型</span>
+</span><span id="line-61"><span class="n">model</span> <span class="o">=</span> <span class="n">SimpleNet</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-62"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"模型结构:</span><span class="se">\n</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-63"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"总参数数量: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-64">
+</span><span id="line-65"><span class="c1"># ==================== 3. 训练配置阶段 ====================</span>
+</span><span id="line-66"><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 训练配置阶段 ==="</span><span class="p">)</span>
+</span><span id="line-67">
+</span><span id="line-68"><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+</span><span id="line-69"><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</span><span id="line-70">
+</span><span id="line-71"><span class="c1"># ==================== 4. 训练循环阶段 ====================</span>
+</span><span id="line-72"><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 开始训练 ==="</span><span class="p">)</span>
+</span><span id="line-73">
+</span><span id="line-74"><span class="k">def</span><span class="w"> </span><span class="nf">train_one_epoch</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+</span><span id="line-75"><span class="w">    </span><span class="sd">"""训练一个epoch"""</span>
+</span><span id="line-76">    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</span><span id="line-77">    <span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="line-78">    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="line-79">    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="line-80">    
+</span><span id="line-81">    <span class="k">for</span> <span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+</span><span id="line-82">        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-83">        
+</span><span id="line-84">        <span class="c1"># 前向传播</span>
+</span><span id="line-85">        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="line-86">        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="line-87">        <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-88">        
+</span><span id="line-89">        <span class="c1"># 计算准确率</span>
+</span><span id="line-90">        <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-91">        <span class="n">total</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span id="line-92">        
+</span><span id="line-93">        <span class="c1"># 反向传播</span>
+</span><span id="line-94">        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</span><span id="line-95">        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</span><span id="line-96">        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</span><span id="line-97">        
+</span><span id="line-98">        <span class="c1"># 每100个批次打印一次</span>
+</span><span id="line-99">        <span class="k">if</span> <span class="n">batch</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="line-100">            <span class="n">current</span> <span class="o">=</span> <span class="n">batch</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="line-101">            <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+</span><span id="line-102">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">: [</span><span class="si">{</span><span class="n">current</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">size</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+</span><span id="line-103">    
+</span><span id="line-104">    <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+</span><span id="line-105">    <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span>
+</span><span id="line-106">    <span class="k">return</span> <span class="n">avg_loss</span><span class="p">,</span> <span class="n">accuracy</span>
+</span><span id="line-107">
+</span><span id="line-108"><span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">):</span>
+</span><span id="line-109"><span class="w">    </span><span class="sd">"""测试模型"""</span>
+</span><span id="line-110">    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</span><span id="line-111">    <span class="n">total_loss</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="line-112">    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="line-113">    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="line-114">    
+</span><span id="line-115">    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+</span><span id="line-116">        <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+</span><span id="line-117">            <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-118">            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="line-119">            <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-120">            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-121">            <span class="n">total</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span id="line-122">    
+</span><span id="line-123">    <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+</span><span id="line-124">    <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span>
+</span><span id="line-125">    <span class="k">return</span> <span class="n">avg_loss</span><span class="p">,</span> <span class="n">accuracy</span>
+</span><span id="line-126">
+</span><span id="line-127"><span class="c1"># 训练多个epoch</span>
+</span><span id="line-128"><span class="n">epochs</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="line-129"><span class="n">train_losses</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="line-130"><span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="line-131"><span class="n">train_accs</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="line-132"><span class="n">test_accs</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="line-133">
+</span><span id="line-134"><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+</span><span id="line-135">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-136">    <span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+</span><span id="line-137">    
+</span><span id="line-138">    <span class="c1"># 训练</span>
+</span><span id="line-139">    <span class="n">train_loss</span><span class="p">,</span> <span class="n">train_acc</span> <span class="o">=</span> <span class="n">train_one_epoch</span><span class="p">(</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+</span><span id="line-140">    <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
+</span><span id="line-141">    <span class="n">train_accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_acc</span><span class="p">)</span>
+</span><span id="line-142">    
+</span><span id="line-143">    <span class="c1"># 测试</span>
+</span><span id="line-144">    <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">test_loader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+</span><span id="line-145">    <span class="n">test_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_loss</span><span class="p">)</span>
+</span><span id="line-146">    <span class="n">test_accs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_acc</span><span class="p">)</span>
+</span><span id="line-147">    
+</span><span id="line-148">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"训练损失: </span><span class="si">{</span><span class="n">train_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, 训练准确率: </span><span class="si">{</span><span class="n">train_acc</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</span><span id="line-149">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"测试损失: </span><span class="si">{</span><span class="n">test_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, 测试准确率: </span><span class="si">{</span><span class="n">test_acc</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</span><span id="line-150">
+</span><span id="line-151"><span class="c1"># ==================== 5. 模型保存阶段 ====================</span>
+</span><span id="line-152"><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 模型保存阶段 ==="</span><span class="p">)</span>
+</span><span id="line-153">
+</span><span id="line-154"><span class="c1"># 保存模型</span>
+</span><span id="line-155"><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s2">"model.pth"</span><span class="p">)</span>
+</span><span id="line-156"><span class="nb">print</span><span class="p">(</span><span class="s2">" 模型已保存为 model.pth"</span><span class="p">)</span>
+</span><span id="line-157">
+</span><span id="line-158"><span class="c1"># ==================== 6. 模型加载和预测阶段 ====================</span>
+</span><span id="line-159"><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 模型加载和预测阶段 ==="</span><span class="p">)</span>
+</span><span id="line-160">
+</span><span id="line-161"><span class="c1"># 加载模型</span>
+</span><span id="line-162"><span class="n">loaded_model</span> <span class="o">=</span> <span class="n">SimpleNet</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-163"><span class="n">loaded_model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"model.pth"</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</span><span id="line-164"><span class="n">loaded_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</span><span id="line-165"><span class="nb">print</span><span class="p">(</span><span class="s2">" 模型加载成功"</span><span class="p">)</span>
+</span><span id="line-166">
+</span><span id="line-167"><span class="c1"># 类别标签</span>
+</span><span id="line-168"><span class="n">classes</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="line-169">    <span class="s2">"T恤/上衣"</span><span class="p">,</span> <span class="s2">"裤子"</span><span class="p">,</span> <span class="s2">"套头衫"</span><span class="p">,</span> <span class="s2">"连衣裙"</span><span class="p">,</span> <span class="s2">"外套"</span><span class="p">,</span>
+</span><span id="line-170">    <span class="s2">"凉鞋"</span><span class="p">,</span> <span class="s2">"衬衫"</span><span class="p">,</span> <span class="s2">"运动鞋"</span><span class="p">,</span> <span class="s2">"包"</span><span class="p">,</span> <span class="s2">"短靴"</span>
+</span><span id="line-171"><span class="p">]</span>
+</span><span id="line-172">
+</span><span id="line-173"><span class="c1"># 进行预测</span>
+</span><span id="line-174"><span class="k">def</span><span class="w"> </span><span class="nf">predict_single_sample</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">true_label</span><span class="p">):</span>
+</span><span id="line-175"><span class="w">    </span><span class="sd">"""预测单个样本"""</span>
+</span><span id="line-176">    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+</span><span id="line-177">        <span class="n">sample</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># 增加批次维度</span>
+</span><span id="line-178">        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</span><span id="line-179">        <span class="n">predicted_class</span> <span class="o">=</span> <span class="n">pred</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-180">        
+</span><span id="line-181">    <span class="n">predicted_label</span> <span class="o">=</span> <span class="n">classes</span><span class="p">[</span><span class="n">predicted_class</span><span class="p">]</span>
+</span><span id="line-182">    <span class="n">true_label_name</span> <span class="o">=</span> <span class="n">classes</span><span class="p">[</span><span class="n">true_label</span><span class="p">]</span>
+</span><span id="line-183">    
+</span><span id="line-184">    <span class="k">return</span> <span class="n">predicted_label</span><span class="p">,</span> <span class="n">true_label_name</span>
+</span><span id="line-185">
+</span><span id="line-186"><span class="c1"># 预测测试集中的几个样本</span>
+</span><span id="line-187"><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">预测结果:"</span><span class="p">)</span>
+</span><span id="line-188"><span class="nb">print</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+</span><span id="line-189">
+</span><span id="line-190"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+</span><span id="line-191">    <span class="n">sample</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span><span id="line-192">    <span class="n">pred_label</span><span class="p">,</span> <span class="n">true_label</span> <span class="o">=</span> <span class="n">predict_single_sample</span><span class="p">(</span><span class="n">loaded_model</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">label</span><span class="p">)</span>
+</span><span id="line-193">    <span class="n">result</span> <span class="o">=</span> <span class="s2">"✅"</span> <span class="k">if</span> <span class="n">pred_label</span> <span class="o">==</span> <span class="n">true_label</span> <span class="k">else</span> <span class="s2">"❌"</span>
+</span><span id="line-194">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"样本 </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: 预测=</span><span class="si">{</span><span class="n">pred_label</span><span class="si">:</span><span class="s2">12s</span><span class="si">}</span><span class="s2"> | 实际=</span><span class="si">{</span><span class="n">true_label</span><span class="si">:</span><span class="s2">12s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-195">
+</span><span id="line-196">
+</span><span id="line-197"><span class="c1"># ==================== 7. 最终评估 ====================</span>
+</span><span id="line-198"><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== 最终模型评估 ==="</span><span class="p">)</span>
+</span><span id="line-199">
+</span><span id="line-200"><span class="n">final_test_loss</span><span class="p">,</span> <span class="n">final_test_acc</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">test_loader</span><span class="p">,</span> <span class="n">loaded_model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+</span><span id="line-201"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"最终测试准确率: </span><span class="si">{</span><span class="n">final_test_acc</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">)</span>
+</span><span id="line-202"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"最终测试损失: </span><span class="si">{</span><span class="n">final_test_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-203"><span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+</span><span id="line-204"><span class="nb">print</span><span class="p">(</span><span class="s2">"🎉 完整流程执行完毕!"</span><span class="p">)</span>
+</span><span id="line-205"><span class="nb">print</span><span class="p">(</span><span class="s2">"="</span><span class="o">*</span><span class="mi">50</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
 <div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
 <a href="./3_2_PyTorch配置.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
 <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
@@ -334,6 +545,7 @@
 <li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">3 优化模型参数</a></li>
 <li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">4 保存模型</a></li>
 <li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">5 加载模型</a></li>
+<li><a :data-current="activeSection === '#id7'" class="reference internal" href="#id7">6 完整代码流程</a></li>
 </ul>
 </div>
 </aside>
