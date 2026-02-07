@@ -29,7 +29,7 @@
 <link href="../search.html" rel="search" title="搜索"/>
 <link href="../genindex.html" rel="index" title="索引"/>
 <link href="3_4_%E5%BC%A0%E9%87%8F.html" rel="next" title="3_4_张量"/>
-<link href="3_2_PyTorch%E7%AE%80%E4%BB%8B.html" rel="prev" title="3_2_PyTorch简介"/>
+<link href="3_2_PyTorch%E9%85%8D%E7%BD%AE.html" rel="prev" title="3_2_PyTorch配置"/>
 </head>
 <body :class="{ 'overflow-hidden': showSidebar }" class="min-h-screen font-sans antialiased bg-background text-foreground" x-data="{ showSidebar: false, showScrollTop: false }">
 <div @click.self="showSidebar = false" class="fixed inset-0 z-50 overflow-hidden bg-background/80 backdrop-blur-sm md:hidden" x-cloak="" x-show="showSidebar"></div><div class="relative flex flex-col min-h-screen" id="page"><a class="absolute top-0 left-0 z-[100] block bg-background p-4 text-xl transition -translate-x-full opacity-0 focus:translate-x-0 focus:opacity-100" href="#content">
@@ -100,8 +100,243 @@
 <div id="content" role="main">
 <section id="id1">
 <h1>3_3_快速开始<a class="headerlink" href="#id1" title="链接到此标题。"><span>#</span></a></h1>
+<p><strong>作者</strong>: ZhouLong<br/>
+<strong>创建日期</strong>: 2026 年 02 月 07 日<br/>
+<strong>版本</strong>: 1.0<br/></p>
+<p><strong>浏览量</strong>: <span id="viewCount" style="font-weight: 700; color: rgb(59, 130, 246); transition: 0.3s;"> </span></p>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./3_2_PyTorch配置.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./3_4_张量.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+<p>这是一个基于PyTorch框架的机器学习入门教程，主要展示了如何使用PyTorch构建、训练和部署一个神经网络模型来完成FashionMNIST图像分类任务。本篇完整展示了PyTorch的基本流程，适合初学者理解PyTorch核心概念。</p>
+<section id="id2">
+<h2>1 处理数据<a class="headerlink" href="#id2" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id2'"><span>#</span></a></h2>
+<p>PyTorch 提供了两个处理数据的基本工具：<code class="docutils literal notranslate"><span class="pre">torch.utils.data.DataLoader</span></code> 和 <code class="docutils literal notranslate"><span class="pre">torch.utils.data.Dataset</span></code>。<code class="docutils literal notranslate"><span class="pre">Dataset</span></code> 存储样本及其对应的标签，而 <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> 在 <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> 外部包装了一个可迭代对象。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+</span><span id="line-2"><span class="kn">from</span><span class="w"> </span><span class="nn">torch</span><span class="w"> </span><span class="kn">import</span> <span class="n">nn</span>
+</span><span id="line-3"><span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
+</span><span id="line-4"><span class="kn">from</span><span class="w"> </span><span class="nn">torchvision</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span>
+</span><span id="line-5"><span class="kn">from</span><span class="w"> </span><span class="nn">torchvision.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToTensor</span>
+</span></code></pre></div>
+</div>
+<p>PyTorch 提供了特定领域的库，如 TorchText、TorchVision 和 TorchAudio，它们都包含数据集。在本教程中，我们将使用一个 TorchVision 数据集。</p>
+<p><code class="docutils literal notranslate"><span class="pre">torchvision.datasets</span></code> 模块包含许多真实世界视觉数据的 <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> 对象，如 CIFAR、COCO（完整列表在此）。在本教程中，我们使用 FashionMNIST 数据集。每个 TorchVision <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> 都包含两个参数：<code class="docutils literal notranslate"><span class="pre">transform</span></code> 和 <code class="docutils literal notranslate"><span class="pre">target_transform</span></code>，分别用于修改样本和标签。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="c1"># 从开放数据集下载训练数据。</span>
+</span><span id="line-2"><span class="n">training_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+</span><span id="line-3">    <span class="n">root</span><span class="o">=</span><span class="s2">"data"</span><span class="p">,</span>
+</span><span id="line-4">    <span class="n">train</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="line-5">    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="line-6">    <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">(),</span>
+</span><span id="line-7"><span class="p">)</span>
+</span><span id="line-8">
+</span><span id="line-9"><span class="c1"># 从开放数据集下载测试数据。</span>
+</span><span id="line-10"><span class="n">test_data</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">FashionMNIST</span><span class="p">(</span>
+</span><span id="line-11">    <span class="n">root</span><span class="o">=</span><span class="s2">"data"</span><span class="p">,</span>
+</span><span id="line-12">    <span class="n">train</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="line-13">    <span class="n">download</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="line-14">    <span class="n">transform</span><span class="o">=</span><span class="n">ToTensor</span><span class="p">(),</span>
+</span><span id="line-15"><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>（下载进度输出示例，此处略去）</p>
+<p>我们将 <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> 作为参数传递给 <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>。这会将我们的数据集包装成一个可迭代对象，并支持自动批处理、采样、打乱顺序和多进程数据加载。这里我们定义批量大小为 64，即 dataloader 可迭代对象中的每个元素将返回一个包含 64 个特征和标签的批次。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+</span><span id="line-2">
+</span><span id="line-3"><span class="c1"># 创建数据加载器。</span>
+</span><span id="line-4"><span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+</span><span id="line-5"><span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+</span><span id="line-6">
+</span><span id="line-7"><span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">test_dataloader</span><span class="p">:</span>
+</span><span id="line-8">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Shape of X [N, C, H, W]: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-9">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Shape of y: </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</span><span id="line-10">    <span class="k">break</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Shape</span> <span class="n">of</span> <span class="n">X</span> <span class="p">[</span><span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">]:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">])</span>
+</span><span id="line-2"><span class="n">Shape</span> <span class="n">of</span> <span class="n">y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">64</span><span class="p">])</span> <span class="n">torch</span><span class="o">.</span><span class="n">int64</span>
+</span></code></pre></div>
+</div>
 </section>
-</div></div>
+<section id="id3">
+<h2>2 创建模型<a class="headerlink" href="#id3" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id3'"><span>#</span></a></h2>
+<p>要在 PyTorch 中定义神经网络，我们创建一个继承自 <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> 的类。我们在 <code class="docutils literal notranslate"><span class="pre">__init__</span></code> 函数中定义网络的层，并在 <code class="docutils literal notranslate"><span class="pre">forward</span></code> 函数中指定数据将如何通过网络。为了加速神经网络中的运算，我们将其移动到加速器（如 CUDA、MPS、MTIA 或 XPU）。如果当前有可用的加速器，我们将使用它；否则，使用 CPU。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">current_accelerator</span><span class="p">()</span><span class="o">.</span><span class="n">type</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span>
+</span><span id="line-2"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Using </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2"> device"</span><span class="p">)</span>
+</span><span id="line-3">
+</span><span id="line-4"><span class="c1"># 定义模型</span>
+</span><span id="line-5"><span class="k">class</span><span class="w"> </span><span class="nc">NeuralNetwork</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span><span id="line-6">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="line-7">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span><span id="line-8">        <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Flatten</span><span class="p">()</span>
+</span><span id="line-9">        <span class="bp">self</span><span class="o">.</span><span class="n">linear_relu_stack</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+</span><span id="line-10">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span>
+</span><span id="line-11">            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+</span><span id="line-12">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span>
+</span><span id="line-13">            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+</span><span id="line-14">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span><span id="line-15">        <span class="p">)</span>
+</span><span id="line-16">
+</span><span id="line-17">    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span><span id="line-18">        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="line-19">        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_relu_stack</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="line-20">        <span class="k">return</span> <span class="n">logits</span>
+</span><span id="line-21">
+</span><span id="line-22"><span class="n">model</span> <span class="o">=</span> <span class="n">NeuralNetwork</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-23"><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出示例：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Using</span> <span class="n">cuda</span> <span class="n">device</span>
+</span><span id="line-2"><span class="n">NeuralNetwork</span><span class="p">(</span>
+</span><span id="line-3">  <span class="p">(</span><span class="n">flatten</span><span class="p">):</span> <span class="n">Flatten</span><span class="p">(</span><span class="n">start_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">end_dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="line-4">  <span class="p">(</span><span class="n">linear_relu_stack</span><span class="p">):</span> <span class="n">Sequential</span><span class="p">(</span>
+</span><span id="line-5">    <span class="p">(</span><span class="mi">0</span><span class="p">):</span> <span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">784</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="line-6">    <span class="p">(</span><span class="mi">1</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
+</span><span id="line-7">    <span class="p">(</span><span class="mi">2</span><span class="p">):</span> <span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="line-8">    <span class="p">(</span><span class="mi">3</span><span class="p">):</span> <span class="n">ReLU</span><span class="p">()</span>
+</span><span id="line-9">    <span class="p">(</span><span class="mi">4</span><span class="p">):</span> <span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">out_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="line-10">  <span class="p">)</span>
+</span><span id="line-11"><span class="p">)</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id4">
+<h2>3 优化模型参数<a class="headerlink" href="#id4" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id4'"><span>#</span></a></h2>
+<p>要训练模型，我们需要一个损失函数和一个优化器。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+</span><span id="line-2"><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>在单个训练循环中，模型对训练数据集（以批次形式输入）进行预测，并通过反向传播预测误差来调整模型的参数。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+</span><span id="line-2">    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+</span><span id="line-3">    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</span><span id="line-4">    <span class="k">for</span> <span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+</span><span id="line-5">        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-6">
+</span><span id="line-7">        <span class="c1"># 计算预测误差</span>
+</span><span id="line-8">        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="line-9">        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="line-10">
+</span><span id="line-11">        <span class="c1"># 反向传播</span>
+</span><span id="line-12">        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</span><span id="line-13">        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</span><span id="line-14">        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</span><span id="line-15">
+</span><span id="line-16">        <span class="k">if</span> <span class="n">batch</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="line-17">            <span class="n">loss</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="p">(</span><span class="n">batch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="line-18">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"loss: </span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">&gt;7f</span><span class="si">}</span><span class="s2">  [</span><span class="si">{</span><span class="n">current</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">size</span><span class="si">:</span><span class="s2">&gt;5d</span><span class="si">}</span><span class="s2">]"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>我们还会根据测试数据集检查模型的性能，以确保它正在学习。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">):</span>
+</span><span id="line-2">    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+</span><span id="line-3">    <span class="n">num_batches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+</span><span id="line-4">    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</span><span id="line-5">    <span class="n">test_loss</span><span class="p">,</span> <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+</span><span id="line-6">    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+</span><span id="line-7">        <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+</span><span id="line-8">            <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-9">            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="line-10">            <span class="n">test_loss</span> <span class="o">+=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-11">            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+</span><span id="line-12">    <span class="n">test_loss</span> <span class="o">/=</span> <span class="n">num_batches</span>
+</span><span id="line-13">    <span class="n">correct</span> <span class="o">/=</span> <span class="n">size</span>
+</span><span id="line-14">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Test Error: </span><span class="se">\n</span><span class="s2"> Accuracy: </span><span class="si">{</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;0.1f</span><span class="si">}</span><span class="s2">%, Avg loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="si">:</span><span class="s2">&gt;8f</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>训练过程会经过多次迭代（轮次）。在每一轮中，模型学习参数以做出更好的预测。我们在每个轮次打印模型的准确率和损失；我们希望看到准确率增加，损失随着每个轮次减少。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">epochs</span> <span class="o">=</span> <span class="mi">5</span>
+</span><span id="line-2"><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+</span><span id="line-3">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">\n</span><span class="s2">-------------------------------"</span><span class="p">)</span>
+</span><span id="line-4">    <span class="n">train</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+</span><span id="line-5">    <span class="n">test</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+</span><span id="line-6"><span class="nb">print</span><span class="p">(</span><span class="s2">"Done!"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出示例：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1">Epoch 1
+</span><span id="line-2">-------------------------------
+</span><span id="line-3">loss: 2.299333  [   64/60000]
+</span><span id="line-4">loss: 2.288771  [ 6464/60000]
+</span><span id="line-5">loss: 2.264925  [12864/60000]
+</span><span id="line-6">...
+</span><span id="line-7">Test Error:
+</span><span id="line-8"> Accuracy: 64.9%, Avg loss: 1.080188
+</span><span id="line-9">
+</span><span id="line-10">Done!
+</span></code></pre></div>
+</div>
+</section>
+<section id="id5">
+<h2>4 保存模型<a class="headerlink" href="#id5" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id5'"><span>#</span></a></h2>
+<p>保存模型的常见方法是序列化内部状态字典（包含模型参数）。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s2">"model.pth"</span><span class="p">)</span>
+</span><span id="line-2"><span class="nb">print</span><span class="p">(</span><span class="s2">"Saved PyTorch Model State to model.pth"</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Saved</span> <span class="n">PyTorch</span> <span class="n">Model</span> <span class="n">State</span> <span class="n">to</span> <span class="n">model</span><span class="o">.</span><span class="n">pth</span>
+</span></code></pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>5 加载模型<a class="headerlink" href="#id6" title="链接到此标题。" x-intersect.margin.0%.0%.-70%.0%="activeSection = '#id6'"><span>#</span></a></h2>
+<p>加载模型的过程包括重新创建模型结构并将状态字典加载到其中。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">model</span> <span class="o">=</span> <span class="n">NeuralNetwork</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-2"><span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"model.pth"</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+</span></code></pre></div>
+</div>
+<p>输出：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="o">&lt;</span><span class="n">All</span> <span class="n">keys</span> <span class="n">matched</span> <span class="n">successfully</span><span class="o">&gt;</span>
+</span></code></pre></div>
+</div>
+<p>现在可以使用此模型进行预测。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">classes</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="line-2">    <span class="s2">"T恤/上衣"</span><span class="p">,</span>
+</span><span id="line-3">    <span class="s2">"裤子"</span><span class="p">,</span>
+</span><span id="line-4">    <span class="s2">"套头衫"</span><span class="p">,</span>
+</span><span id="line-5">    <span class="s2">"连衣裙"</span><span class="p">,</span>
+</span><span id="line-6">    <span class="s2">"外套"</span><span class="p">,</span>
+</span><span id="line-7">    <span class="s2">"凉鞋"</span><span class="p">,</span>
+</span><span id="line-8">    <span class="s2">"衬衫"</span><span class="p">,</span>
+</span><span id="line-9">    <span class="s2">"运动鞋"</span><span class="p">,</span>
+</span><span id="line-10">    <span class="s2">"包"</span><span class="p">,</span>
+</span><span id="line-11">    <span class="s2">"短靴"</span><span class="p">,</span>
+</span><span id="line-12"><span class="p">]</span>
+</span><span id="line-13">
+</span><span id="line-14"><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</span><span id="line-15"><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">test_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="line-16"><span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+</span><span id="line-17">    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span><span id="line-18">    <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="line-19">    <span class="n">predicted</span><span class="p">,</span> <span class="n">actual</span> <span class="o">=</span> <span class="n">classes</span><span class="p">[</span><span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">0</span><span class="p">)],</span> <span class="n">classes</span><span class="p">[</span><span class="n">y</span><span class="p">]</span>
+</span><span id="line-20">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'Predicted: "</span><span class="si">{</span><span class="n">predicted</span><span class="si">}</span><span class="s1">", Actual: "</span><span class="si">{</span><span class="n">actual</span><span class="si">}</span><span class="s1">"'</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+<p>输出示例：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><code><span id="line-1"><span class="n">Predicted</span><span class="p">:</span> <span class="s2">"短靴"</span><span class="p">,</span> <span class="n">Actual</span><span class="p">:</span> <span class="s2">"短靴"</span>
+</span></code></pre></div>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+<a href="./3_2_PyTorch配置.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+<a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+<a href="./3_4_张量.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div></section>
+</section>
+</div></div><aside class="hidden text-sm xl:block" id="right-sidebar">
+<div class="sticky top-16 -mt-10 max-h-[calc(100vh-5rem)] h-full overflow-y-auto pt-6 space-y-2"><p class="font-medium">On this page</p>
+<ul>
+<li><a :data-current="activeSection === '#id2'" class="reference internal" href="#id2">1 处理数据</a></li>
+<li><a :data-current="activeSection === '#id3'" class="reference internal" href="#id3">2 创建模型</a></li>
+<li><a :data-current="activeSection === '#id4'" class="reference internal" href="#id4">3 优化模型参数</a></li>
+<li><a :data-current="activeSection === '#id5'" class="reference internal" href="#id5">4 保存模型</a></li>
+<li><a :data-current="activeSection === '#id6'" class="reference internal" href="#id6">5 加载模型</a></li>
+</ul>
+</div>
+</aside>
 </main>
 </div>
 </div><footer class="py-6 border-t border-border md:py-0">
@@ -117,5 +352,63 @@
 <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
 <script defer="defer" src="../_static/theme.js?v=582b20c5"></script>
 <script src="../_static/translations.js?v=540d3cec"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 获取当前页面的路径
+    const pagePath = window.location.pathname;
+    // 对于根页面，使用'/'或空字符串
+    const pageInfo = pagePath.endsWith('/') ? pagePath.slice(0, -1) : pagePath;
+    const currentPage = pageInfo || '/';
+    
+    console.log('正在统计页面浏览量:', currentPage);
+    
+    // 发送请求到后端API
+    fetch('/api/view_count', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        page: currentPage,
+        timestamp: new Date().toISOString()
+      })
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('网络响应不正常');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('收到浏览量数据:', data);
+      // 更新页面上的浏览量显示
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement && data.count !== undefined) {
+        // 格式化显示数字，添加千位分隔符
+        const formattedCount = new Intl.NumberFormat('zh-CN').format(data.count);
+        viewCountElement.textContent = formattedCount;
+        
+        // 为浏览量数字添加样式
+        viewCountElement.style.fontWeight = '700';
+        viewCountElement.style.color = '#10b981'; // 成功时改为绿色
+        
+        // 添加简单的动画效果
+        viewCountElement.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          viewCountElement.style.color = '#3b82f6'; // 0.3秒后变回蓝色
+        }, 300);
+      }
+    })
+    .catch(error => {
+      console.error('获取浏览量时出错:', error);
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement) {
+        viewCountElement.textContent = '加载失败';
+        viewCountElement.style.color = '#ef4444'; // 失败时改为红色
+        viewCountElement.style.fontWeight = '600';
+      }
+    });
+  });
+</script>
 </body>
 </html>

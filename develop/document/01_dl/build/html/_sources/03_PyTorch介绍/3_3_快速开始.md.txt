@@ -1,1 +1,256 @@
 # 3_3_快速开始
+
+**作者**: ZhouLong<br>
+**创建日期**: 2026 年 02 月 07 日<br>
+**版本**: 1.0<br>
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./3_2_PyTorch配置.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./3_4_张量.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+
+这是一个基于PyTorch框架的机器学习入门教程，主要展示了如何使用PyTorch构建、训练和部署一个神经网络模型来完成FashionMNIST图像分类任务。本篇完整展示了PyTorch的基本流程，适合初学者理解PyTorch核心概念。
+
+## 1 处理数据
+
+PyTorch 提供了两个处理数据的基本工具：`torch.utils.data.DataLoader` 和 `torch.utils.data.Dataset`。`Dataset` 存储样本及其对应的标签，而 `DataLoader` 在 `Dataset` 外部包装了一个可迭代对象。
+
+```python
+import torch
+from torch import nn
+from torch.utils.data import DataLoader
+from torchvision import datasets
+from torchvision.transforms import ToTensor
+```
+
+PyTorch 提供了特定领域的库，如 TorchText、TorchVision 和 TorchAudio，它们都包含数据集。在本教程中，我们将使用一个 TorchVision 数据集。
+
+`torchvision.datasets` 模块包含许多真实世界视觉数据的 `Dataset` 对象，如 CIFAR、COCO（完整列表在此）。在本教程中，我们使用 FashionMNIST 数据集。每个 TorchVision `Dataset` 都包含两个参数：`transform` 和 `target_transform`，分别用于修改样本和标签。
+
+```python
+# 从开放数据集下载训练数据。
+training_data = datasets.FashionMNIST(
+    root="data",
+    train=True,
+    download=True,
+    transform=ToTensor(),
+)
+
+# 从开放数据集下载测试数据。
+test_data = datasets.FashionMNIST(
+    root="data",
+    train=False,
+    download=True,
+    transform=ToTensor(),
+)
+```
+
+（下载进度输出示例，此处略去）
+
+我们将 `Dataset` 作为参数传递给 `DataLoader`。这会将我们的数据集包装成一个可迭代对象，并支持自动批处理、采样、打乱顺序和多进程数据加载。这里我们定义批量大小为 64，即 dataloader 可迭代对象中的每个元素将返回一个包含 64 个特征和标签的批次。
+
+```python
+batch_size = 64
+
+# 创建数据加载器。
+train_dataloader = DataLoader(training_data, batch_size=batch_size)
+test_dataloader = DataLoader(test_data, batch_size=batch_size)
+
+for X, y in test_dataloader:
+    print(f"Shape of X [N, C, H, W]: {X.shape}")
+    print(f"Shape of y: {y.shape} {y.dtype}")
+    break
+```
+
+输出：
+```
+Shape of X [N, C, H, W]: torch.Size([64, 1, 28, 28])
+Shape of y: torch.Size([64]) torch.int64
+```
+
+## 2 创建模型
+
+要在 PyTorch 中定义神经网络，我们创建一个继承自 `nn.Module` 的类。我们在 `__init__` 函数中定义网络的层，并在 `forward` 函数中指定数据将如何通过网络。为了加速神经网络中的运算，我们将其移动到加速器（如 CUDA、MPS、MTIA 或 XPU）。如果当前有可用的加速器，我们将使用它；否则，使用 CPU。
+
+```python
+device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
+print(f"Using {device} device")
+
+# 定义模型
+class NeuralNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.flatten = nn.Flatten()
+        self.linear_relu_stack = nn.Sequential(
+            nn.Linear(28*28, 512),
+            nn.ReLU(),
+            nn.Linear(512, 512),
+            nn.ReLU(),
+            nn.Linear(512, 10)
+        )
+
+    def forward(self, x):
+        x = self.flatten(x)
+        logits = self.linear_relu_stack(x)
+        return logits
+
+model = NeuralNetwork().to(device)
+print(model)
+```
+
+输出示例：
+```
+Using cuda device
+NeuralNetwork(
+  (flatten): Flatten(start_dim=1, end_dim=-1)
+  (linear_relu_stack): Sequential(
+    (0): Linear(in_features=784, out_features=512, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=512, out_features=512, bias=True)
+    (3): ReLU()
+    (4): Linear(in_features=512, out_features=10, bias=True)
+  )
+)
+```
+
+
+## 3 优化模型参数
+
+要训练模型，我们需要一个损失函数和一个优化器。
+
+```python
+loss_fn = nn.CrossEntropyLoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
+```
+
+在单个训练循环中，模型对训练数据集（以批次形式输入）进行预测，并通过反向传播预测误差来调整模型的参数。
+
+```python
+def train(dataloader, model, loss_fn, optimizer):
+    size = len(dataloader.dataset)
+    model.train()
+    for batch, (X, y) in enumerate(dataloader):
+        X, y = X.to(device), y.to(device)
+
+        # 计算预测误差
+        pred = model(X)
+        loss = loss_fn(pred, y)
+
+        # 反向传播
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+
+        if batch % 100 == 0:
+            loss, current = loss.item(), (batch + 1) * len(X)
+            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+```
+
+我们还会根据测试数据集检查模型的性能，以确保它正在学习。
+
+```python
+def test(dataloader, model, loss_fn):
+    size = len(dataloader.dataset)
+    num_batches = len(dataloader)
+    model.eval()
+    test_loss, correct = 0, 0
+    with torch.no_grad():
+        for X, y in dataloader:
+            X, y = X.to(device), y.to(device)
+            pred = model(X)
+            test_loss += loss_fn(pred, y).item()
+            correct += (pred.argmax(1) == y).type(torch.float).sum().item()
+    test_loss /= num_batches
+    correct /= size
+    print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
+```
+
+训练过程会经过多次迭代（轮次）。在每一轮中，模型学习参数以做出更好的预测。我们在每个轮次打印模型的准确率和损失；我们希望看到准确率增加，损失随着每个轮次减少。
+
+```python
+epochs = 5
+for t in range(epochs):
+    print(f"Epoch {t+1}\n-------------------------------")
+    train(train_dataloader, model, loss_fn, optimizer)
+    test(test_dataloader, model, loss_fn)
+print("Done!")
+```
+
+输出示例：
+```
+Epoch 1
+-------------------------------
+loss: 2.299333  [   64/60000]
+loss: 2.288771  [ 6464/60000]
+loss: 2.264925  [12864/60000]
+...
+Test Error:
+ Accuracy: 64.9%, Avg loss: 1.080188
+
+Done!
+```
+
+## 4 保存模型
+
+保存模型的常见方法是序列化内部状态字典（包含模型参数）。
+
+```python
+torch.save(model.state_dict(), "model.pth")
+print("Saved PyTorch Model State to model.pth")
+```
+
+输出：
+```
+Saved PyTorch Model State to model.pth
+```
+
+## 5 加载模型
+
+加载模型的过程包括重新创建模型结构并将状态字典加载到其中。
+
+```python
+model = NeuralNetwork().to(device)
+model.load_state_dict(torch.load("model.pth", weights_only=True))
+```
+
+输出：
+```
+<All keys matched successfully>
+```
+
+现在可以使用此模型进行预测。
+
+```python
+classes = [
+    "T恤/上衣",
+    "裤子",
+    "套头衫",
+    "连衣裙",
+    "外套",
+    "凉鞋",
+    "衬衫",
+    "运动鞋",
+    "包",
+    "短靴",
+]
+
+model.eval()
+x, y = test_data[0][0], test_data[0][1]
+with torch.no_grad():
+    x = x.to(device)
+    pred = model(x)
+    predicted, actual = classes[pred[0].argmax(0)], classes[y]
+    print(f'Predicted: "{predicted}", Actual: "{actual}"')
+```
+
+输出示例：
+```
+Predicted: "短靴", Actual: "短靴"
+```
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./3_2_PyTorch配置.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./3_4_张量.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
