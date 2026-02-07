@@ -7,46 +7,47 @@
 介绍模型的指标有哪些，参考论文
 
 下面争取复现开山之作论文，注意原理讲解和代码可以解耦。
-VAE
+VAE      2.9
 
-LSTM
+LSTM     2.11
 
-CNN
+CNN      2.13
 
-GNN
+GNN      2.15
 
-Transformer
+Transformer  2.18
 
-GAN
+GAN          2.19
 
-Diffusion
+Diffusion    2.20
 
 
 3_PyTorch介绍
-3.2pytorch简介 2.7
 
-3.3快速开始    2.7
+3.3快速开始    2.8
 参考pytorch文档
-3.4张量
+3.4张量        2.8
 创建、各种操作
 
-3.5数据库实践
+3.5数据库实践   2.9
 
-3.6模型搭建
+3.6模型搭建     2.9
 
-3.7 损失函数
+3.7 损失函数    2.10
 画loss的图，y-yhat和loss值的图像
 
-3.8 自动微分
+3.8 自动微分    2.10
 
-3.9 优化器
+3.9 优化器      2.11
 
-3.10 模块
+3.10 模型评估   2.11
 
-3.11 计算图
+3.11 模块       2.12
+
+3.12 计算图     2.12
 Understanding requires_grad, retain_grad, Leaf, and Non-leaf Tensors
 
-3.12 混合精度训练
+3.13 混合精度训练   2.13
 
-3.13 模型介绍
+3.14 模型介绍      2.13
 

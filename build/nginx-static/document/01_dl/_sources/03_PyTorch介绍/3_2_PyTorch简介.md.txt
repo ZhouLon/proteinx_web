@@ -4,11 +4,59 @@
 **创建日期**: 2026 年 02 月 07 日<br>
 **版本**: 1.0<br>
 
-## 1 PyTorch的框架
-逐层解释
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./3_1_DL框架简介.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./3_3_快速开始.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+
+## 1 PyTorch的技术链路
+
+下图展示了从硬件层到应用层的英伟达 GPU 与 PyTorch AI 框架之间的完整技术栈结构。目前大多数的AI训练都是基于此技术链路。
+
+<div style="margin: 20px 0; text-align: center;">
+    <img src="../_static/figures/3/pytorch_frame.png" 
+         alt="pytorch_frame" 
+         style="display: block; margin: 20px auto; width: 80%; max-width: 1000px;">
+</div>
+
+1. **硬件层**
+- **Nvidia GPU**：整个体系的物理基础，提供并行计算能力，支持深度学习训练与推理。
+
+2. **驱动层**
+- **Driver**：包含 **CUDA Driver API**，负责操作系统与 GPU 之间的通信，管理 GPU 资源，如内存分配、上下文管理、内核启动等。
+
+3. **编译与中间表示层**
+- **nvcc**：NVIDIA CUDA 编译器，将 CUDA C/C++ 代码编译为 GPU 可执行的代码。
+- **PTX**（Parallel Thread Execution）：一种中间汇编语言，实现跨 GPU 架构的兼容性，可在不同代 GPU 上运行。
+
+4. **运行时与编程接口层**
+- **CUDARuntimeAPI**：提供更高层次的编程接口，简化 CUDA 程序开发，如内存管理、核函数调用等。
+
+5. **算子库与计算加速层**
+- **cuBLAS/cuDNN**：NVIDIA 提供的 GPU 加速库，分别用于基础线性代数运算和深度神经网络计算，是深度学习训练的核心加速组件。
+- **算子库**：泛指各类针对特定计算任务优化的 GPU 算子集合，通常由 cuBLAS、cuDNN、cuFFT 等组成。
+
+6. **AI 框架调度层**
+- **PyTorchDispatcher**：PyTorch 中的动态分发机制，根据输入张量类型、设备等自动选择最优的计算后端（如 CPU、CUDA、XLA 等）。
+
+7. **AI 框架层**
+- **PyTorch**：主流的开源深度学习框架，提供动态图机制、自动微分、模块化网络构建等功能，广泛应用于研究与生产。
+
 
 ## 2 PyTorch安装方法
 - cpu版本
 - gpu版本
 
 ## 简单指引
+
+<div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
+    <a href="./3_1_DL框架简介.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">👈 上一页</a>
+    <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
+    <a href="./3_3_快速开始.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
+</div>
+
+
+
+
+
