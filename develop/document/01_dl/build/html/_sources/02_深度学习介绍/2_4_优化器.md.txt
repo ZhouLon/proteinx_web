@@ -1,7 +1,7 @@
 # 2_4_优化器
 
 **作者**: ZhouLong<br>
-**创建日期**: 2026 年 02 月 07 日<br>
+**创建日期**: 2026 年 02 月 09 日<br>
 **版本**: 1.0<br>
 
 <div style="display: flex; justify-content: space-between; padding: 15px 0; margin: 20px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;">
@@ -9,6 +9,181 @@
     <a href="../index.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">🏠 首页</a>
     <a href="./2_5_模型评估.html" style="text-decoration: none; color: #0366d6; padding: 8px 15px; border: 1px solid #e1e4e8; border-radius: 5px;">下一页 👉</a>
 </div>
+
+## 1 什么是优化器
+
+优化器其实就是优化算法。对于深度学习问题，我们通常会先定义损失函数。一旦我们有了损失函数，我们就可以使用优化算法来尝试最小化损失。在优化中，损失函数通常被称为优化问题的目标函数。
+
+优化问题可以看做是我们站在山上的某个位置（初始的参数信息），想要以最佳的路线去到山下（最优模型参数）。首先，直观的方法就是环顾四周，找到下山最快的方向走一步，然后再次环顾四周，找到最快的方向，直到下山———这样的方法便是朴素的梯度下降。梯度是函数上升最快的方向，所以梯度的反方向就是函数下降最快的方向。
+
+事实上，使用梯度下降进行优化，是几乎所有优化器的核心思想。但优化过程并不简单，其中存在许多难点。
+
+## 2 优化过程的难点
+
+深度学习优化存在许多挑战。其中最令人烦恼的是局部最小值、鞍点和梯度消失。
+
+### 2.1 局部最小值
+
+对于任何目标函数<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math>，如果x在处对应的<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math>值小于在附近任意其他点的<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math>值，那么<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math>可能是局部最小值。如果<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo></math>在x处的值是整个域中目标函数的最小值，那么是全局最小值。
+
+例如，给定函数
+
+<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+  <mi>f</mi>
+  <mo stretchy="false">(</mo>
+  <mi>x</mi>
+  <mo stretchy="false">)</mo>
+  <mo>=</mo>
+  <mi>x</mi>
+  <mo>&#x22C5;</mo>
+  <mtext>cos</mtext>
+  <mo stretchy="false">(</mo>
+  <mi>&#x3C0;</mi>
+  <mi>x</mi>
+  <mo stretchy="false">)</mo>
+  <mtext>&#xA0;for&#xA0;</mtext>
+  <mo>&#x2212;</mo>
+  <mn>1.0</mn>
+  <mo>&#x2264;</mo>
+  <mi>x</mi>
+  <mo>&#x2264;</mo>
+  <mn>2.0</mn>
+  <mo>,</mo>
+</math>
+
+<div style="margin: 20px 0; text-align: center;">
+    <img src="../_static/figures/2/opt1.png" 
+         alt="opt1" 
+         style="display: block; margin: 20px auto; width: 60%; max-width: 1000px;">
+</div>
+
+深度学习模型的目标函数通常有许多局部最优解。当优化问题的数值解接近局部最优值时，随着目标函数解的梯度接近或变为零，通过最终迭代获得的数值解可能仅使目标函数局部最优，而不是全局最优。只有一定程度的噪声可能会使参数跳出局部最小值。事实上，这是小批量随机梯度下降的有利特性之一。在这种情况下，小批量上梯度的自然变化能够将参数从局部极小值中跳出。
+
+### 2.2 鞍点
+
+除了局部最小值之外，鞍点是梯度消失的另一个原因。鞍点（saddle point）是指函数的所有梯度都消失但既不是全局最小值也不是局部最小值的任何位置。考虑函数<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>f</mi>
+  <mo stretchy="false">(</mo>
+  <mi>x</mi>
+  <mo stretchy="false">)</mo>
+  <mo>=</mo>
+  <msup>
+    <mi>x</mi>
+    <mn>3</mn>
+  </msup>
+</math>。它的一阶和二阶导数在<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>x</mi>
+  <mo>=</mo>
+  <mn>0</mn>
+</math>时消失。这时优化可能会停止，尽管它不是最小值。
+
+<div style="margin: 20px 0; text-align: center;">
+    <img src="../_static/figures/2/opt2.png" 
+         alt="opt2" 
+         style="display: block; margin: 20px auto; width: 60%; max-width: 1000px;">
+</div>
+
+如下例所示，较高维度的鞍点甚至更加隐蔽。考虑这个函数<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>f</mi>
+  <mo stretchy="false">(</mo>
+  <mi>x</mi>
+  <mo>,</mo>
+  <mi>y</mi>
+  <mo stretchy="false">)</mo>
+  <mo>=</mo>
+  <msup>
+    <mi>x</mi>
+    <mn>2</mn>
+  </msup>
+  <mo>&#x2212;</mo>
+  <msup>
+    <mi>y</mi>
+    <mn>2</mn>
+  </msup>
+</math>。它的鞍点为<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mo stretchy="false">(</mo>
+  <mn>0</mn>
+  <mo>,</mo>
+  <mn>0</mn>
+  <mo stretchy="false">)</mo>
+</math>。这是关于y的最大值，也是关于x的最小值。此外，它看起来像个马鞍，这就是鞍点的名字由来。
+
+<div style="margin: 20px 0; text-align: center;">
+    <img src="../_static/figures/2/opt3.png" 
+         alt="opt3" 
+         style="display: block; margin: 20px auto; width: 60%; max-width: 1000px;">
+</div>
+
+对于高维度问题，鞍点比局部最小值更有可能出现。
+
+### 2.3 梯度消失
+
+在深度学习中，可能遇到的最隐蔽问题是梯度消失。例如，假设我们想最小化函数<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>f</mi>
+  <mo stretchy="false">(</mo>
+  <mi>x</mi>
+  <mo stretchy="false">)</mo>
+  <mo>=</mo>
+  <mi>tanh</mi>
+  <mo data-mjx-texclass="NONE">&#x2061;</mo>
+  <mo stretchy="false">(</mo>
+  <mi>x</mi>
+  <mo stretchy="false">)</mo>
+</math>，然后我们恰好从<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>x</mi>
+  <mo>=</mo>
+  <mn>4</mn>
+</math>开始。正如我们所看到的那样，<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mi>f</mi>
+</math>的梯度接近零。更具体地说，<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <msup>
+    <mi>f</mi>
+    <mo data-mjx-alternate="1">&#x2032;</mo>
+  </msup>
+  <mo stretchy="false">(</mo>
+  <mi>x</mi>
+  <mo stretchy="false">)</mo>
+  <mo>=</mo>
+  <mn>1</mn>
+  <mo>&#x2212;</mo>
+  <msup>
+    <mi>tanh</mi>
+    <mn>2</mn>
+  </msup>
+  <mo data-mjx-texclass="NONE">&#x2061;</mo>
+  <mo stretchy="false">(</mo>
+  <mi>x</mi>
+  <mo stretchy="false">)</mo>
+</math>，因此<math xmlns="http://www.w3.org/1998/Math/MathML">
+  <msup>
+    <mi>f</mi>
+    <mo data-mjx-alternate="1">&#x2032;</mo>
+  </msup>
+  <mo stretchy="false">(</mo>
+  <mn>4</mn>
+  <mo stretchy="false">)</mo>
+  <mo>=</mo>
+  <mn>0.0013</mn>
+</math>。因此，在我们取得进展之前，优化将会停滞很长一段时间。事实证明，这是在引入ReLU激活函数之前训练深度学习模型相当棘手的原因之一。
+
+<div style="margin: 20px 0; text-align: center;">
+    <img src="../_static/figures/2/opt4.png" 
+         alt="opt4" 
+         style="display: block; margin: 20px auto; width: 60%; max-width: 1000px;">
+</div>
+
+正如我们所看到的那样，深度学习的优化充满挑战。幸运的是，有一系列强大的算法表现良好，即使对于初学者也很容易使用。此外，没有必要找到最优解。局部最优解或其近似解仍然非常有用。
+
+## 3 优化器有哪些
+
+刚刚提到优化目标函数梯度下降的过程可以类比成爬山。事实上，使用梯度下降进行优化，是几乎所有优化器的核心思想。那么当我们下山时，有两个方面是我们最关心的：
+
+* 首先是优化方向，决定“前进的方向是否正确”，在优化器中反映为梯度或动量。
+* 其次是步长，决定“每一步迈多远”，在优化器中反映为学习率。
+
+## 4 优化器的选择
+
+
 
 
 
